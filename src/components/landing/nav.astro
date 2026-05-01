@@ -1,0 +1,31 @@
+---
+import { site } from "@/config/site"
+---
+
+<header class="sticky top-0 z-40 border-b border-border/60 bg-background/80 backdrop-blur-xl">
+  <nav class="mx-auto flex h-14 max-w-6xl items-center gap-6 px-4 sm:px-6">
+    <a href="/" class="flex items-center gap-2 font-mono text-sm font-medium tracking-tight">
+      <span aria-hidden="true" class="inline-grid size-6 place-items-center rounded-sm bg-foreground text-background">
+        <span class="font-display text-base leading-none">L</span>
+      </span>
+      <span>{site.brand}<span class="text-muted-foreground">/</span><span class="text-muted-foreground">v1.0</span></span>
+    </a>
+
+    <ul class="hidden flex-1 items-center justify-center gap-7 text-sm md:flex">
+      <li><a href="#whats-inside" class="lk-link text-muted-foreground hover:text-foreground transition-colors">Inside</a></li>
+      <li><a href="#features" class="lk-link text-muted-foreground hover:text-foreground transition-colors">Features</a></li>
+      <li><a href="#pricing" class="lk-link text-muted-foreground hover:text-foreground transition-colors">Pricing</a></li>
+      <li><a href="#faq" class="lk-link text-muted-foreground hover:text-foreground transition-colors">FAQ</a></li>
+    </ul>
+
+    <div class="ml-auto md:ml-0 flex items-center gap-3">
+      <a
+        href="#pricing"
+        class="inline-flex h-9 items-center gap-2 rounded-md bg-foreground px-4 text-sm font-medium text-background transition-colors hover:bg-foreground/85"
+      >
+        <span class="hidden sm:inline">Buy</span>
+        <span class="font-mono">{site.pricing.tiers[0].priceLabel}</span>
+      </a>
+    </div>
+  </nav>
+</header>

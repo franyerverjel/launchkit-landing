@@ -1,0 +1,141 @@
+---
+import { site } from "@/config/site"
+const { tiers } = site.pricing
+---
+
+<section class="relative overflow-hidden border-b border-border/60">
+  <!-- Halftone dots, top-right corner only -->
+  <div class="lk-halftone absolute inset-0 -z-10" aria-hidden="true"></div>
+
+  <!-- Soft lime accent glow, top-left -->
+  <div
+    class="absolute -top-32 -left-32 -z-10 h-[28rem] w-[28rem] rounded-full bg-lime/30 blur-[120px]"
+    aria-hidden="true"
+  ></div>
+
+  <div class="mx-auto max-w-6xl px-4 sm:px-6 pt-20 pb-24 md:pt-28 md:pb-32">
+    <!-- Eyebrow -->
+    <div class="lk-rise flex items-center gap-2 text-muted-foreground" style="animation-delay: 0ms">
+      <span class="lk-mono-label">v1.0 — released 2026</span>
+      <span aria-hidden="true" class="h-px flex-1 max-w-12 bg-border"></span>
+      <span class="lk-mono-label">Production-ready</span>
+    </div>
+
+    <!-- Headline -->
+    <h1
+      class="lk-rise lk-display lk-balance mt-8 max-w-5xl text-[clamp(3rem,8vw,7rem)]"
+      style="animation-delay: 80ms"
+    >
+      Ship the SaaS, <em class="text-muted-foreground">not the</em> scaffolding.
+    </h1>
+
+    <!-- Subhead -->
+    <p
+      class="lk-rise mt-8 max-w-2xl text-lg text-muted-foreground md:text-xl leading-relaxed"
+      style="animation-delay: 160ms"
+    >
+      A multi-tenant <span class="font-medium text-foreground">Django + Next.js</span> boilerplate
+      with auth, billing, roles and Stripe done right. Buy once, ship every SaaS idea you have for the rest of your career.
+    </p>
+
+    <!-- CTAs -->
+    <div class="lk-rise mt-10 flex flex-wrap items-center gap-3" style="animation-delay: 240ms">
+      <a
+        href="#pricing"
+        class="inline-flex h-12 items-center gap-2.5 rounded-md bg-foreground px-6 text-sm font-medium text-background shadow-sm transition-all hover:bg-foreground/85 hover:translate-x-[1px]"
+      >
+        Buy {site.brand} — from {tiers[0].priceLabel}
+        <svg viewBox="0 0 16 16" class="size-4" fill="none" stroke="currentColor" stroke-width="1.6">
+          <path d="M3 8h10M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+      <a
+        href="#whats-inside"
+        class="inline-flex h-12 items-center gap-2 rounded-md border border-border bg-background/50 px-6 text-sm font-medium text-foreground hover:border-foreground/30 transition-colors"
+      >
+        See what's inside
+      </a>
+    </div>
+
+    <!-- Hero proof bar — replaces fake "trusted by" logos with real specs -->
+    <dl
+      class="lk-rise stat-block mt-16 grid grid-cols-2 gap-x-6 gap-y-5 border-t border-border/80 pt-8 md:grid-cols-4"
+      style="animation-delay: 320ms"
+    >
+      <div>
+        <dt>Backend tests</dt>
+        <dd>99</dd>
+      </div>
+      <div>
+        <dt>Security audit</dt>
+        <dd>22 <small>closed</small></dd>
+      </div>
+      <div>
+        <dt>ES coverage</dt>
+        <dd>100<small>%</small></dd>
+      </div>
+      <div>
+        <dt>License</dt>
+        <dd>∞ <small>projects · Agency</small></dd>
+      </div>
+    </dl>
+
+    <!-- Terminal: clone & boot -->
+    <div class="lk-rise relative mt-20" style="animation-delay: 400ms">
+      <div class="absolute -inset-2 -z-10 rounded-2xl bg-gradient-to-br from-lime/40 via-transparent to-transparent blur-2xl" aria-hidden="true"></div>
+      <div class="overflow-hidden rounded-xl border border-foreground/10 bg-foreground text-background shadow-2xl ring-1 ring-foreground/5">
+        <div class="flex items-center gap-2 border-b border-background/10 px-4 py-2.5">
+          <div class="flex gap-1.5">
+            <span class="size-2.5 rounded-full bg-rose-400/80"></span>
+            <span class="size-2.5 rounded-full bg-amber-400/80"></span>
+            <span class="size-2.5 rounded-full bg-emerald-400/80"></span>
+          </div>
+          <span class="ml-2 font-mono text-[10px] uppercase tracking-widest text-background/50">~/launchkit · zsh</span>
+        </div>
+        <pre class="p-5 sm:p-6 font-mono text-[13px] leading-relaxed sm:text-sm overflow-x-auto"><code><span class="text-lime">$</span> git clone <span class="text-background/70">git@github.com:you/launchkit.git my-saas</span>
+<span class="text-background/40">Cloning into 'my-saas'...</span>
+<span class="text-lime">$</span> cd my-saas <span class="text-background/40">&&</span> cp .env.example .env
+<span class="text-lime">$</span> docker compose up -d <span class="text-background/40">&&</span> python manage.py seed_demo
+<span class="text-background/40">[+] Running 4/4 — postgres, redis, api, worker</span>
+<span class="text-background/40">[seed] 1 demo tenant, 3 plans, 12 members, 5 tickets</span>
+<span class="text-lime">$</span> open http://localhost:3000
+<span class="text-emerald-400">→ Dashboard live. Stripe wired. Time to ship features.</span>
+<span class="text-lime cursor-blink">▍</span></code></pre>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  @keyframes blink {
+    0%, 49% { opacity: 1 }
+    50%, 100% { opacity: 0 }
+  }
+  .cursor-blink {
+    animation: blink 1.1s steps(2, start) infinite;
+  }
+</style>
+
+<style is:global>
+  .stat-block dt {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted-foreground);
+  }
+  .stat-block dd {
+    font-family: var(--font-display);
+    font-size: clamp(2.25rem, 5vw, 3rem);
+    line-height: 1;
+    letter-spacing: -0.02em;
+    margin-top: 0.25rem;
+  }
+  .stat-block dd small {
+    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    color: var(--muted-foreground);
+    margin-left: 0.4rem;
+    letter-spacing: 0;
+  }
+</style>

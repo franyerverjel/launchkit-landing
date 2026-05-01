@@ -1,0 +1,48 @@
+---
+import { site } from "@/config/site"
+const founder = site.pricing.tiers[0]
+---
+
+<section class="relative overflow-hidden bg-foreground text-background">
+  <div
+    class="absolute inset-0 lk-halftone opacity-[0.05]"
+    aria-hidden="true"
+  ></div>
+  <div
+    class="absolute -top-20 left-1/2 h-80 w-[120%] -translate-x-1/2 rounded-full bg-lime/30 blur-[120px]"
+    aria-hidden="true"
+  ></div>
+
+  <div class="relative mx-auto max-w-6xl px-4 sm:px-6 py-24 md:py-32">
+    <div class="grid items-end gap-12 lg:grid-cols-12">
+      <div class="lg:col-span-8">
+        <span class="lk-section-num text-background/50">10 / Ship</span>
+        <h2 class="lk-display lk-balance mt-4 text-5xl md:text-7xl lg:text-8xl">
+          Stop writing auth.
+          <br />
+          <em class="text-lime">Start writing</em>{' '}
+          features.
+        </h2>
+      </div>
+
+      <div class="lg:col-span-4 flex flex-col gap-5">
+        <p class="text-lg text-background/70 leading-relaxed">
+          One payment. Lifetime license. The next SaaS you build is the one
+          your customers see — not the one you'll never finish.
+        </p>
+        <a
+          href="#pricing"
+          class="inline-flex h-14 items-center justify-center gap-2 rounded-md bg-lime px-7 text-base font-medium text-lime-foreground shadow-xl transition-all hover:bg-lime/90 hover:translate-x-0.5"
+        >
+          Buy {site.brand} — from {founder.priceLabel}
+          <svg viewBox="0 0 16 16" class="size-5" fill="none" stroke="currentColor" stroke-width="1.6">
+            <path d="M3 8h10M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </a>
+        <p class="text-xs text-background/50">
+          14-day refund · Stripe-secured · Code delivered to your inbox
+        </p>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,39 @@
+---
+const stacks = [
+  'Django 5.2',
+  'DRF 3.16',
+  'PostgreSQL',
+  'Redis',
+  'Celery',
+  'Stripe',
+  'Cloudflare R2',
+  'Next.js 16',
+  'React 19',
+  'NextAuth',
+  'TanStack Query',
+  'Tailwind v4',
+  'shadcn/ui',
+  'next-intl',
+  'pytest',
+  'vitest',
+  'GitHub Actions',
+  'Sentry',
+  'Docker'
+]
+const items = [...stacks, ...stacks]
+---
+
+<section class="border-b border-border/60 bg-secondary/30 py-7">
+  <div class="lk-marquee">
+    <div class="lk-marquee-track gap-12 md:gap-16">
+      {
+        items.map((item) => (
+          <span class="font-display whitespace-nowrap text-2xl text-muted-foreground/80 md:text-3xl">
+            {item}
+            <span aria-hidden="true" class="ml-12 md:ml-16 text-lime/60">·</span>
+          </span>
+        ))
+      }
+    </div>
+  </div>
+</section>

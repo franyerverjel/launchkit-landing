@@ -1,15 +1,41 @@
 ---
 import "@/styles/global.css"
+
+interface Props {
+  title?: string
+  description?: string
+}
+
+const {
+  title = "LaunchKit — Production-grade SaaS boilerplate. Multi-tenant, Stripe-ready, AI-friendly.",
+  description = "Skip three weeks of plumbing. Django + DRF backend, Next.js 16 + React 19 frontend. Auth, multi-tenant, Stripe billing, roles, audit logs, i18n — all wired and tested. Buy once, ship forever."
+} = Astro.props
 ---
 
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>Astro App</title>
+
+    <title>{title}</title>
+    <meta name="description" content={description} />
+
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={Astro.url.href} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+
+    <meta name="theme-color" content="#F5EFD8" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#1A1812" media="(prefers-color-scheme: dark)" />
   </head>
-  <body>
+  <body class="font-sans antialiased">
     <slot />
   </body>
 </html>

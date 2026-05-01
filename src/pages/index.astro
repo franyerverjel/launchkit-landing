@@ -1,17 +1,32 @@
 ---
 import Layout from "@/layouts/main.astro"
-import { Button } from "@/components/ui/button"
+import Nav from "@/components/landing/nav.astro"
+import Hero from "@/components/landing/hero.astro"
+import TechMarquee from "@/components/landing/tech-marquee.astro"
+import Problem from "@/components/landing/problem.astro"
+import WhatsInside from "@/components/landing/whats-inside.astro"
+import Features from "@/components/landing/features.astro"
+import AiReady from "@/components/landing/ai-ready.astro"
+import Comparison from "@/components/landing/comparison.astro"
+import Pricing from "@/components/landing/pricing.astro"
+import Faq from "@/components/landing/faq.astro"
+import FinalCta from "@/components/landing/final-cta.astro"
+import Footer from "@/components/landing/footer.astro"
 ---
 
 <Layout>
-  <div class="flex min-h-svh p-6">
-    <div class="flex max-w-md min-w-0 flex-col gap-4 text-sm leading-loose">
-      <div>
-        <h1 class="font-medium">Project ready!</h1>
-        <p>You may now add components and start building.</p>
-        <p>We've already added the button component for you.</p>
-        <Button client:load className="mt-2">Button</Button>
-      </div>
-    </div>
-  </div>
+  <Nav />
+  <main>
+    <Hero />
+    <TechMarquee />
+    <Problem />
+    <WhatsInside />
+    <Features />
+    <AiReady />
+    <Comparison />
+    <Pricing />
+    <Faq />
+    <FinalCta />
+  </main>
+  <Footer />
 </Layout>

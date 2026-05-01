@@ -1,0 +1,179 @@
+---
+type Feature = {
+  num: string
+  kicker: string
+  title: string
+  body: string
+  bullets: string[]
+  code: { lang: string; lines: { tone?: 'dim' | 'lime' | 'em'; text: string }[] }
+  align: 'left' | 'right'
+}
+
+const features: Feature[] = [
+  {
+    num: '03',
+    kicker: 'Multi-tenant',
+    title: 'Tenant isolation that\'s impossible to forget.',
+    body:
+      'Every request gets a TenantMiddleware-resolved tenant. ViewSets auto-scope queries. New models inherit TenantOwnedModel. You literally have to opt out of tenancy, not opt in.',
+    bullets: [
+      'TenantMiddleware sets request.tenant on every hit',
+      'TenantViewSetMixin auto-filters querysets',
+      'Wildcard permissions: *.*  ·  app.*  ·  app.resource.*',
+      'Cache-invalidating permission revocations'
+    ],
+    code: {
+      lang: 'python',
+      lines: [
+        { tone: 'dim', text: '# apps/your_feature/views.py' },
+        { text: 'class InvoiceViewSet(' },
+        { tone: 'em', text: '    TenantViewSetMixin,        # auto-scopes by request.tenant' },
+        { tone: 'em', text: '    TenantPermissionMixin,     # checks app.resource.action' },
+        { tone: 'em', text: '    SubscriptionLimitMixin,    # enforces plan quotas' },
+        { text: '    viewsets.ModelViewSet,' },
+        { text: '):' },
+        { text: '    serializer_class = InvoiceSerializer' },
+        { text: '    queryset = Invoice.objects.all()' },
+        { text: '' },
+        { tone: 'dim', text: '# That\'s it. 5 lines. Multi-tenant + RBAC + plan-gated.' }
+      ]
+    },
+    align: 'right'
+  },
+  {
+    num: '04',
+    kicker: 'Stripe billing',
+    title: 'Stripe done the way it should be done.',
+    body:
+      'Idempotent webhook handlers backed by a StripeEvent table. Credit purchases dedup on payment_intent_id. CreditBalance updates run inside select_for_update() — race conditions caught and tested.',
+    bullets: [
+      'Plans, addons, and prepaid credits — all wired',
+      'Idempotent webhooks (StripeEvent + payment_intent dedup)',
+      'select_for_update() on credit balance mutations',
+      'Past-due grace period · auto-cancellation safety net'
+    ],
+    code: {
+      lang: 'python',
+      lines: [
+        { tone: 'dim', text: '# apps/subscriptions/tasks.py' },
+        { text: '@shared_task' },
+        { text: 'def handle_credit_purchase_completed(event_id, session):' },
+        { text: '    with transaction.atomic():' },
+        { tone: 'em', text: '        balance = CreditBalance.objects.select_for_update()' },
+        { tone: 'em', text: '            .get_or_create(tenant=tenant)[0]' },
+        { text: '' },
+        { tone: 'dim', text: '        # Re-check inside the lock — Celery may retry.' },
+        { text: '        if already_processed(payment_intent_id):' },
+        { tone: 'lime', text: '            return  # idempotent. nothing to do.' },
+        { text: '' },
+        { text: '        balance.deposit(amount, metadata={...})' }
+      ]
+    },
+    align: 'left'
+  },
+  {
+    num: '05',
+    kicker: 'Auth + 2FA',
+    title: 'Auth that\'s been audited, not assembled.',
+    body:
+      'JWT with rotation and blacklist. 2FA via email codes or TOTP. Google OAuth. Per-user lockouts after N failures. We closed 22 security findings before v1.0 — the regressions are pinned by tests.',
+    bullets: [
+      'cryptographically secure 6-digit codes (secrets.randbelow)',
+      'Login lockout: 5 attempts / 15 min (configurable)',
+      'Invitation tokens use a separate signing key',
+      '16 regression tests — one per closed security finding'
+    ],
+    code: {
+      lang: 'python',
+      lines: [
+        { tone: 'dim', text: '# apps/users/tests/test_security_regressions.py' },
+        { text: 'def test_email_field_is_read_only_on_profile_patch(api):' },
+        { tone: 'dim', text: '    # Closes account-takeover via PATCH /auth/user/' },
+        { text: '    response = api.patch("/auth/user/", {"email": "x@y.z"})' },
+        { tone: 'lime', text: '    assert response.status_code == 200' },
+        { tone: 'lime', text: '    assert User.objects.get().email != "x@y.z"' },
+        { text: '' },
+        { tone: 'dim', text: '# 16 of these. Every audit finding has its own test.' }
+      ]
+    },
+    align: 'right'
+  }
+]
+
+const toneClass = (tone?: string) =>
+  tone === 'dim'
+    ? 'text-background/40'
+    : tone === 'lime'
+    ? 'text-lime'
+    : tone === 'em'
+    ? 'text-background'
+    : 'text-background/85'
+---
+
+<section id="features" class="border-b border-border/60">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6 pt-20 md:pt-28 pb-4">
+    <div class="max-w-3xl">
+      <span class="lk-section-num">03–05 / Deep dive</span>
+      <h2 class="lk-display lk-balance mt-4 text-4xl md:text-5xl lg:text-6xl">
+        Three of the parts <em class="text-muted-foreground">most</em> boilerplates get wrong.
+      </h2>
+    </div>
+  </div>
+
+  {
+    features.map((f) => (
+      <div class="border-t border-border/60">
+        <div class="mx-auto max-w-6xl px-4 sm:px-6 py-16 md:py-24">
+          <div
+            class:list={[
+              'grid gap-10 lg:gap-16 items-center',
+              'lg:grid-cols-2'
+            ]}
+          >
+            <div class:list={[f.align === 'right' ? 'lg:order-2' : 'lg:order-1']}>
+              <div class="flex items-baseline gap-4 mb-4">
+                <span class="lk-section-num">{f.num}</span>
+                <span class="lk-mono-label">{f.kicker}</span>
+              </div>
+              <h3 class="lk-display lk-balance text-3xl md:text-4xl lg:text-5xl">
+                {f.title}
+              </h3>
+              <p class="mt-5 max-w-md text-lg text-muted-foreground leading-relaxed">
+                {f.body}
+              </p>
+              <ul class="mt-7 flex flex-col gap-3">
+                {f.bullets.map((b) => (
+                  <li class="flex items-start gap-3 text-sm">
+                    <span aria-hidden="true" class="mt-1.5 size-1.5 shrink-0 rounded-full bg-lime ring-2 ring-lime/20" />
+                    <span class="leading-relaxed">{b}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div class:list={[f.align === 'right' ? 'lg:order-1' : 'lg:order-2']}>
+              <div class="relative">
+                <div class="absolute -inset-2 -z-10 rounded-2xl bg-gradient-to-br from-lime/30 via-transparent to-transparent blur-2xl" aria-hidden="true" />
+                <div class="overflow-hidden rounded-xl border border-foreground/10 bg-foreground text-background shadow-xl">
+                  <div class="flex items-center gap-2 border-b border-background/10 px-4 py-2.5">
+                    <div class="flex gap-1.5">
+                      <span class="size-2 rounded-full bg-rose-400/80" />
+                      <span class="size-2 rounded-full bg-amber-400/80" />
+                      <span class="size-2 rounded-full bg-emerald-400/80" />
+                    </div>
+                    <span class="ml-2 font-mono text-[10px] uppercase tracking-widest text-background/40">
+                      {f.code.lang}
+                    </span>
+                  </div>
+                  <pre class="p-5 sm:p-6 font-mono text-[12px] sm:text-[13px] leading-relaxed overflow-x-auto"><code>{f.code.lines.map((line) => (
+                    <div class={toneClass(line.tone)}>{line.text || ' '}</div>
+                  ))}</code></pre>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    ))
+  }
+</section>

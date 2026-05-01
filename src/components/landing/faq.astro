@@ -1,0 +1,62 @@
+---
+import { FaqAccordion } from "@/components/landing/faq-accordion"
+
+const items = [
+  {
+    q: "What exactly do I get when I buy?",
+    a: "Two git repositories: launchkit-api (Django + DRF) and launchkit-web (Next.js 16 + React 19). Plus the cursor skills, the CLAUDE.md files, the CI configuration, the test suites, and a CHANGELOG. Everything that ships v1.0 — yours."
+  },
+  {
+    q: "Can I use it for commercial projects? Multiple projects?",
+    a: "Yes. The Founder license covers one commercial project. The Agency license covers unlimited projects, including client work. Both let you charge customers without giving us a cut."
+  },
+  {
+    q: "Do I have to credit LaunchKit anywhere?",
+    a: "No. Strip every reference to LaunchKit from the codebase if you want. The only thing you can't do is resell the boilerplate itself as your own boilerplate product."
+  },
+  {
+    q: "How do updates work?",
+    a: "Founder includes 1 year of patch + minor updates. Agency includes lifetime updates. We push to a private GitHub repo you'll be invited to — pulling updates is a normal git fetch + merge."
+  },
+  {
+    q: "What's the refund policy?",
+    a: "14 days, no questions asked. If the kit doesn't fit your project, email us and we'll refund the full amount. We'd rather you ship something you actually want to use."
+  },
+  {
+    q: "Do I need to know Django and Next.js to use this?",
+    a: "Yes — this is a foundation, not a no-code product. If you've shipped anything in either framework, you'll be at home. If you're an AI-assisted dev (Claude Code, Cursor), the bundled CLAUDE.md and skills make the learning curve significantly shorter."
+  },
+  {
+    q: "Is the multi-tenant model strict isolation or schema-per-tenant?",
+    a: "Logical isolation: every tenant-scoped model carries a tenant FK and the middleware sets request.tenant. ViewSets auto-scope queries. This is the right tradeoff for early-stage SaaS — schema-per-tenant adds operational complexity that you don't need until you hit thousands of tenants."
+  },
+  {
+    q: "What if I find a bug or need a feature?",
+    a: "Founder gets community support via the buyers-only repo issues. Agency gets priority email support. Either way: we read every report, and security fixes are pushed to all license holders for free."
+  }
+]
+---
+
+<section id="faq" class="border-b border-border/60">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6 py-20 md:py-28">
+    <div class="grid gap-12 lg:grid-cols-12 lg:gap-16">
+      <div class="lg:col-span-4">
+        <span class="lk-section-num">09 / FAQ</span>
+        <h2 class="lk-display lk-balance mt-4 text-4xl md:text-5xl lg:text-6xl">
+          The honest answers.
+        </h2>
+        <p class="mt-6 text-muted-foreground leading-relaxed">
+          Anything else?
+          <a
+            href="mailto:hello@launchkit.dev"
+            class="lk-link text-foreground"
+          >Email us directly</a> — we read every message.
+        </p>
+      </div>
+
+      <div class="lg:col-span-8">
+        <FaqAccordion client:visible items={items} />
+      </div>
+    </div>
+  </div>
+</section>

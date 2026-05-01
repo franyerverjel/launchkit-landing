@@ -1,0 +1,100 @@
+---
+const capabilities = [
+  {
+    label: 'Auth',
+    items: [
+      'JWT with rotation + blacklist',
+      'Email/password + Google OAuth',
+      '2FA via email codes or TOTP',
+      'Per-user lockout after N failures'
+    ]
+  },
+  {
+    label: 'Tenants',
+    items: [
+      'Tenant context middleware',
+      'Member invitations + transfer ownership',
+      'Roles with wildcard permissions',
+      'Per-member overrides + revocations'
+    ]
+  },
+  {
+    label: 'Billing',
+    items: [
+      'Stripe Checkout + Customer Portal',
+      'Plans · Addons · Prepaid credits',
+      'Idempotent webhooks (dedup on intent_id)',
+      'Trial + past-due grace period'
+    ]
+  },
+  {
+    label: 'Audit & i18n',
+    items: [
+      'django-auditlog on sensitive models',
+      'next-intl + Django gettext (EN+ES)',
+      'i18n drift auditor scripts',
+      'Field-level exclusions for secrets'
+    ]
+  },
+  {
+    label: 'Frontend',
+    items: [
+      'Next.js 16 App Router + RSC',
+      'TanStack Query + useFetch wrapper',
+      'shadcn/ui + Tailwind v4',
+      'Dark mode + locale switcher'
+    ]
+  },
+  {
+    label: 'Tooling',
+    items: [
+      'GitHub Actions CI (lint + tests)',
+      'Dependabot + pre-commit hooks',
+      'Sentry · structured logs',
+      'Demo seed + email previewer'
+    ]
+  }
+]
+---
+
+<section id="whats-inside" class="border-b border-border/60 bg-secondary/30">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6 py-20 md:py-28">
+    <div class="max-w-3xl">
+      <span class="lk-section-num">02 / What's inside</span>
+      <h2 class="lk-display lk-balance mt-4 text-4xl md:text-5xl lg:text-6xl">
+        Everything between <em class="text-muted-foreground">"idea"</em>{' '}
+        and <em class="text-muted-foreground">"I'll take a credit card."</em>
+      </h2>
+      <p class="mt-6 text-lg text-muted-foreground leading-relaxed">
+        Not a starter template. Not a tutorial repo with TODOs. A full SaaS
+        backend and frontend, audited end-to-end, with the unsexy parts
+        already done — and tested.
+      </p>
+    </div>
+
+    <ul class="mt-14 grid gap-px overflow-hidden rounded-2xl border border-border/60 bg-border/60 md:grid-cols-2 lg:grid-cols-3">
+      {
+        capabilities.map((group, i) => (
+          <li class="bg-background p-6 md:p-7 transition-colors hover:bg-card">
+            <header class="mb-5 flex items-baseline justify-between gap-3 border-b border-border/60 pb-3">
+              <h3 class="font-display text-2xl tracking-tight">
+                {group.label}
+              </h3>
+              <span class="lk-section-num">
+                {String(i + 1).padStart(2, '0')}
+              </span>
+            </header>
+            <ul class="flex flex-col gap-2.5">
+              {group.items.map((item) => (
+                <li class="flex items-start gap-2.5 text-sm leading-relaxed">
+                  <span aria-hidden="true" class="mt-2 size-1 shrink-0 rounded-full bg-lime"></span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

@@ -1,0 +1,93 @@
+---
+type Row = { label: string; a: string; a_note?: string; b: string; c: string }
+
+const rows: Row[] = [
+  { label: 'Time to first dashboard', a: '5 min', b: '2–3 days', c: '1 week' },
+  { label: 'Multi-tenant by default', a: 'Yes', b: 'Maybe', c: 'No' },
+  { label: 'Stripe webhook idempotency', a: 'Tested', b: 'Hopeful', c: 'You write it' },
+  { label: 'Permission system with wildcards', a: 'Yes', b: 'Sometimes', c: 'No' },
+  { label: 'Tests for the security audit', a: '99 + 16 regressions', b: 'Demo only', c: '0' },
+  { label: 'i18n (EN + ES, both stacks)', a: '100% covered', b: 'Frontend only', c: 'Roll your own' },
+  { label: 'AI-agent docs (CLAUDE.md + skills)', a: 'Yes', b: 'No', c: 'No' },
+  { label: 'License', a: 'Lifetime, commercial', a_note: '∞ projects on Agency', b: 'Subscription', c: 'Your time' }
+]
+---
+
+<section class="border-b border-border/60">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6 py-20 md:py-28">
+    <div class="max-w-3xl mb-12">
+      <span class="lk-section-num">07 / The math</span>
+      <h2 class="lk-display lk-balance mt-4 text-4xl md:text-5xl lg:text-6xl">
+        Buy {''}
+        <em class="text-muted-foreground">vs.</em>
+        {''} build {''}
+        <em class="text-muted-foreground">vs.</em>
+        {''} the other guy.
+      </h2>
+    </div>
+
+    <div class="overflow-hidden rounded-2xl border border-border/60">
+      <table class="w-full text-sm">
+        <thead class="bg-secondary/50">
+          <tr class="border-b border-border/60">
+            <th class="lk-mono-label !text-left p-4 md:p-5 w-1/3">&nbsp;</th>
+            <th class="p-4 md:p-5 text-left">
+              <div class="flex flex-col gap-1">
+                <span class="lk-section-num">Option A</span>
+                <span class="font-display text-2xl">LaunchKit</span>
+              </div>
+            </th>
+            <th class="p-4 md:p-5 text-left">
+              <div class="flex flex-col gap-1">
+                <span class="lk-section-num">Option B</span>
+                <span class="font-display text-2xl text-muted-foreground">Other boilerplate</span>
+              </div>
+            </th>
+            <th class="p-4 md:p-5 text-left hidden md:table-cell">
+              <div class="flex flex-col gap-1">
+                <span class="lk-section-num">Option C</span>
+                <span class="font-display text-2xl text-muted-foreground">Build it yourself</span>
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            rows.map((row) => (
+              <tr class="border-t border-border/60">
+                <td class="p-4 md:p-5 align-top text-muted-foreground">
+                  {row.label}
+                </td>
+                <td class="p-4 md:p-5 align-top">
+                  <div class="flex items-start gap-2">
+                    <span class="mt-1 inline-grid size-4 shrink-0 place-items-center rounded-full bg-lime text-lime-foreground">
+                      <svg viewBox="0 0 16 16" class="size-2.5" fill="none" stroke="currentColor" stroke-width="3">
+                        <path d="M3 8l3 3 7-7" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+                    </span>
+                    <div>
+                      <div class="font-medium">{row.a}</div>
+                      {row.a_note && <div class="mt-0.5 text-xs text-muted-foreground">{row.a_note}</div>}
+                    </div>
+                  </div>
+                </td>
+                <td class="p-4 md:p-5 align-top text-muted-foreground">
+                  {row.b}
+                </td>
+                <td class="p-4 md:p-5 align-top text-muted-foreground hidden md:table-cell">
+                  {row.c}
+                </td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <p class="mt-8 max-w-xl text-sm text-muted-foreground leading-relaxed">
+      Three weeks of plumbing at a junior contractor's rate is roughly $4,800.
+      Three weeks of <em>your</em> time is whatever opportunity cost you'd
+      rather not put a number on.
+    </p>
+  </div>
+</section>

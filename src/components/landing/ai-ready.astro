@@ -1,0 +1,125 @@
+---
+const skills = [
+  {
+    file: 'launchkit-permissions',
+    desc: 'How to add a new permission, register it in the catalog, and run update_default_roles.'
+  },
+  {
+    file: 'launchkit-stripe-webhook',
+    desc: 'Idempotency rules, dedup on payment_intent_id, transaction.atomic + select_for_update patterns.'
+  },
+  {
+    file: 'launchkit-add-app',
+    desc: 'The full template for adding a new Django app with tenant scoping, ViewSet mixins and i18n.'
+  },
+  {
+    file: 'launchkit-i18n',
+    desc: 'Backend gettext + frontend next-intl, with the auditor scripts that catch missing keys.'
+  },
+  {
+    file: 'launchkit-add-feature',
+    desc: 'Frontend recipe: Server Component page → client component → API client → query keys → routes.'
+  }
+]
+---
+
+<section class="relative overflow-hidden border-b border-border/60 bg-foreground text-background">
+  <div class="lk-halftone absolute inset-0 opacity-[0.04]" aria-hidden="true"></div>
+  <div
+    class="absolute -bottom-32 -right-32 h-[28rem] w-[28rem] rounded-full bg-lime/40 blur-[120px]"
+    aria-hidden="true"
+  ></div>
+
+  <div class="relative mx-auto max-w-6xl px-4 sm:px-6 py-20 md:py-28">
+    <div class="grid gap-14 lg:grid-cols-12 lg:gap-16">
+      <div class="lg:col-span-6">
+        <div class="flex items-center gap-3">
+          <span class="lk-section-num text-background/50">06 / AI-ready</span>
+          <span class="inline-flex items-center gap-1.5 rounded-full border border-lime/40 bg-lime/10 px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-widest text-lime">
+            <span class="relative size-1.5">
+              <span class="absolute inset-0 rounded-full bg-lime"></span>
+            </span>
+            New in v1.0
+          </span>
+        </div>
+
+        <h2 class="lk-display lk-balance mt-5 text-4xl md:text-5xl lg:text-6xl">
+          Built so your <em class="text-lime">AI agent</em> can ship the next feature.
+        </h2>
+
+        <p class="mt-6 text-lg text-background/70 leading-relaxed">
+          CLAUDE.md files map the request pipeline, permission system and
+          billing flow. Five Cursor skills cover the domains where humans (and
+          agents) most often get it wrong. Open the repo in Claude Code or
+          Cursor, point at a feature, and watch the right patterns get used.
+        </p>
+
+        <ul class="mt-8 flex flex-col gap-3">
+          {
+            skills.map((s) => (
+              <li class="flex items-start gap-4 border-t border-background/10 pt-3 first:border-t-0 first:pt-0">
+                <code class="font-mono text-xs whitespace-nowrap rounded-md border border-background/10 bg-background/5 px-2 py-1 text-lime">
+                  /{s.file}
+                </code>
+                <span class="text-sm text-background/70 leading-relaxed">{s.desc}</span>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div class="lg:col-span-6">
+        <div class="overflow-hidden rounded-xl border border-background/10 bg-background/[0.04] backdrop-blur shadow-2xl">
+          <div class="flex items-center justify-between gap-2 border-b border-background/10 px-4 py-2.5">
+            <div class="flex items-center gap-2 font-mono text-[11px] text-background/60">
+              <svg viewBox="0 0 16 16" class="size-3.5" fill="currentColor" aria-hidden="true">
+                <path d="M3 1.5h6.5l3.5 3.5v9.5a.5.5 0 0 1-.5.5h-9.5a.5.5 0 0 1-.5-.5v-13z" opacity=".4"/>
+                <path d="M9.5 1.5v3.5h3.5L9.5 1.5z" opacity=".7"/>
+              </svg>
+              CLAUDE.md
+            </div>
+            <span class="font-mono text-[10px] uppercase tracking-widest text-background/40">
+              read by Claude on every prompt
+            </span>
+          </div>
+          <pre class="p-5 sm:p-6 font-mono text-[12px] sm:text-[13px] leading-relaxed overflow-x-auto"><code><span class="text-background/40"># LaunchKit API — request pipeline</span>
+
+Every request flows through:
+
+  <span class="text-background">1.</span> JWTAuthenticationMiddleware → <span class="text-lime">request.user</span>
+  <span class="text-background">2.</span> TenantMiddleware            → <span class="text-lime">request.tenant</span>
+  <span class="text-background">3.</span> SubscriptionMiddleware      → 403 if expired
+  <span class="text-background">4.</span> TenantPermissionMixin       → app.resource.action
+  <span class="text-background">5.</span> ModuleAccessMixin           → entitlements
+  <span class="text-background">6.</span> SubscriptionLimitMixin      → quota check
+
+<span class="text-background/40">## Things to verify before editing</span>
+
+<span class="text-background">— New URL prefix that bypasses tenant?</span>
+<span class="text-background/60">  Update both</span> <span class="text-lime">TENANT_MIDDLEWARE_EXCLUDED_PATHS</span>
+<span class="text-background/60">  and</span> <span class="text-lime">SUBSCRIPTION_EXEMPT_PATHS</span><span class="text-background/60">.</span>
+
+<span class="text-background">— New Celery webhook handler?</span>
+<span class="text-background/60">  Must be idempotent. Mark</span> <span class="text-lime">StripeEvent.processed</span><span class="text-background/60">=True.</span>
+<span class="text-background/60">  Must catch + retry. Capture to Sentry.</span>
+…</code></pre>
+        </div>
+
+        <div class="mt-4 flex items-center justify-between gap-3 rounded-xl border border-background/10 bg-background/5 px-4 py-3">
+          <div class="flex items-center gap-3">
+            <span class="inline-grid size-9 place-items-center rounded-lg bg-lime text-lime-foreground">
+              <svg viewBox="0 0 16 16" class="size-4" fill="currentColor" aria-hidden="true">
+                <path d="M8 1l1.8 4.2L14 7l-4.2 1.8L8 13l-1.8-4.2L2 7l4.2-1.8L8 1z"/>
+              </svg>
+            </span>
+            <div>
+              <div class="font-mono text-[10px] uppercase tracking-widest text-background/50">Verified with</div>
+              <div class="text-sm font-medium">Claude Code · Cursor · Continue</div>
+            </div>
+          </div>
+          <code class="hidden font-mono text-[11px] text-background/40 md:inline">v1.0</code>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -3,11 +3,19 @@
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/geist";
 
+/* Editorial display + technical mono. Picked for distinctiveness:
+   - Instrument Serif: characterful italic, magazine feel — rare on dev
+     product landings.
+   - Geist Mono: pairs with Geist Variable already installed; gives the
+     terminal/spec sheet look without dragging in another mono. */
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist+Mono:wght@400;500;600;700&display=swap');
+
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-    --font-heading: var(--font-sans);
     --font-sans: 'Geist Variable', sans-serif;
+    --font-display: 'Instrument Serif', 'Georgia', serif;
+    --font-mono: 'Geist Mono', ui-monospace, monospace;
     --color-sidebar-ring: var(--sidebar-ring);
     --color-sidebar-border: var(--sidebar-border);
     --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -39,6 +47,10 @@
     --color-card: var(--card);
     --color-foreground: var(--foreground);
     --color-background: var(--background);
+    --color-ink: var(--ink);
+    --color-cream: var(--cream);
+    --color-lime: var(--lime);
+    --color-lime-foreground: var(--lime-foreground);
     --radius-sm: calc(var(--radius) * 0.6);
     --radius-md: calc(var(--radius) * 0.8);
     --radius-lg: var(--radius);
@@ -48,83 +60,219 @@
     --radius-4xl: calc(var(--radius) * 2.6);
 }
 
+/* ---------------------------------------------------------------------------
+   Light theme — warm cream + deep ink + electric lime accent.
+   Cream hue picked at 80° (warm yellow) so the lime accent at 130° (chartreuse)
+   feels related, not jarring. Avoids the cold gray/blue/purple cliché.
+   --------------------------------------------------------------------------- */
 :root {
-    --background: oklch(1 0 0);
-    --foreground: oklch(0.145 0 0);
-    --card: oklch(1 0 0);
-    --card-foreground: oklch(0.145 0 0);
-    --popover: oklch(1 0 0);
-    --popover-foreground: oklch(0.145 0 0);
-    --primary: oklch(0.205 0 0);
-    --primary-foreground: oklch(0.985 0 0);
-    --secondary: oklch(0.97 0 0);
-    --secondary-foreground: oklch(0.205 0 0);
-    --muted: oklch(0.97 0 0);
-    --muted-foreground: oklch(0.556 0 0);
-    --accent: oklch(0.97 0 0);
-    --accent-foreground: oklch(0.205 0 0);
-    --destructive: oklch(0.577 0.245 27.325);
-    --border: oklch(0.922 0 0);
-    --input: oklch(0.922 0 0);
-    --ring: oklch(0.708 0 0);
-    --chart-1: oklch(0.87 0 0);
-    --chart-2: oklch(0.556 0 0);
-    --chart-3: oklch(0.439 0 0);
-    --chart-4: oklch(0.371 0 0);
-    --chart-5: oklch(0.269 0 0);
-    --radius: 0.625rem;
-    --sidebar: oklch(0.985 0 0);
-    --sidebar-foreground: oklch(0.145 0 0);
-    --sidebar-primary: oklch(0.205 0 0);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.97 0 0);
-    --sidebar-accent-foreground: oklch(0.205 0 0);
-    --sidebar-border: oklch(0.922 0 0);
-    --sidebar-ring: oklch(0.708 0 0);
+    --cream: oklch(0.974 0.018 90);
+    --ink: oklch(0.16 0.012 80);
+    --lime: oklch(0.86 0.22 128);
+    --lime-foreground: oklch(0.18 0.05 130);
+
+    --background: var(--cream);
+    --foreground: var(--ink);
+    --card: oklch(0.985 0.01 90);
+    --card-foreground: var(--ink);
+    --popover: oklch(0.985 0.01 90);
+    --popover-foreground: var(--ink);
+    --primary: var(--ink);
+    --primary-foreground: var(--cream);
+    --secondary: oklch(0.93 0.014 85);
+    --secondary-foreground: var(--ink);
+    --muted: oklch(0.945 0.012 85);
+    --muted-foreground: oklch(0.45 0.012 80);
+    --accent: var(--lime);
+    --accent-foreground: var(--lime-foreground);
+    --destructive: oklch(0.55 0.22 27);
+    --border: oklch(0.88 0.018 85);
+    --input: oklch(0.92 0.014 85);
+    --ring: var(--ink);
+    --chart-1: var(--lime);
+    --chart-2: oklch(0.55 0.012 80);
+    --chart-3: oklch(0.42 0.012 80);
+    --chart-4: oklch(0.32 0.012 80);
+    --chart-5: oklch(0.22 0.012 80);
+    --radius: 0.5rem;
+    --sidebar: var(--cream);
+    --sidebar-foreground: var(--ink);
+    --sidebar-primary: var(--ink);
+    --sidebar-primary-foreground: var(--cream);
+    --sidebar-accent: var(--lime);
+    --sidebar-accent-foreground: var(--lime-foreground);
+    --sidebar-border: oklch(0.88 0.018 85);
+    --sidebar-ring: var(--ink);
 }
 
+/* ---------------------------------------------------------------------------
+   Dark theme — true ink with cream type. Lime stays the accent.
+   --------------------------------------------------------------------------- */
 .dark {
-    --background: oklch(0.145 0 0);
-    --foreground: oklch(0.985 0 0);
-    --card: oklch(0.205 0 0);
-    --card-foreground: oklch(0.985 0 0);
-    --popover: oklch(0.205 0 0);
-    --popover-foreground: oklch(0.985 0 0);
-    --primary: oklch(0.922 0 0);
-    --primary-foreground: oklch(0.205 0 0);
-    --secondary: oklch(0.269 0 0);
-    --secondary-foreground: oklch(0.985 0 0);
-    --muted: oklch(0.269 0 0);
-    --muted-foreground: oklch(0.708 0 0);
-    --accent: oklch(0.269 0 0);
-    --accent-foreground: oklch(0.985 0 0);
-    --destructive: oklch(0.704 0.191 22.216);
-    --border: oklch(1 0 0 / 10%);
-    --input: oklch(1 0 0 / 15%);
-    --ring: oklch(0.556 0 0);
-    --chart-1: oklch(0.87 0 0);
-    --chart-2: oklch(0.556 0 0);
-    --chart-3: oklch(0.439 0 0);
-    --chart-4: oklch(0.371 0 0);
-    --chart-5: oklch(0.269 0 0);
-    --sidebar: oklch(0.205 0 0);
-    --sidebar-foreground: oklch(0.985 0 0);
-    --sidebar-primary: oklch(0.488 0.243 264.376);
-    --sidebar-primary-foreground: oklch(0.985 0 0);
-    --sidebar-accent: oklch(0.269 0 0);
-    --sidebar-accent-foreground: oklch(0.985 0 0);
-    --sidebar-border: oklch(1 0 0 / 10%);
-    --sidebar-ring: oklch(0.556 0 0);
+    --background: oklch(0.13 0.012 80);
+    --foreground: oklch(0.96 0.014 85);
+    --card: oklch(0.17 0.012 80);
+    --card-foreground: oklch(0.96 0.014 85);
+    --popover: oklch(0.17 0.012 80);
+    --popover-foreground: oklch(0.96 0.014 85);
+    --primary: oklch(0.96 0.014 85);
+    --primary-foreground: oklch(0.13 0.012 80);
+    --secondary: oklch(0.22 0.012 80);
+    --secondary-foreground: oklch(0.96 0.014 85);
+    --muted: oklch(0.22 0.012 80);
+    --muted-foreground: oklch(0.66 0.012 80);
+    --accent: var(--lime);
+    --accent-foreground: var(--lime-foreground);
+    --destructive: oklch(0.65 0.2 22);
+    --border: oklch(1 0 0 / 9%);
+    --input: oklch(1 0 0 / 12%);
+    --ring: oklch(0.66 0.012 80);
+    --sidebar: oklch(0.17 0.012 80);
+    --sidebar-foreground: oklch(0.96 0.014 85);
+    --sidebar-primary: oklch(0.96 0.014 85);
+    --sidebar-primary-foreground: oklch(0.13 0.012 80);
+    --sidebar-accent: var(--lime);
+    --sidebar-accent-foreground: var(--lime-foreground);
+    --sidebar-border: oklch(1 0 0 / 9%);
+    --sidebar-ring: oklch(0.66 0.012 80);
 }
 
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
+    * {
+        @apply border-border outline-ring/50;
     }
-  body {
-    @apply bg-background text-foreground;
+    body {
+        @apply bg-background text-foreground;
+        font-feature-settings: 'ss01', 'cv11';
     }
-  html {
-    @apply font-sans;
+    html {
+        @apply font-sans;
+        scroll-behavior: smooth;
     }
+
+    ::selection {
+        background: var(--lime);
+        color: var(--lime-foreground);
+    }
+}
+
+/* ---------------------------------------------------------------------------
+   Landing page utilities.
+   --------------------------------------------------------------------------- */
+
+@utility lk-display {
+    font-family: var(--font-display);
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 0.95;
+}
+
+@utility lk-mono-label {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--muted-foreground);
+}
+
+/* Editorial section number — appears in tabular figures style */
+@utility lk-section-num {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: var(--muted-foreground);
+    font-variant-numeric: tabular-nums;
+}
+
+/* Newspaper-grade horizontal rule */
+@utility lk-rule {
+    border: 0;
+    border-top: 1px solid var(--border);
+}
+
+/* Marquee */
+@keyframes lk-marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+}
+
+.lk-marquee {
+    overflow: hidden;
+    mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 6%, black 94%, transparent);
+}
+
+.lk-marquee-track {
+    display: flex;
+    width: max-content;
+    animation: lk-marquee 50s linear infinite;
+}
+
+.lk-marquee:hover .lk-marquee-track {
+    animation-play-state: paused;
+}
+
+/* Newsprint dot pattern for accent backgrounds */
+@utility lk-halftone {
+    background-image: radial-gradient(circle, var(--ink) 1px, transparent 1px);
+    background-size: 6px 6px;
+    opacity: 0.06;
+}
+
+/* Pulse ring for "live" status */
+@keyframes lk-pulse-ring {
+    0%   { box-shadow: 0 0 0 0 var(--lime); opacity: 1; }
+    70%  { box-shadow: 0 0 0 10px transparent; opacity: 0; }
+    100% { box-shadow: 0 0 0 0 transparent; opacity: 0; }
+}
+
+.lk-pulse-ring::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 9999px;
+    animation: lk-pulse-ring 2s infinite;
+}
+
+/* Staggered reveal on page load */
+@keyframes lk-rise {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.lk-rise {
+    animation: lk-rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+}
+
+/* Editorial text-balance for headlines */
+.lk-balance {
+    text-wrap: balance;
+}
+
+/* Accent underline that grows on hover */
+.lk-link {
+    position: relative;
+    display: inline-block;
+}
+.lk-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -2px;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+}
+.lk-link:hover::after {
+    transform: scaleX(1);
 }
