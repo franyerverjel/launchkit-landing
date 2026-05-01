@@ -104,7 +104,7 @@ const toneClass = (tone?: string) =>
   tone === 'dim'
     ? 'text-background/40'
     : tone === 'lime'
-    ? 'text-lime'
+    ? 'text-coral'
     : tone === 'em'
     ? 'text-background'
     : 'text-background/85'
@@ -144,7 +144,7 @@ const toneClass = (tone?: string) =>
               <ul class="mt-7 flex flex-col gap-3">
                 {f.bullets.map((b) => (
                   <li class="flex items-start gap-3 text-sm">
-                    <span aria-hidden="true" class="mt-1.5 size-1.5 shrink-0 rounded-full bg-lime ring-2 ring-lime/20" />
+                    <span aria-hidden="true" class="mt-1.5 size-1.5 shrink-0 rounded-full bg-coral ring-2 ring-coral/20" />
                     <span class="leading-relaxed">{b}</span>
                   </li>
                 ))}
@@ -153,7 +153,7 @@ const toneClass = (tone?: string) =>
 
             <div class:list={[f.align === 'right' ? 'lg:order-1' : 'lg:order-2']}>
               <div class="relative">
-                <div class="absolute -inset-2 -z-10 rounded-2xl bg-gradient-to-br from-lime/30 via-transparent to-transparent blur-2xl" aria-hidden="true" />
+                <div class="absolute -inset-2 -z-10 rounded-2xl bg-gradient-to-br from-coral/30 via-transparent to-transparent blur-2xl" aria-hidden="true" />
                 <div class="overflow-hidden rounded-xl border border-foreground/10 bg-foreground text-background shadow-xl">
                   <div class="flex items-center gap-2 border-b border-background/10 px-4 py-2.5">
                     <div class="flex gap-1.5">

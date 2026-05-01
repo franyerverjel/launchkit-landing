@@ -1,0 +1,116 @@
+---
+const groups = [
+  {
+    label: 'Backend',
+    badge: 'Django 5.2',
+    items: [
+      'Django REST Framework 3.16',
+      'PostgreSQL with multi-tenant scoping',
+      'Celery + Redis for async jobs',
+      'django-auditlog on sensitive models',
+      'pytest + factory-boy + 99 tests'
+    ]
+  },
+  {
+    label: 'Frontend',
+    badge: 'Next.js 16',
+    items: [
+      'React 19 with React Compiler',
+      'NextAuth (credentials + Google OAuth)',
+      'TanStack Query + custom useFetch hook',
+      'Tailwind v4 + shadcn/ui',
+      'next-intl (EN + ES, 100% covered)'
+    ]
+  },
+  {
+    label: 'Billing',
+    badge: 'Stripe',
+    items: [
+      'Plans · Addons · Prepaid credits',
+      'Idempotent webhook handlers',
+      'Customer portal · Invoices · VAT',
+      'Trial + past-due grace period',
+      'Tested against race conditions'
+    ]
+  },
+  {
+    label: 'Auth',
+    badge: '4 methods',
+    items: [
+      'JWT with rotation + blacklist',
+      'Email/password with verification',
+      'Google OAuth',
+      'Email codes (AuthCode model)',
+      'TOTP (pyotp) for 2FA'
+    ]
+  },
+  {
+    label: 'Tooling',
+    badge: 'CI included',
+    items: [
+      'GitHub Actions: lint + tests',
+      'Dependabot weekly bumps',
+      'Pre-commit hooks (ruff + eslint)',
+      'Sentry hooks · structured JSON logs',
+      'Docker compose for local dev'
+    ]
+  },
+  {
+    label: 'Developer XP',
+    badge: 'AI-ready',
+    items: [
+      'CLAUDE.md architecture maps',
+      '5 Cursor skills (permissions, Stripe, …)',
+      'OpenAPI export · Postman collection',
+      'Demo seed + email previewer',
+      'CHANGELOG with migration notes'
+    ]
+  }
+]
+---
+
+<section id="whats-inside" class="border-b border-border/60 bg-secondary/30">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6 py-20 md:py-28">
+    <div class="max-w-3xl mb-12">
+      <span class="lk-section-num">02 / What's inside</span>
+      <h2 class="lk-display lk-balance mt-4 text-4xl md:text-5xl lg:text-6xl">
+        Everything between <em class="text-muted-foreground">"idea"</em>{' '}
+        and <em class="text-muted-foreground">"I'll take a credit card."</em>
+      </h2>
+      <p class="mt-6 text-lg text-muted-foreground leading-relaxed">
+        Not a starter template. Not a tutorial repo with TODOs. A full
+        SaaS backend and frontend, audited end-to-end, with the unsexy
+        parts already done — and tested.
+      </p>
+    </div>
+
+    <ul class="grid gap-px overflow-hidden rounded-2xl border border-border/60 bg-border/60 md:grid-cols-2 lg:grid-cols-3">
+      {
+        groups.map((group, i) => (
+          <li class="bg-background p-6 md:p-7 transition-colors hover:bg-card group">
+            <header class="mb-5 flex items-baseline justify-between gap-3 border-b border-border/60 pb-3">
+              <h3 class="lk-display text-2xl tracking-tight">
+                {group.label}
+              </h3>
+              <span class="inline-flex items-center gap-1.5 rounded-full border border-coral/30 bg-coral/10 px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-widest text-coral-deep">
+                {group.badge}
+              </span>
+            </header>
+            <ul class="flex flex-col gap-2.5">
+              {group.items.map((item) => (
+                <li class="flex items-start gap-2.5 text-sm leading-relaxed">
+                  <span aria-hidden="true" class="mt-1.5 size-1 shrink-0 rounded-full bg-coral" />
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <div class="mt-5 flex items-center justify-between text-[11px] font-mono uppercase tracking-widest text-muted-foreground/60 group-hover:text-coral-deep transition-colors">
+              <span>{String(i + 1).padStart(2, '0')} / {String(groups.length).padStart(2, '0')}</span>
+              <span>{group.items.length} items</span>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>

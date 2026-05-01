@@ -26,7 +26,7 @@ const skills = [
 <section class="relative overflow-hidden border-b border-border/60 bg-foreground text-background">
   <div class="lk-halftone absolute inset-0 opacity-[0.04]" aria-hidden="true"></div>
   <div
-    class="absolute -bottom-32 -right-32 h-[28rem] w-[28rem] rounded-full bg-lime/40 blur-[120px]"
+    class="absolute -bottom-32 -right-32 h-[28rem] w-[28rem] rounded-full bg-coral/40 blur-[120px]"
     aria-hidden="true"
   ></div>
 
@@ -35,30 +35,31 @@ const skills = [
       <div class="lg:col-span-6">
         <div class="flex items-center gap-3">
           <span class="lk-section-num text-background/50">06 / AI-ready</span>
-          <span class="inline-flex items-center gap-1.5 rounded-full border border-lime/40 bg-lime/10 px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-widest text-lime">
+          <span class="inline-flex items-center gap-1.5 rounded-full border border-coral/40 bg-coral/10 px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-widest text-coral">
             <span class="relative size-1.5">
-              <span class="absolute inset-0 rounded-full bg-lime"></span>
+              <span class="absolute inset-0 rounded-full bg-coral"></span>
             </span>
             New in v1.0
           </span>
         </div>
 
         <h2 class="lk-display lk-balance mt-5 text-4xl md:text-5xl lg:text-6xl">
-          Built so your <em class="text-lime">AI agent</em> can ship the next feature.
+          Built so your <em class="text-coral">AI agent</em> can ship the next feature.
         </h2>
 
         <p class="mt-6 text-lg text-background/70 leading-relaxed">
           CLAUDE.md files map the request pipeline, permission system and
-          billing flow. Five Cursor skills cover the domains where humans (and
-          agents) most often get it wrong. Open the repo in Claude Code or
-          Cursor, point at a feature, and watch the right patterns get used.
+          billing flow. A handful of skill recipes cover the domains where
+          devs (and agents) most often get it wrong. Use any LLM-backed
+          coding assistant — point it at a feature and watch the right
+          patterns get used.
         </p>
 
         <ul class="mt-8 flex flex-col gap-3">
           {
             skills.map((s) => (
               <li class="flex items-start gap-4 border-t border-background/10 pt-3 first:border-t-0 first:pt-0">
-                <code class="font-mono text-xs whitespace-nowrap rounded-md border border-background/10 bg-background/5 px-2 py-1 text-lime">
+                <code class="font-mono text-xs whitespace-nowrap rounded-md border border-background/10 bg-background/5 px-2 py-1 text-coral">
                   /{s.file}
                 </code>
                 <span class="text-sm text-background/70 leading-relaxed">{s.desc}</span>
@@ -79,15 +80,15 @@ const skills = [
               CLAUDE.md
             </div>
             <span class="font-mono text-[10px] uppercase tracking-widest text-background/40">
-              read by Claude on every prompt
+              read by your agent on every prompt
             </span>
           </div>
           <pre class="p-5 sm:p-6 font-mono text-[12px] sm:text-[13px] leading-relaxed overflow-x-auto"><code><span class="text-background/40"># LaunchKit API — request pipeline</span>
 
 Every request flows through:
 
-  <span class="text-background">1.</span> JWTAuthenticationMiddleware → <span class="text-lime">request.user</span>
-  <span class="text-background">2.</span> TenantMiddleware            → <span class="text-lime">request.tenant</span>
+  <span class="text-background">1.</span> JWTAuthenticationMiddleware → <span class="text-coral">request.user</span>
+  <span class="text-background">2.</span> TenantMiddleware            → <span class="text-coral">request.tenant</span>
   <span class="text-background">3.</span> SubscriptionMiddleware      → 403 if expired
   <span class="text-background">4.</span> TenantPermissionMixin       → app.resource.action
   <span class="text-background">5.</span> ModuleAccessMixin           → entitlements
@@ -96,25 +97,25 @@ Every request flows through:
 <span class="text-background/40">## Things to verify before editing</span>
 
 <span class="text-background">— New URL prefix that bypasses tenant?</span>
-<span class="text-background/60">  Update both</span> <span class="text-lime">TENANT_MIDDLEWARE_EXCLUDED_PATHS</span>
-<span class="text-background/60">  and</span> <span class="text-lime">SUBSCRIPTION_EXEMPT_PATHS</span><span class="text-background/60">.</span>
+<span class="text-background/60">  Update both</span> <span class="text-coral">TENANT_MIDDLEWARE_EXCLUDED_PATHS</span>
+<span class="text-background/60">  and</span> <span class="text-coral">SUBSCRIPTION_EXEMPT_PATHS</span><span class="text-background/60">.</span>
 
 <span class="text-background">— New Celery webhook handler?</span>
-<span class="text-background/60">  Must be idempotent. Mark</span> <span class="text-lime">StripeEvent.processed</span><span class="text-background/60">=True.</span>
+<span class="text-background/60">  Must be idempotent. Mark</span> <span class="text-coral">StripeEvent.processed</span><span class="text-background/60">=True.</span>
 <span class="text-background/60">  Must catch + retry. Capture to Sentry.</span>
 …</code></pre>
         </div>
 
         <div class="mt-4 flex items-center justify-between gap-3 rounded-xl border border-background/10 bg-background/5 px-4 py-3">
           <div class="flex items-center gap-3">
-            <span class="inline-grid size-9 place-items-center rounded-lg bg-lime text-lime-foreground">
+            <span class="inline-grid size-9 place-items-center rounded-lg bg-coral text-coral-foreground">
               <svg viewBox="0 0 16 16" class="size-4" fill="currentColor" aria-hidden="true">
                 <path d="M8 1l1.8 4.2L14 7l-4.2 1.8L8 13l-1.8-4.2L2 7l4.2-1.8L8 1z"/>
               </svg>
             </span>
             <div>
-              <div class="font-mono text-[10px] uppercase tracking-widest text-background/50">Verified with</div>
-              <div class="text-sm font-medium">Claude Code · Cursor · Continue</div>
+              <div class="font-mono text-[10px] uppercase tracking-widest text-background/50">Works with</div>
+              <div class="text-sm font-medium">Any LLM coding agent</div>
             </div>
           </div>
           <code class="hidden font-mono text-[11px] text-background/40 md:inline">v1.0</code>

@@ -3,18 +3,23 @@
 @import "shadcn/tailwind.css";
 @import "@fontsource-variable/geist";
 
-/* Editorial display + technical mono. Picked for distinctiveness:
-   - Instrument Serif: characterful italic, magazine feel — rare on dev
-     product landings.
-   - Geist Mono: pairs with Geist Variable already installed; gives the
-     terminal/spec sheet look without dragging in another mono. */
-@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist+Mono:wght@400;500;600;700&display=swap');
+/* Display + mono pairing.
+   - Bricolage Grotesque (variable, with optical-size axis): friendly,
+     characterful, distinctive at large sizes — gives the dev product a
+     warmer voice than the typical mono-only sales site.
+   - Geist Mono: pairs with Geist Variable (already installed) for
+     terminal/spec-sheet labels.
+
+   The Google Fonts URL syntax for variable fonts uses ranges per axis:
+   `opsz,wght@12..96,200..800` — NOT `opsz,wght@12..96,400;12..96,500`
+   (the second form was failing silently, falling back to Georgia). */
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Geist+Mono:wght@400;500;600;700&display=swap');
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
     --font-sans: 'Geist Variable', sans-serif;
-    --font-display: 'Instrument Serif', 'Georgia', serif;
+    --font-display: 'Bricolage Grotesque', 'Georgia', serif;
     --font-mono: 'Geist Mono', ui-monospace, monospace;
     --color-sidebar-ring: var(--sidebar-ring);
     --color-sidebar-border: var(--sidebar-border);
@@ -49,8 +54,11 @@
     --color-background: var(--background);
     --color-ink: var(--ink);
     --color-cream: var(--cream);
-    --color-lime: var(--lime);
-    --color-lime-foreground: var(--lime-foreground);
+    --color-coral: var(--coral);
+    --color-coral-soft: var(--coral-soft);
+    --color-coral-deep: var(--coral-deep);
+    --color-coral-foreground: var(--coral-foreground);
+    --color-butter: var(--butter);
     --radius-sm: calc(var(--radius) * 0.6);
     --radius-md: calc(var(--radius) * 0.8);
     --radius-lg: var(--radius);
@@ -61,68 +69,73 @@
 }
 
 /* ---------------------------------------------------------------------------
-   Light theme — warm cream + deep ink + electric lime accent.
-   Cream hue picked at 80° (warm yellow) so the lime accent at 130° (chartreuse)
-   feels related, not jarring. Avoids the cold gray/blue/purple cliché.
+   Light theme — warm cream + deep ink + warm coral accent.
+   Same hue family across launchkit-web (demo) so brand feels coherent
+   across both surfaces, but this site keeps its editorial dev tone via
+   numbered sections, terminal blocks and comparison tables.
    --------------------------------------------------------------------------- */
 :root {
-    --cream: oklch(0.974 0.018 90);
+    --cream: oklch(0.985 0.005 80);
     --ink: oklch(0.16 0.012 80);
-    --lime: oklch(0.86 0.22 128);
-    --lime-foreground: oklch(0.18 0.05 130);
+    --butter: oklch(0.96 0.025 85);
+    --coral: oklch(0.74 0.16 35);
+    --coral-soft: oklch(0.92 0.05 35);
+    --coral-deep: oklch(0.55 0.18 30);
+    --coral-foreground: oklch(1 0 0);
 
     --background: var(--cream);
     --foreground: var(--ink);
-    --card: oklch(0.985 0.01 90);
+    --card: oklch(1 0 0);
     --card-foreground: var(--ink);
-    --popover: oklch(0.985 0.01 90);
+    --popover: oklch(1 0 0);
     --popover-foreground: var(--ink);
     --primary: var(--ink);
     --primary-foreground: var(--cream);
-    --secondary: oklch(0.93 0.014 85);
+    --secondary: var(--butter);
     --secondary-foreground: var(--ink);
-    --muted: oklch(0.945 0.012 85);
-    --muted-foreground: oklch(0.45 0.012 80);
-    --accent: var(--lime);
-    --accent-foreground: var(--lime-foreground);
+    --muted: oklch(0.945 0.012 75);
+    --muted-foreground: oklch(0.45 0.012 75);
+    --accent: var(--coral);
+    --accent-foreground: var(--coral-foreground);
     --destructive: oklch(0.55 0.22 27);
-    --border: oklch(0.88 0.018 85);
-    --input: oklch(0.92 0.014 85);
+    --border: oklch(0.9 0.012 75);
+    --input: oklch(0.92 0.012 75);
     --ring: var(--ink);
-    --chart-1: var(--lime);
-    --chart-2: oklch(0.55 0.012 80);
-    --chart-3: oklch(0.42 0.012 80);
-    --chart-4: oklch(0.32 0.012 80);
-    --chart-5: oklch(0.22 0.012 80);
+    --chart-1: var(--coral);
+    --chart-2: oklch(0.55 0.012 75);
+    --chart-3: oklch(0.42 0.012 75);
+    --chart-4: oklch(0.32 0.012 75);
+    --chart-5: oklch(0.22 0.012 75);
     --radius: 0.5rem;
     --sidebar: var(--cream);
     --sidebar-foreground: var(--ink);
     --sidebar-primary: var(--ink);
     --sidebar-primary-foreground: var(--cream);
-    --sidebar-accent: var(--lime);
-    --sidebar-accent-foreground: var(--lime-foreground);
-    --sidebar-border: oklch(0.88 0.018 85);
+    --sidebar-accent: var(--coral);
+    --sidebar-accent-foreground: var(--coral-foreground);
+    --sidebar-border: oklch(0.9 0.012 75);
     --sidebar-ring: var(--ink);
 }
 
 /* ---------------------------------------------------------------------------
-   Dark theme — true ink with cream type. Lime stays the accent.
+   Dark theme — true ink with cream type. Coral stays the accent.
    --------------------------------------------------------------------------- */
 .dark {
     --background: oklch(0.13 0.012 80);
     --foreground: oklch(0.96 0.014 85);
+    --butter: oklch(0.22 0.018 95);
     --card: oklch(0.17 0.012 80);
     --card-foreground: oklch(0.96 0.014 85);
     --popover: oklch(0.17 0.012 80);
     --popover-foreground: oklch(0.96 0.014 85);
     --primary: oklch(0.96 0.014 85);
     --primary-foreground: oklch(0.13 0.012 80);
-    --secondary: oklch(0.22 0.012 80);
+    --secondary: var(--butter);
     --secondary-foreground: oklch(0.96 0.014 85);
     --muted: oklch(0.22 0.012 80);
     --muted-foreground: oklch(0.66 0.012 80);
-    --accent: var(--lime);
-    --accent-foreground: var(--lime-foreground);
+    --accent: var(--coral);
+    --accent-foreground: oklch(0.13 0.012 80);
     --destructive: oklch(0.65 0.2 22);
     --border: oklch(1 0 0 / 9%);
     --input: oklch(1 0 0 / 12%);
@@ -131,8 +144,8 @@
     --sidebar-foreground: oklch(0.96 0.014 85);
     --sidebar-primary: oklch(0.96 0.014 85);
     --sidebar-primary-foreground: oklch(0.13 0.012 80);
-    --sidebar-accent: var(--lime);
-    --sidebar-accent-foreground: var(--lime-foreground);
+    --sidebar-accent: var(--coral);
+    --sidebar-accent-foreground: oklch(0.13 0.012 80);
     --sidebar-border: oklch(1 0 0 / 9%);
     --sidebar-ring: oklch(0.66 0.012 80);
 }
@@ -151,8 +164,8 @@
     }
 
     ::selection {
-        background: var(--lime);
-        color: var(--lime-foreground);
+        background: var(--coral);
+        color: var(--coral-foreground);
     }
 }
 
@@ -162,9 +175,16 @@
 
 @utility lk-display {
     font-family: var(--font-display);
-    font-weight: 400;
-    letter-spacing: -0.02em;
-    line-height: 0.95;
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    line-height: 0.96;
+    font-variation-settings: 'opsz' 96;
+}
+
+@utility lk-display-italic {
+    font-family: var(--font-display);
+    font-style: italic;
+    font-weight: 500;
 }
 
 @utility lk-mono-label {
@@ -176,7 +196,6 @@
     color: var(--muted-foreground);
 }
 
-/* Editorial section number — appears in tabular figures style */
 @utility lk-section-num {
     font-family: var(--font-mono);
     font-size: 0.75rem;
@@ -185,7 +204,6 @@
     font-variant-numeric: tabular-nums;
 }
 
-/* Newspaper-grade horizontal rule */
 @utility lk-rule {
     border: 0;
     border-top: 1px solid var(--border);
@@ -213,16 +231,14 @@
     animation-play-state: paused;
 }
 
-/* Newsprint dot pattern for accent backgrounds */
 @utility lk-halftone {
     background-image: radial-gradient(circle, var(--ink) 1px, transparent 1px);
     background-size: 6px 6px;
     opacity: 0.06;
 }
 
-/* Pulse ring for "live" status */
 @keyframes lk-pulse-ring {
-    0%   { box-shadow: 0 0 0 0 var(--lime); opacity: 1; }
+    0%   { box-shadow: 0 0 0 0 var(--coral); opacity: 1; }
     70%  { box-shadow: 0 0 0 10px transparent; opacity: 0; }
     100% { box-shadow: 0 0 0 0 transparent; opacity: 0; }
 }
@@ -235,7 +251,6 @@
     animation: lk-pulse-ring 2s infinite;
 }
 
-/* Staggered reveal on page load */
 @keyframes lk-rise {
     from {
         opacity: 0;
@@ -251,12 +266,10 @@
     animation: lk-rise 0.7s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
 }
 
-/* Editorial text-balance for headlines */
 .lk-balance {
     text-wrap: balance;
 }
 
-/* Accent underline that grows on hover */
 .lk-link {
     position: relative;
     display: inline-block;
@@ -275,4 +288,13 @@
 }
 .lk-link:hover::after {
     transform: scaleX(1);
+}
+
+/* Pill-shaped CTA with hover lift */
+.lk-pill {
+    border-radius: 9999px;
+    transition: transform 0.18s cubic-bezier(0.2, 0.7, 0.2, 1), box-shadow 0.18s ease;
+}
+.lk-pill:hover {
+    transform: translateY(-1px);
 }
