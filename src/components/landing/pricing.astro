@@ -7,9 +7,9 @@ const { tiers, discount } = site.pricing
 <section id="pricing" class="border-b border-border/60 bg-secondary/30">
   <div class="mx-auto max-w-6xl px-4 sm:px-6 py-20 md:py-28">
     <div class="max-w-3xl mb-12">
-      <span class="lk-section-num">08 / Pricing</span>
+      <span class="lk-section-num">09 / Pricing</span>
       <div class="mt-4 flex flex-wrap items-baseline gap-x-5 gap-y-2">
-        <h2 class="lk-display lk-balance text-4xl md:text-5xl lg:text-6xl">
+        <h2 class="lk-display lk-balance text-3xl md:text-4xl">
           One payment. <em class="text-muted-foreground">Lifetime</em> license.
         </h2>
         {discount.enabled && (
@@ -19,13 +19,12 @@ const { tiers, discount } = site.pricing
           </span>
         )}
       </div>
-      <p class="mt-6 text-lg text-muted-foreground leading-relaxed">
-        No subscriptions. No per-seat creep. Pay once, own the source,
-        ship as many SaaS projects as you can dream up.
+      <p class="mt-5 text-base text-muted-foreground leading-relaxed">
+        No subscriptions. No per-seat creep. Pay once, own the source, ship as many SaaS projects as you can dream up.
       </p>
     </div>
 
-    <div class="grid gap-5 md:grid-cols-2 max-w-4xl">
+    <div class="grid gap-5 md:grid-cols-2 max-w-4xl mx-auto">
       {
         tiers.map((tier) => (
           <article
@@ -105,34 +104,38 @@ const { tiers, discount } = site.pricing
             </a>
 
             <p class={cn("text-xs text-center", tier.featured ? "text-background/50" : "text-muted-foreground")}>
-              Stripe-secured · Code in your inbox in 5 min
+              Secure checkout · Repo access in 5 min
             </p>
           </article>
         ))
       }
     </div>
 
-    {/* Reassurance row */}
+    {/* Reassurance row — kept honest. We can't offer no-questions
+        refunds on a digital product where buyers get the source on
+        delivery, so we frame the guarantees around what we can
+        actually back: secure checkout, instant access, and 1-on-1
+        support if something doesn't work. */}
     <div class="mt-12 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm text-muted-foreground">
-      <div class="flex items-center gap-2">
-        <svg viewBox="0 0 16 16" class="size-4 text-foreground" fill="none" stroke="currentColor" stroke-width="1.5">
-          <path d="M8 1L2 4v4c0 3.5 2.5 6 6 7 3.5-1 6-3.5 6-7V4L8 1z" stroke-linejoin="round" />
-        </svg>
-        14-day no-questions refund
-      </div>
       <div class="flex items-center gap-2">
         <svg viewBox="0 0 16 16" class="size-4 text-foreground" fill="none" stroke="currentColor" stroke-width="1.5">
           <rect x="2" y="6" width="12" height="8" rx="1" />
           <path d="M5 6V4a3 3 0 0 1 6 0v2" />
         </svg>
-        Stripe-secured payment
+        Secure checkout · Polar handles VAT
       </div>
       <div class="flex items-center gap-2">
         <svg viewBox="0 0 16 16" class="size-4 text-foreground" fill="none" stroke="currentColor" stroke-width="1.5">
           <path d="M3 4l5-2 5 2v5c0 3-2 5-5 6-3-1-5-3-5-6V4z" stroke-linejoin="round" />
           <path d="M6 8l1.5 1.5L10 7" stroke-linecap="round" stroke-linejoin="round" />
         </svg>
-        Instant download · code in your inbox
+        Instant repo access · clone & ship
+      </div>
+      <div class="flex items-center gap-2">
+        <svg viewBox="0 0 16 16" class="size-4 text-foreground" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M8 1l2 4 4 .5-3 3 1 4-4-2-4 2 1-4-3-3 4-.5z" stroke-linejoin="round" />
+        </svg>
+        Email me first · I read every reply
       </div>
     </div>
   </div>

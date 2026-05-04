@@ -1,39 +1,94 @@
 ---
-const stacks = [
-  'Django 5.2',
-  'DRF 3.16',
-  'PostgreSQL',
-  'Redis',
-  'Celery',
-  'Stripe',
-  'Cloudflare R2',
-  'Next.js 16',
-  'React 19',
-  'NextAuth',
-  'TanStack Query',
-  'Tailwind v4',
-  'shadcn/ui',
-  'next-intl',
-  'pytest',
-  'vitest',
-  'GitHub Actions',
-  'Sentry',
-  'Docker'
+// Tech logos rendered from /public/tech/*.svg via CSS mask-image.
+// This lets us tint each logo with its brand color without modifying
+// the SVG files (they ship from simpleicons as single-path black icons).
+//
+// To add a logo: drop the SVG into /public/tech/, add an entry below
+// with the matching brand color.
+const logos = [
+  { name: 'Django', file: 'django.svg', color: '#0C4B33' },
+  { name: 'PostgreSQL', file: 'postgresql.svg', color: '#4169E1' },
+  { name: 'Redis', file: 'redis.svg', color: '#FF4438' },
+  { name: 'Stripe', file: 'stripe.svg', color: '#635BFF' },
+  { name: 'Cloudflare', file: 'cloudflare.svg', color: '#F38020' },
+  { name: 'Next.js', file: 'nextdotjs.svg', color: '#0F0F0F' },
+  { name: 'TypeScript', file: 'typescript.svg', color: '#3178C6' },
+  { name: 'JavaScript', file: 'javascript.svg', color: '#F7DF1E' },
+  { name: 'Tailwind CSS', file: 'tailwindcss.svg', color: '#06B6D4' },
+  { name: 'shadcn/ui', file: 'shadcnui.svg', color: '#0F0F0F' },
+  { name: 'Sentry', file: 'sentry.svg', color: '#7553FF' },
+  { name: 'GitHub Actions', file: 'githubactions.svg', color: '#2088FF' }
 ]
-const items = [...stacks, ...stacks]
 ---
 
-<section class="border-b border-border/60 bg-secondary/30 py-7">
-  <div class="lk-marquee">
-    <div class="lk-marquee-track gap-12 md:gap-16">
-      {
-        items.map((item) => (
-          <span class="font-display whitespace-nowrap text-2xl text-muted-foreground/80 md:text-3xl">
-            {item}
-            <span aria-hidden="true" class="ml-12 md:ml-16 text-coral/60">·</span>
-          </span>
-        ))
-      }
+<section class="border-y border-border/60 bg-secondary/40 py-12 md:py-14">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6">
+    <p class="text-center font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground mb-8">
+      Production-grade stack — already wired
+    </p>
+
+    <div class="lk-marquee">
+      <div class="lk-marquee-track gap-12 md:gap-16 items-center">
+        {
+          [...logos, ...logos].map((logo) => (
+            <div
+              class="lk-tech shrink-0 flex items-center gap-2.5 px-2"
+              title={logo.name}
+            >
+              <span
+                class="lk-tech-logo"
+                style={`--logo-color: ${logo.color}; --logo-mask: url(/tech/${logo.file});`}
+                aria-hidden="true"
+              />
+              <span class="lk-tech-name">{logo.name}</span>
+            </div>
+          ))
+        }
+      </div>
     </div>
   </div>
 </section>
+
+<style>
+  .lk-tech {
+    opacity: 0.85;
+    transition: opacity 0.2s ease;
+  }
+  .lk-tech:hover {
+    opacity: 1;
+  }
+  .lk-tech-logo {
+    display: inline-block;
+    width: 1.85rem;
+    height: 1.85rem;
+    background-color: var(--logo-color);
+    -webkit-mask-image: var(--logo-mask);
+    mask-image: var(--logo-mask);
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+  }
+  @media (min-width: 768px) {
+    .lk-tech-logo {
+      width: 2rem;
+      height: 2rem;
+    }
+  }
+  .lk-tech-name {
+    font-family: var(--font-sans);
+    font-size: 1.05rem;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+    white-space: nowrap;
+    color: var(--foreground);
+  }
+
+  /* Dark mode: invert near-black logos so they stay visible */
+  :global(.dark) .lk-tech-logo[style*="#0F0F0F"],
+  :global(.dark) .lk-tech-logo[style*="#0C4B33"] {
+    filter: invert(1);
+  }
+</style>

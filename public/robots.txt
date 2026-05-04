@@ -1,0 +1,11 @@
+# LaunchKit landing — open for crawling, single-page sales site.
+# https://launchasaas.dev/robots.txt
+
+User-agent: *
+Allow: /
+
+# Don't crawl assets that aren't useful as SERP entries
+Disallow: /tech/
+Disallow: /screenshots/
+
+Sitemap: https://launchasaas.dev/sitemap.xml

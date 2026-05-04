@@ -8,8 +8,8 @@
  */
 
 export const site = {
-  brand: 'LaunchKit',
-  tagline: 'Ship the SaaS, not the scaffolding.',
+  brand: "LaunchKit",
+  tagline: "Ship the SaaS, not the scaffolding.",
 
   /**
    * Pricing strategy:
@@ -18,64 +18,79 @@ export const site = {
    *     support, or lifetime updates + priority support.
    *   - Anchor with strikethrough launch-week prices to lift conversions.
    *
-   * Replace `href` with your Stripe Payment Link URL when you go live.
-   * See `docs/STRIPE_SETUP.md` for the full flow.
+   * Replace `href` with your Polar product checkout URL when you go live.
+   * See `docs/POLAR_SETUP.md` for the full buyer-onboarding flow
+   * (Polar webhook → invite buyer to GitHub org + send welcome email).
    */
   pricing: {
-    currency: 'USD',
+    currency: "USD",
+    /**
+     * Discount label shown next to the pricing headline. We frame it as
+     * a dollar amount rather than a percentage because the absolute
+     * savings ($200 on Lifetime) reads bigger than the equivalent
+     * "29% off" — and because the percentage doesn't divide cleanly
+     * across both tiers without breaking the launch price.
+     *
+     * If you change the tier prices below, also update this label so
+     * the numbers reconcile (rule: label should match the *largest*
+     * Lifetime saving — anchor minus launch).
+     */
     discount: {
       enabled: true,
-      label: 'Launch week — 30% off'
+      label: "Launch week — save up to $200",
     },
     tiers: [
       {
-        id: 'standard',
-        name: 'Standard',
-        price: 199,
-        priceLabel: '$199',
-        originalPriceLabel: '$279',
-        cadence: 'one-time',
-        seat: 'Unlimited projects · Use commercially',
-        cta: 'Buy Standard',
-        href: 'https://buy.stripe.com/REPLACE_ME_STANDARD',
+        id: "standard",
+        name: "Standard",
+        price: 249,
+        priceLabel: "$249",
+        // Anchor at $349 so Standard shows a $100 launch saving — same
+        // ~29% discount as Lifetime, keeps the math consistent across
+        // the two tiers.
+        originalPriceLabel: "$349",
+        cadence: "one-time",
+        seat: "Unlimited projects · Use commercially",
+        cta: "Buy Standard",
+        // Polar checkout URL. Replace with your real product URL — see
+        // docs/POLAR_SETUP.md for the buyer onboarding flow.
+        href: "https://buy.polar.sh/polar_cl_yyPsfq10dybuuJ1he2sxCz6tawiy3IGZV53Ja2EbzBV",
         bullets: [
-          'Full source: API + web app',
-          'Unlimited commercial projects',
-          '1 year of updates included',
-          'Community support (Discord)',
-          'Private buyers GitHub repo',
-          'Use as a base for client work'
-        ]
+          "Django + Next.js · 100 tests · 22 audit findings closed",
+          "Multi-tenant, Stripe billing, RBAC, i18n (EN+ES) — wired",
+          "AI agent skills (CLAUDE.md ready)",
+          "Unlimited commercial projects · Use for client work",
+          "1 year of updates · Email support",
+        ],
       },
       {
-        id: 'lifetime',
-        name: 'Lifetime',
-        price: 399,
-        priceLabel: '$399',
-        originalPriceLabel: '$549',
-        cadence: 'one-time',
-        seat: 'Unlimited projects · Use commercially',
-        cta: 'Buy Lifetime',
-        href: 'https://buy.stripe.com/REPLACE_ME_LIFETIME',
+        id: "lifetime",
+        name: "Lifetime",
+        price: 499,
+        priceLabel: "$499",
+        originalPriceLabel: "$699",
+        cadence: "one-time",
+        seat: "Unlimited projects · Use commercially",
+        cta: "Buy Lifetime",
+        href: "https://buy.polar.sh/polar_cl_r5XdeTEWRaPbi4z0HYYM2NmWXuL69k2jm7bnS0a452T",
         featured: true,
-        badge: 'Best value',
+        badge: "Best value",
         bullets: [
-          'Everything in Standard',
-          'Lifetime updates (every major version)',
-          'Priority email support',
-          '30-min onboarding call',
-          'Dedicated Slack channel',
-          'Vote on the roadmap'
-        ]
-      }
-    ]
+          "Everything in Standard, and:",
+          "Lifetime updates (every major version, forever)",
+          "Private Discord community (Lifetime-only)",
+          "Early access to new features",
+          "Vote on the roadmap",
+        ],
+      },
+    ],
   },
 
   social: {
-    twitter: '',
-    github: '',
-    email: 'hello@launchkit.dev'
-  }
+    twitter: "",
+    github: "",
+    email: "hello@launchasaas.dev",
+  },
 }
 
 export default site

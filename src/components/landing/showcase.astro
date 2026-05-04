@@ -1,0 +1,530 @@
+---
+// Real product screenshots. Drop into /public/screenshots/ — see
+// /public/screenshots/README.md for the capture spec.
+const screens = [
+  { file: 'login.webp',    caption: 'Auth · Sign in' },
+  { file: 'members.webp',  caption: 'Settings · Members' },
+  { file: 'billing.webp',  caption: 'Settings · Subscription' }
+]
+
+const heroShot = {
+  file: 'dashboard.webp',
+  caption: 'app.launchasaas.dev/dashboard',
+  alt: 'LaunchKit dashboard — multi-tenant SaaS workspace with sidebar, metrics and activity feed'
+}
+---
+
+<section class="border-b border-border/60 bg-background">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6 py-16 md:py-24">
+    <div class="max-w-3xl mb-10">
+      <span class="lk-section-num">01 / Inside</span>
+      <h2 class="lk-display mt-3 text-3xl md:text-4xl lg:text-5xl">
+        24 screens. <em class="text-muted-foreground">Audited end-to-end.</em>
+      </h2>
+    </div>
+
+    <!-- Hero screenshot -->
+    <figure class="lk-shot lk-shot--hero">
+      <div class="lk-shot-chrome">
+        <span class="lk-shot-dot lk-shot-dot--r"></span>
+        <span class="lk-shot-dot lk-shot-dot--y"></span>
+        <span class="lk-shot-dot lk-shot-dot--g"></span>
+        <code class="lk-shot-url">{heroShot.caption}</code>
+      </div>
+      <button
+        type="button"
+        class="lk-shot-trigger"
+        data-shot-src={`/screenshots/${heroShot.file}`}
+        data-shot-caption={heroShot.caption}
+        aria-label={`Enlarge — ${heroShot.alt}`}
+      >
+        <img
+          src={`/screenshots/${heroShot.file}`}
+          alt={heroShot.alt}
+          loading="eager"
+          width="1920"
+          height="1200"
+        />
+        <span class="lk-shot-zoom" aria-hidden="true">
+          <svg viewBox="0 0 16 16" class="size-4" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="7" cy="7" r="4.5" />
+            <path d="m10.5 10.5 3.2 3.2" stroke-linecap="round" />
+            <path d="M5 7h4M7 5v4" stroke-linecap="round" />
+          </svg>
+        </span>
+      </button>
+    </figure>
+
+    <!-- Three-up grid of secondary screens -->
+    <div class="mt-5 grid grid-cols-1 md:grid-cols-3 gap-5">
+      {
+        screens.map((s) => (
+          <figure class="lk-shot">
+            <div class="lk-shot-chrome">
+              <span class="lk-shot-dot lk-shot-dot--r" />
+              <span class="lk-shot-dot lk-shot-dot--y" />
+              <span class="lk-shot-dot lk-shot-dot--g" />
+              <code class="lk-shot-url lk-shot-url--small">{s.caption}</code>
+            </div>
+            <button
+              type="button"
+              class="lk-shot-trigger"
+              data-shot-src={`/screenshots/${s.file}`}
+              data-shot-caption={s.caption}
+              aria-label={`Enlarge — ${s.caption}`}
+            >
+              <img
+                src={`/screenshots/${s.file}`}
+                alt={`LaunchKit — ${s.caption}`}
+                loading="lazy"
+                width="960"
+                height="600"
+              />
+              <span class="lk-shot-zoom" aria-hidden="true">
+                <svg viewBox="0 0 16 16" class="size-4" fill="none" stroke="currentColor" stroke-width="1.5">
+                  <circle cx="7" cy="7" r="4.5" />
+                  <path d="m10.5 10.5 3.2 3.2" stroke-linecap="round" />
+                  <path d="M5 7h4M7 5v4" stroke-linecap="round" />
+                </svg>
+              </span>
+            </button>
+          </figure>
+        ))
+      }
+    </div>
+
+    <!-- Tight feature highlight strip — what's inside the screens.
+         Counts mirror the launchkit-web filesystem (verified at build time
+         the last time this section was edited):
+           - Auth screens: 8  → login, register, verify-email, password-reset,
+             accept-invitation, google-auth, logout, error
+           - Onboarding steps: 3 → tenant, profile, finish
+           - Settings pages: 10 → account, members, roles, security,
+             subscription, plans, credits, tenant, assets-gallery, overview
+           - Billing flows: 3 → subscription, plans, credits -->
+    <ul class="mt-12 grid grid-cols-2 md:grid-cols-4 gap-px overflow-hidden rounded-xl border border-border/60 bg-border/60">
+      <li class="lk-pill-feature">
+        <span class="lk-pill-num">08</span>
+        <span class="lk-pill-text">Auth screens</span>
+      </li>
+      <li class="lk-pill-feature">
+        <span class="lk-pill-num">03</span>
+        <span class="lk-pill-text">Onboarding steps</span>
+      </li>
+      <li class="lk-pill-feature">
+        <span class="lk-pill-num">10</span>
+        <span class="lk-pill-text">Settings pages</span>
+      </li>
+      <li class="lk-pill-feature">
+        <span class="lk-pill-num">03</span>
+        <span class="lk-pill-text">Billing flows</span>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- Lightbox overlay — single instance, reused for every screenshot.
+     Acts as a gallery: prev / next cycle through all .lk-shot-trigger
+     buttons in DOM order with wrap-around. Dismiss via close button,
+     backdrop click, or ESC. Keyboard: ArrowLeft / ArrowRight navigate. -->
+<div
+  id="lk-lightbox"
+  class="lk-lightbox"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="lk-lightbox-caption"
+  aria-hidden="true"
+>
+  <button type="button" class="lk-lightbox-close" aria-label="Close">
+    <svg viewBox="0 0 16 16" class="size-4" fill="none" stroke="currentColor" stroke-width="1.5">
+      <path d="M3 3l10 10M13 3 3 13" stroke-linecap="round" />
+    </svg>
+  </button>
+
+  <button type="button" class="lk-lightbox-nav lk-lightbox-nav--prev" aria-label="Previous screenshot">
+    <svg viewBox="0 0 16 16" class="size-5" fill="none" stroke="currentColor" stroke-width="1.5">
+      <path d="M10 3 5 8l5 5" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+  </button>
+  <button type="button" class="lk-lightbox-nav lk-lightbox-nav--next" aria-label="Next screenshot">
+    <svg viewBox="0 0 16 16" class="size-5" fill="none" stroke="currentColor" stroke-width="1.5">
+      <path d="M6 3l5 5-5 5" stroke-linecap="round" stroke-linejoin="round" />
+    </svg>
+  </button>
+
+  <figure class="lk-lightbox-figure">
+    <img id="lk-lightbox-image" alt="" />
+    <figcaption class="lk-lightbox-caption">
+      <span id="lk-lightbox-caption" class="lk-lightbox-caption-text"></span>
+      <span id="lk-lightbox-counter" class="lk-lightbox-counter" aria-live="polite"></span>
+    </figcaption>
+  </figure>
+</div>
+
+<style>
+  .lk-shot {
+    margin: 0;
+    border-radius: 0.85rem;
+    border: 1px solid var(--border);
+    background: var(--card);
+    overflow: hidden;
+    box-shadow: 0 8px 28px -12px color-mix(in oklch, var(--ink) 18%, transparent);
+  }
+  .lk-shot--hero {
+    box-shadow: 0 22px 60px -20px color-mix(in oklch, var(--ink) 28%, transparent);
+  }
+  .lk-shot-chrome {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.55rem 0.85rem;
+    border-bottom: 1px solid var(--border);
+    background: color-mix(in oklch, var(--muted) 50%, var(--card));
+  }
+  .lk-shot-dot { width: 0.55rem; height: 0.55rem; border-radius: 9999px; }
+  .lk-shot-dot--r { background: oklch(0.78 0.16 25); }
+  .lk-shot-dot--y { background: oklch(0.86 0.16 80); }
+  .lk-shot-dot--g { background: oklch(0.83 0.16 145); }
+  .lk-shot-url {
+    margin-left: auto;
+    margin-right: auto;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--muted-foreground);
+    background: var(--background);
+    border: 1px solid var(--border);
+    border-radius: 9999px;
+    padding: 0.18rem 0.7rem;
+    max-width: 24rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  .lk-shot-url--small {
+    font-size: 0.6rem;
+    padding: 0.15rem 0.55rem;
+  }
+
+  /* Image-as-button: borderless, transparent, fills the figure. The hover
+     state lifts the image slightly and reveals a magnifier badge so it's
+     obvious the screenshot is interactive. */
+  .lk-shot-trigger {
+    display: block;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    background: transparent;
+    cursor: zoom-in;
+    position: relative;
+    color: inherit;
+  }
+  .lk-shot-trigger:focus-visible {
+    outline: 2px solid var(--coral);
+    outline-offset: -2px;
+  }
+  .lk-shot img {
+    display: block;
+    width: 100%;
+    height: auto;
+    background: var(--muted);
+    transition: transform 0.4s cubic-bezier(0.2, 0.7, 0.2, 1);
+    /* When the file is missing the alt text shows; the muted
+       background makes that look intentional rather than broken. */
+  }
+  .lk-shot-trigger:hover img {
+    transform: scale(1.015);
+  }
+  .lk-shot-zoom {
+    position: absolute;
+    right: 0.7rem;
+    bottom: 0.7rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 9999px;
+    background: var(--foreground);
+    color: var(--background);
+    opacity: 0;
+    transform: translateY(4px);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    box-shadow: 0 4px 14px -4px color-mix(in oklch, var(--ink) 35%, transparent);
+  }
+  .lk-shot-trigger:hover .lk-shot-zoom,
+  .lk-shot-trigger:focus-visible .lk-shot-zoom {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Feature pill strip — dense, scannable */
+  .lk-pill-feature {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    padding: 1rem 1.25rem;
+    background: var(--background);
+  }
+  .lk-pill-num {
+    font-family: var(--font-mono);
+    font-size: 1.6rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--coral);
+    line-height: 1;
+  }
+  .lk-pill-text {
+    font-family: var(--font-sans);
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+
+  /* Lightbox overlay — cream-tinted ink wash, blurred backdrop, scales
+     gracefully on mobile. Image stays inside the viewport with a small
+     gutter so the caption never gets clipped. */
+  .lk-lightbox {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(0.75rem, 4vw, 3rem);
+    background: color-mix(in oklch, var(--ink) 86%, transparent);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    cursor: zoom-out;
+  }
+  .lk-lightbox.is-open {
+    display: flex;
+    animation: lk-lightbox-in 0.18s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  @keyframes lk-lightbox-in {
+    from { opacity: 0 }
+    to   { opacity: 1 }
+  }
+  .lk-lightbox-figure {
+    position: relative;
+    margin: 0;
+    max-width: min(96vw, 1600px);
+    max-height: 92vh;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    cursor: default;
+  }
+  .lk-lightbox-figure img {
+    display: block;
+    max-width: 100%;
+    max-height: 84vh;
+    width: auto;
+    height: auto;
+    border-radius: 0.75rem;
+    box-shadow: 0 30px 80px -20px rgb(0 0 0 / 0.6);
+    background: var(--card);
+  }
+  .lk-lightbox-caption {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: color-mix(in oklch, var(--cream) 80%, transparent);
+    text-align: center;
+  }
+  .lk-lightbox-counter {
+    color: color-mix(in oklch, var(--cream) 50%, transparent);
+    font-variant-numeric: tabular-nums;
+    border-left: 1px solid color-mix(in oklch, var(--cream) 18%, transparent);
+    padding-left: 0.75rem;
+  }
+  /* Hide the divider when there's only one item (counter is empty). */
+  .lk-lightbox-counter:empty {
+    border-left: 0;
+    padding-left: 0;
+  }
+
+  /* Close + nav buttons share the same circular pill treatment.
+     Position is what differs — close pinned to a corner, nav vertically
+     centered on the left/right edges. */
+  .lk-lightbox-close,
+  .lk-lightbox-nav {
+    position: fixed;
+    width: 2.5rem;
+    height: 2.5rem;
+    border-radius: 9999px;
+    border: 1px solid color-mix(in oklch, var(--cream) 25%, transparent);
+    background: color-mix(in oklch, var(--cream) 6%, transparent);
+    color: var(--cream);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.15s ease, transform 0.15s ease;
+  }
+  .lk-lightbox-close {
+    top: clamp(0.75rem, 2vw, 1.5rem);
+    right: clamp(0.75rem, 2vw, 1.5rem);
+    width: 2.25rem;
+    height: 2.25rem;
+  }
+  .lk-lightbox-close:hover,
+  .lk-lightbox-nav:hover {
+    background: color-mix(in oklch, var(--cream) 18%, transparent);
+  }
+  .lk-lightbox-nav {
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  .lk-lightbox-nav:hover {
+    transform: translateY(-50%) scale(1.05);
+  }
+  .lk-lightbox-nav--prev { left: clamp(0.75rem, 2.5vw, 1.75rem); }
+  .lk-lightbox-nav--next { right: clamp(0.75rem, 2.5vw, 1.75rem); }
+  /* Hide the nav buttons when only a single screenshot is in the
+     gallery — no point cycling through nothing. The script toggles this
+     class based on the trigger count. */
+  .lk-lightbox.is-single .lk-lightbox-nav {
+    display: none;
+  }
+  /* Disable navigation on very narrow screens so the buttons don't
+     overlap the image on phones. Swipe is handled via the script. */
+  @media (max-width: 480px) {
+    .lk-lightbox-nav {
+      width: 2.1rem;
+      height: 2.1rem;
+    }
+  }
+</style>
+
+<script>
+  // Lightbox gallery controller. The page declares an array of
+  // screenshots (.lk-shot-trigger) in DOM order; clicking any of them
+  // opens the lightbox at that index. From there, prev/next buttons
+  // and ArrowLeft/ArrowRight keys cycle through the full set with
+  // wrap-around. ESC, the close button, and backdrop clicks dismiss.
+  // Touch swipe (left / right) also navigates on mobile.
+  const lightbox = document.getElementById('lk-lightbox') as HTMLElement | null
+  const lbImage = document.getElementById('lk-lightbox-image') as HTMLImageElement | null
+  const lbCaption = document.getElementById('lk-lightbox-caption') as HTMLElement | null
+  const lbCounter = document.getElementById('lk-lightbox-counter') as HTMLElement | null
+
+  if (lightbox && lbImage && lbCaption && lbCounter) {
+    const closeBtn = lightbox.querySelector('.lk-lightbox-close') as HTMLButtonElement
+    const prevBtn = lightbox.querySelector('.lk-lightbox-nav--prev') as HTMLButtonElement
+    const nextBtn = lightbox.querySelector('.lk-lightbox-nav--next') as HTMLButtonElement
+    const figure = lightbox.querySelector('.lk-lightbox-figure') as HTMLElement
+
+    // Snapshot every trigger on the page in DOM order. The order is
+    // what the user sees (hero first, then the three-up grid), so the
+    // gallery flow matches the visual flow.
+    const triggers = Array.from(
+      document.querySelectorAll<HTMLButtonElement>('.lk-shot-trigger')
+    )
+
+    if (triggers.length <= 1) {
+      lightbox.classList.add('is-single')
+    }
+
+    let currentIndex = 0
+    let lastFocused: HTMLElement | null = null
+
+    const renderAt = (index: number) => {
+      const total = triggers.length
+      if (total === 0) return
+      // Wrap around in both directions so the gallery feels infinite.
+      currentIndex = ((index % total) + total) % total
+      const btn = triggers[currentIndex]
+      const src = btn.dataset.shotSrc ?? ''
+      const caption = btn.dataset.shotCaption ?? ''
+      const img = btn.querySelector('img')
+      const alt = img?.alt ?? caption
+      if (!src) return
+      lbImage.src = src
+      lbImage.alt = alt
+      lbCaption.textContent = caption
+      lbCounter.textContent = total > 1 ? `${currentIndex + 1} / ${total}` : ''
+    }
+
+    const open = (index: number) => {
+      lastFocused = (document.activeElement as HTMLElement) ?? null
+      renderAt(index)
+      lightbox.classList.add('is-open')
+      lightbox.setAttribute('aria-hidden', 'false')
+      document.body.style.overflow = 'hidden'
+      // Defer focus until after the dialog paints to avoid a flicker.
+      requestAnimationFrame(() => closeBtn?.focus())
+    }
+
+    const close = () => {
+      lightbox.classList.remove('is-open')
+      lightbox.setAttribute('aria-hidden', 'true')
+      document.body.style.overflow = ''
+      lastFocused?.focus()
+      // Drop the source so the next open repaints cleanly from cache
+      // — and so a logged screenshot URL doesn't linger in the DOM.
+      lbImage.removeAttribute('src')
+    }
+
+    const advance = (direction: 1 | -1) => renderAt(currentIndex + direction)
+
+    triggers.forEach((btn, index) => {
+      btn.addEventListener('click', () => open(index))
+    })
+
+    closeBtn?.addEventListener('click', close)
+    prevBtn?.addEventListener('click', (event) => {
+      event.stopPropagation() // don't bubble to the backdrop click handler
+      advance(-1)
+    })
+    nextBtn?.addEventListener('click', (event) => {
+      event.stopPropagation()
+      advance(1)
+    })
+
+    // Backdrop click closes; clicks on the figure / nav buttons don't
+    // bubble here thanks to stopPropagation above and the figure's own
+    // contains() check.
+    lightbox.addEventListener('click', (event) => {
+      if (!figure.contains(event.target as Node)) close()
+    })
+
+    // Keyboard: ESC dismisses, arrow keys navigate.
+    document.addEventListener('keydown', (event) => {
+      if (!lightbox.classList.contains('is-open')) return
+      if (event.key === 'Escape') {
+        close()
+      } else if (event.key === 'ArrowRight') {
+        event.preventDefault()
+        advance(1)
+      } else if (event.key === 'ArrowLeft') {
+        event.preventDefault()
+        advance(-1)
+      }
+    })
+
+    // Basic touch swipe — horizontal drag of >50px advances the gallery.
+    // Vertical drags are ignored so the user can still scroll the
+    // overlay if the image is tall.
+    let touchStartX = 0
+    let touchStartY = 0
+    figure.addEventListener('touchstart', (event) => {
+      const touch = event.touches[0]
+      touchStartX = touch.clientX
+      touchStartY = touch.clientY
+    }, { passive: true })
+    figure.addEventListener('touchend', (event) => {
+      const touch = event.changedTouches[0]
+      const deltaX = touch.clientX - touchStartX
+      const deltaY = touch.clientY - touchStartY
+      if (Math.abs(deltaX) > 50 && Math.abs(deltaX) > Math.abs(deltaY)) {
+        advance(deltaX < 0 ? 1 : -1)
+      }
+    })
+  }
+</script>

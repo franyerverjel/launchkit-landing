@@ -1,0 +1,126 @@
+---
+/**
+ * Commercial license summary for the marketing landing.
+ *
+ * IMPORTANT — this is a *summary* of the license, not the legally
+ * executed EULA. The full text of the LICENSE file in the repo is
+ * what governs the actual sale; this page exists so prospective buyers
+ * can read the gist without cloning the repo.
+ *
+ * Replace the values in the `terms` array with your own terms and
+ * have the executed EULA reviewed by counsel before launch.
+ */
+import Legal from "@/layouts/legal.astro"
+import { site } from "@/config/site"
+
+const lastUpdated = "2026-05-01"
+const contactEmail = site.social.email
+---
+
+<Legal
+  title="License"
+  description="A plain-English summary of the LaunchKit commercial license."
+  eyebrow={`Effective · ${lastUpdated}`}
+>
+  <p>
+    {site.brand} is sold under a <strong>commercial license</strong>:
+    you buy once, you ship as many products as you want, you don't
+    redistribute the boilerplate itself. The full executed EULA ships
+    inside the repository as <code>LICENSE</code>; this page is the
+    short version for prospective buyers.
+  </p>
+
+  <h2>You can</h2>
+  <ul>
+    <li>
+      Use the source code to build <strong>unlimited commercial
+      applications</strong>, including paid SaaS, internal tools,
+      one-off client work, and side projects.
+    </li>
+    <li>
+      <strong>Modify</strong> the code freely — rename files, swap
+      stacks, delete features, brand it as your own.
+    </li>
+    <li>
+      <strong>Deploy</strong> compiled and source forms of your
+      applications to any host, on any number of servers.
+    </li>
+    <li>
+      Use it as the foundation for client deliverables. The license is
+      tied to you; your client gets the application you build, not the
+      boilerplate license itself.
+    </li>
+  </ul>
+
+  <h2>You cannot</h2>
+  <ul>
+    <li>
+      <strong>Resell or redistribute the boilerplate</strong> as a
+      starter kit, template, code generator, or competing product.
+    </li>
+    <li>
+      Publish, sublicense, or share the source code as-is to third
+      parties — except as bundled inside an application you built.
+    </li>
+    <li>
+      Use the license credentials of another buyer or transfer your
+      license to a third party without our written consent.
+    </li>
+    <li>
+      Remove the proprietary notices contained in the codebase
+      (you can replace them with your own; you can't strip them
+      without replacement in derivative re-distributions).
+    </li>
+  </ul>
+
+  <h2>Updates and support</h2>
+  <p>
+    Each license tier sets the support window. The Standard tier
+    includes one year of updates and access to the buyers'
+    Discord; the Lifetime tier includes updates forever, priority
+    support, a private channel, and early access to new features.
+    Security fixes ship to <strong>all license holders</strong> for
+    free, regardless of tier.
+  </p>
+
+  <h2>Refunds</h2>
+  <p>
+    Once you've been added to the private GitHub organization, the
+    source code is in your hands — so we don't offer refunds on
+    repositories that have been accessed. If you change your mind
+    before we send the GitHub invite (typically the first few hours
+    after checkout), email us within <strong>7 days</strong> of
+    purchase and we'll refund in full.
+  </p>
+  <p>
+    The fairest way to avoid buyer's regret is to read the full FAQ
+    and email us with any questions <em>before</em> you check out.
+    We're happy to walk you through specific parts of the codebase,
+    share a Loom of the dashboard, or answer anything that's still
+    unclear. We'd rather lose a sale than have you regret it.
+  </p>
+
+  <h2>Warranty and liability</h2>
+  <p>
+    The software is provided <em>as is</em>, without warranty of any
+    kind, express or implied. To the maximum extent permitted by law,
+    our total liability under this license is limited to the fees
+    you paid for it. The full disclaimer is in the executed
+    <code>LICENSE</code> file shipped with the codebase.
+  </p>
+
+  <h2>Third-party dependencies</h2>
+  <p>
+    The codebase includes third-party open source software, each
+    governed by its own license. You're responsible for complying
+    with the terms of those components. The headline ones (Django,
+    Next.js, React, Tailwind, shadcn/ui) are MIT or BSD-licensed and
+    impose no additional restrictions on you.
+  </p>
+
+  <h2>Questions</h2>
+  <p>
+    For licensing questions or enterprise terms, email{" "}
+    <a href={`mailto:${contactEmail}`}>{contactEmail}</a>.
+  </p>
+</Legal>

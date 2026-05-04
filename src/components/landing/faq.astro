@@ -2,15 +2,15 @@
 const items = [
   {
     q: "What exactly do I get when I buy?",
-    a: "Two git repositories: launchkit-api (Django + DRF) and launchkit-web (Next.js 16 + React 19). Plus the AI-agent skills, the CLAUDE.md files, the CI configuration, the test suites, and a CHANGELOG. Everything that ships v1.0 — yours."
+    a: "Access to a private GitHub organization with two repositories: launchkit-api (Django + DRF) and launchkit-web (Next.js 16 + React 19). Plus the AI-agent skills, the CLAUDE.md files, the CI configuration, the test suites, and a CHANGELOG. Everything in the box — yours."
   },
   {
     q: "Can I use it for commercial projects? Multiple projects?",
-    a: "Yes — both licenses include unlimited commercial projects, including client work. The only thing you can't do is resell the boilerplate itself as your own boilerplate product."
+    a: "Yes — both tiers include unlimited commercial projects, including client work. The only thing you can't do is resell the boilerplate itself as your own boilerplate product."
   },
   {
     q: "What's the difference between Standard and Lifetime?",
-    a: "Both ship the same source code, both let you build unlimited projects. Standard includes 1 year of updates and community support (Discord). Lifetime includes updates forever, priority email support, a 30-min onboarding call, and a private Slack channel — best if you plan to keep building SaaS for years."
+    a: "Both ship the same source code, both let you build unlimited projects. Standard gets 1 year of updates and email support. Lifetime gets updates forever, a private Discord channel reserved for Lifetime buyers, early access to new features, and a vote on the roadmap — best if you plan to keep building SaaS for years."
   },
   {
     q: "Do I have to credit LaunchKit anywhere?",
@@ -18,11 +18,15 @@ const items = [
   },
   {
     q: "How do updates work?",
-    a: "We push to a private GitHub repo you'll be invited to as a collaborator. Pulling updates is a normal git fetch + merge. Each release ships with a CHANGELOG and migration notes when relevant."
+    a: "Polar adds you to the private GitHub organization at checkout, so you have repo access in minutes. Pulling updates is a normal git fetch + merge. Each release ships with a CHANGELOG and migration notes when relevant. Standard buyers get 12 months of updates from the date of purchase; Lifetime buyers get them forever."
   },
   {
     q: "What's the refund policy?",
-    a: "14 days, no questions asked. If the kit doesn't fit your project, email us and we'll refund the full amount. We'd rather you ship something you actually want to use."
+    a: "Honest answer: once you've been added to the private GitHub organization, the source code is in your hands and we can't take it back — so we don't offer refunds after that point. If you change your mind before accessing the repo, email us within 7 days and we'll refund in full. The best way to avoid buyer's regret is to read the FAQ, scroll through the screens, and email us if you're unsure before you check out — happy to answer anything."
+  },
+  {
+    q: "Can I see more before I buy?",
+    a: "Yes — every screenshot in the showcase clicks open. The full feature list lives in the stack and features sections above. If you want a deeper look at a specific area (a particular page, a code pattern, the Stripe webhook handler), email us and we'll send you a short Loom or a code snippet. We'd rather walk you through it than have you regret the purchase."
   },
   {
     q: "Do I need to know Django and Next.js to use this?",
@@ -34,7 +38,7 @@ const items = [
   },
   {
     q: "What if I find a bug or need a feature?",
-    a: "Standard gets community support via the buyers-only repo issues. Lifetime gets priority email support and a private Slack channel. Either way: we read every report, and security fixes are pushed to all license holders for free."
+    a: "Email support is included on every tier — reply to your welcome email and you'll get a response within 24 hours. Lifetime buyers also get a private Discord channel where I drop early builds, answer architecture questions, and pick the next features with the community. Security fixes ship to every active license holder for free, regardless of tier."
   }
 ]
 ---
@@ -43,14 +47,14 @@ const items = [
   <div class="mx-auto max-w-6xl px-4 sm:px-6 py-20 md:py-28">
     <div class="grid gap-12 lg:grid-cols-12 lg:gap-16">
       <div class="lg:col-span-4">
-        <span class="lk-section-num">09 / FAQ</span>
-        <h2 class="lk-display lk-balance mt-4 text-4xl md:text-5xl lg:text-6xl">
+        <span class="lk-section-num">10 / FAQ</span>
+        <h2 class="lk-display lk-balance mt-4 text-3xl md:text-4xl">
           The honest answers.
         </h2>
         <p class="mt-6 text-muted-foreground leading-relaxed">
           Anything else?
           <a
-            href="mailto:hello@launchkit.dev"
+            href="mailto:hello@launchasaas.dev"
             class="lk-link text-foreground"
           >Email us directly</a> — we read every message.
         </p>

@@ -1,48 +1,31 @@
 ---
 const pains = [
-  {
-    label: 'Week 1',
-    text: 'Auth flow. JWT refresh. Password reset. Email verification. 2FA. Google OAuth.'
-  },
-  {
-    label: 'Week 2',
-    text: 'Tenant context. Roles. Member invitations. Permission system with wildcards.'
-  },
-  {
-    label: 'Week 3',
-    text: 'Stripe. Plans. Addons. Webhooks. Idempotency. Trials. Past-due grace period.'
-  },
-  {
-    label: 'Week 4',
-    text: 'i18n. Audit logs. Rate limits. Error pages. Tests. CI. The list never ends.'
-  }
+  { label: 'W1', text: 'Auth · JWT refresh · Password reset · Email verify · 2FA · Google OAuth' },
+  { label: 'W2', text: 'Tenants · Roles · Member invites · Permission system with wildcards' },
+  { label: 'W3', text: 'Stripe · Plans · Addons · Webhooks · Idempotency · Past-due grace' },
+  { label: 'W4', text: 'i18n · Audit logs · Rate limits · Error pages · Tests · CI · …' }
 ]
 ---
 
 <section class="border-b border-border/60">
-  <div class="mx-auto max-w-6xl px-4 sm:px-6 py-20 md:py-28">
-    <div class="grid gap-12 lg:grid-cols-12 lg:gap-16">
+  <div class="mx-auto max-w-6xl px-4 sm:px-6 py-16 md:py-24">
+    <div class="grid gap-10 lg:grid-cols-12 lg:gap-16">
       <div class="lg:col-span-5">
-        <div class="flex items-center gap-3 mb-4">
-          <span class="lk-section-num">01 / Problem</span>
-        </div>
-        <h2 class="lk-display lk-balance text-4xl md:text-5xl lg:text-6xl">
+        <span class="lk-section-num">02 / Problem</span>
+        <h2 class="lk-display mt-3 text-3xl md:text-4xl lg:text-5xl">
           You've built this <em class="text-muted-foreground">exact thing</em> four times already.
         </h2>
-        <p class="mt-6 max-w-md text-lg text-muted-foreground leading-relaxed">
-          Every new SaaS starts the same way: three weeks of plumbing before
-          you write a single line of feature code. Auth. Tenants. Stripe.
-          Roles. The boring infrastructure that customers won't pay you for —
-          but won't forgive you for getting wrong.
+        <p class="mt-5 max-w-md text-base text-muted-foreground leading-relaxed">
+          Three weeks of plumbing before a single feature line lands. Skip it.
         </p>
       </div>
 
-      <ol class="lg:col-span-7 grid gap-3 self-end">
+      <ol class="lg:col-span-7 grid gap-2 self-end">
         {
           pains.map((pain) => (
-            <li class="grid grid-cols-[auto_1fr] items-baseline gap-6 border-t border-border py-5 first:border-t-0 first:pt-0">
-              <span class="lk-section-num shrink-0">{pain.label}</span>
-              <p class="font-display text-2xl leading-snug md:text-3xl lk-balance">
+            <li class="grid grid-cols-[3rem_1fr] items-baseline gap-5 border-t border-border py-3.5 first:border-t-0 first:pt-0">
+              <span class="font-mono text-xs uppercase tracking-[0.2em] text-coral-deep shrink-0">{pain.label}</span>
+              <p class="font-mono text-[13px] md:text-sm leading-relaxed text-foreground/85">
                 {pain.text}
               </p>
             </li>

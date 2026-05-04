@@ -11,7 +11,7 @@ type Feature = {
 
 const features: Feature[] = [
   {
-    num: '03',
+    num: '04',
     kicker: 'Multi-tenant',
     title: 'Tenant isolation that\'s impossible to forget.',
     body:
@@ -41,7 +41,7 @@ const features: Feature[] = [
     align: 'right'
   },
   {
-    num: '04',
+    num: '05',
     kicker: 'Stripe billing',
     title: 'Stripe done the way it should be done.',
     body:
@@ -72,11 +72,11 @@ const features: Feature[] = [
     align: 'left'
   },
   {
-    num: '05',
+    num: '06',
     kicker: 'Auth + 2FA',
     title: 'Auth that\'s been audited, not assembled.',
     body:
-      'JWT with rotation and blacklist. 2FA via email codes or TOTP. Google OAuth. Per-user lockouts after N failures. We closed 22 security findings before v1.0 — the regressions are pinned by tests.',
+      'JWT with rotation and blacklist. 2FA via email codes or TOTP. Google OAuth. Per-user lockouts after N failures. We closed 22 security findings before launch — the regressions are pinned by tests.',
     bullets: [
       'cryptographically secure 6-digit codes (secrets.randbelow)',
       'Login lockout: 5 attempts / 15 min (configurable)',
@@ -113,8 +113,8 @@ const toneClass = (tone?: string) =>
 <section id="features" class="border-b border-border/60">
   <div class="mx-auto max-w-6xl px-4 sm:px-6 pt-20 md:pt-28 pb-4">
     <div class="max-w-3xl">
-      <span class="lk-section-num">03–05 / Deep dive</span>
-      <h2 class="lk-display lk-balance mt-4 text-4xl md:text-5xl lg:text-6xl">
+      <span class="lk-section-num">04 — 06 / Deep dive</span>
+      <h2 class="lk-display lk-balance mt-4 text-3xl md:text-4xl">
         Three of the parts <em class="text-muted-foreground">most</em> boilerplates get wrong.
       </h2>
     </div>
@@ -135,10 +135,10 @@ const toneClass = (tone?: string) =>
                 <span class="lk-section-num">{f.num}</span>
                 <span class="lk-mono-label">{f.kicker}</span>
               </div>
-              <h3 class="lk-display lk-balance text-3xl md:text-4xl lg:text-5xl">
+              <h3 class="lk-display lk-balance text-3xl md:text-4xl">
                 {f.title}
               </h3>
-              <p class="mt-5 max-w-md text-lg text-muted-foreground leading-relaxed">
+              <p class="mt-4 max-w-md text-base text-muted-foreground leading-relaxed">
                 {f.body}
               </p>
               <ul class="mt-7 flex flex-col gap-3">
