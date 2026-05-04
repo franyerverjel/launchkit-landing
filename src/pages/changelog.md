@@ -17,87 +17,69 @@ heading: Changelog
 
 ## Unreleased
 
-Polish pass on top of `1.0.0`. Nothing breaks; everything reads cleaner. The
-next tagged release will roll all of this into `1.1.0`.
+Polish pass on top of `1.0.0`. The next tagged release will roll all of
+this into `1.1.0`.
 
 #### Added
 
-- **Public `/terms`, `/privacy`, `/license` and `/changelog` pages** in the
-  marketing landing — same warm cream + ink + coral palette as the rest of
-  the site, consistent with the in-app Terms and Privacy.
-- **Welcome and renewal email templates** (EN + ES) under `emails/` —
-  ready to drop into Polar / Resend / ConvertKit. Variables, subject-line
-  options, plain-text and inline-HTML versions, conditional Discord block
-  for Lifetime buyers.
-- **Lightbox gallery** on the showcase screenshots — click any screen to
-  enlarge, then navigate with on-screen arrows, ←/→ arrow keys, or swipe on
-  mobile. Wrap-around, position counter, ESC to close.
-- **AppLogo** as a shared component in the web app, with size and layout
-  props — replaces a half-dozen inline copies of the brand markup.
-- **Dashboard widgets** — `WelcomeHeader`, `StatsGrid`, `QuickActions`,
-  rebuilt on the shadcn `<Card>` primitives without padding overrides.
-- **Geist Mono Variable** is now bundled via `@fontsource-variable` instead
-  of pulled from Google Fonts at runtime — faster LCP, no third-party call,
-  no PostCSS warning about `@import` order.
+- **In-app `/terms` and `/privacy` pages** — production-ready legal
+  scaffolding, copy lives in `messages/{en,es}/legal.json` with `{email}`
+  and `{jurisdiction}` placeholders pulled from `src/config/brand.js`.
+- **`<AppLogo>` shared component** with `size`, `layout`, `iconOnly` and
+  `wordmarkOnly` props. Replaces inline brand markup across auth, sidebar,
+  legal pages and the public landing header.
+- **Dashboard widgets** — `<WelcomeHeader>`, `<StatsGrid>`, `<QuickActions>`,
+  built on the shadcn `<Card>` primitives without padding overrides.
+- **`src/config/brand.js`** — single source for brand name, icon path,
+  legal contact email and jurisdiction. Wired into layout metadata, the
+  AppLogo and the Legal page.
+- **Atmosphere on the `(auth)` layout** — warm radial gradient + grid
+  pattern so login/register match the rest of the brand.
 
 #### Changed
 
-- **Coral palette** across the demo web app (login, dashboard, sidebar,
-  buttons, charts). Single hue family across the marketing site and the
-  product so the brand reads as one thing.
-- **Member invitation** simplified to email + role. The invitee fills in
+- **Member invitation simplified to email + role.** The invitee fills in
   their own name when they accept and create their password — same UX as
-  Slack, Linear, Notion, GitHub. Backend stays backward-compatible.
-- **Member list** now shows a combined `Member` column (name with email
-  fallback, "Pending profile" subtitle for new invites).
-- **Member edit form** — identity fields (email, first/last name) are now
-  shown as a read-only block. The backend was already ignoring these
-  fields; the form was silently dropping changes. Now the UX matches the
-  backend's intentional read-only-by-design.
-- **Google sign-in is above** the email/password form on `/login` and
-  `/register` (matches Linear, Vercel, Resend).
-- **`Tenant` → `Workspace`** in user-facing copy across the web app.
-  Internal superadmin tooling and the technical "multi-tenant architecture"
-  landing copy stay as "tenant" (they're addressing different audiences).
-- **Pricing reframed**: launch prices `$249` / `$499` (anchors `$349` /
-  `$699`). Headline switched from "30% off" to "save up to $200" so the
-  math is consistent across both tiers and the bigger absolute number leads.
-- **Cards centered** on the pricing section.
-- **Refund policy rewritten** to reflect digital-source-code reality —
-  refunds available before repo access, not after. Honest and defensible,
-  matches what ShipFast / Pegasus / Makerkit do.
-- **Discord access** is now a Lifetime-exclusive perk. Standard buyers get
-  email support.
-- **Plan bullets** rewritten to lead with concrete numbers (100 tests,
-  22 audit findings closed) and stack pillars (Multi-tenant, Stripe
-  billing, RBAC, i18n) instead of generic "full source" copy.
-- **Test count** updated 99 → 100 in stack section + comparison table.
+  Slack, Linear, Notion, GitHub. Backend stays backward-compatible:
+  clients still sending `first_name`/`last_name` continue to work.
+- **Members list** now shows a combined `Member` column — full name as
+  the primary line with email fallback, and "Pending profile" subtitle
+  when an invitee hasn't accepted yet.
+- **Member edit form** — identity fields (email, first/last name) moved
+  to a read-only "Member info" block. The backend's
+  `TenantMemberSerializer.update` is intentionally read-only on those
+  fields (preventing account-takeover via password reset), but the form
+  was silently dropping changes. Now the UX matches reality.
+- **Google sign-in moved above** the email/password form on `/login` and
+  `/register` — matches the pattern Linear, Vercel and Resend converge on.
+- **Coral primary palette** across the demo web app (login, dashboard,
+  sidebar, charts, NextTopLoader). Easier rebrand for buyers — change
+  one CSS variable.
 
 #### Fixed
 
-- **Landing header in the demo app** showed "Start free" even when the
-  user was logged in — `useSession()` is now the source of truth so the
-  CTA correctly switches to "Continue to dashboard" on cached / SSG'd
-  pages.
-- **Login showing a silent refresh on wrong password** — the axios 401
-  retry + signOut path no longer fires for public auth endpoints
-  (`/auth/login/`, `/auth/register/`, `/auth/password/reset/`,
-  `/auth/code/`, `/auth/social/`, `/auth/token/refresh/`). Error toasts
-  now surface as expected.
-- **`/icon.png` 404 on the login page** for anonymous visitors —
-  `proxy.js` now skips static assets via a negative-lookahead matcher.
+- **Landing header showing the wrong CTA when signed in.** The public
+  `(public)` layout is now force-dynamic so the SSR-fetched session is
+  never stale, and the CTA reads "Go to dashboard" instead of repeating
+  the anonymous "Start free" label. The mobile sheet variant got the
+  same treatment.
+- **Login showing a silent refresh on wrong password.** The axios
+  interceptor's 401 retry + `signOut()` path no longer fires for public
+  auth endpoints (`/auth/login/`, `/auth/register/`,
+  `/auth/password/reset/`, `/auth/code/`, `/auth/social/`,
+  `/auth/token/refresh/`). Error toasts surface as expected.
+- **`/icon.png` 404 on `/login`** for anonymous visitors — `proxy.js`
+  now skips static assets via a negative-lookahead matcher.
 - **`POST /auth/token/refresh/` returning 500** when the refresh token's
-  user no longer exists — `SafeTokenRefreshView` returns a clean 401
-  with `code: user_not_found`. Regression test pinned.
-- **Forgot-password dialog** stale email — now pre-fills from the login
-  form input via `useWatch` + `useEffect` instead of stale `getValues`.
-- **Password length mismatch** — backend was 10 chars, UI was 8. Aligned
-  on 8 across both stacks.
-- **Pricing math** was inconsistent across tiers (Standard 17% off,
-  Lifetime 28.6% off, label said "30% off"). Anchors retuned so both
-  tiers show ~29% off and the label reads "Save up to $200".
-- **`v1.0` references removed** from the marketing landing in favour of
-  evergreen copy ("2026 edition", "Built for AI agents", etc).
+  user has been deleted — `SafeTokenRefreshView` returns a clean 401
+  with `code: user_not_found`. Regression test pinned in
+  `test_security_regressions.py::TestRefreshDeletedUser`.
+- **Forgot-password dialog** loading a stale email — now pre-fills from
+  the login form via `useWatch` + `useEffect` instead of `getValues`,
+  which doesn't trigger re-renders.
+- **Password length mismatch** between client and server — backend was
+  10 chars, UI was 8. Both stacks now agree on 8 (`min_length=8` on
+  `RegisterSerializer.password` and `PasswordChangeSerializer.new_password`).
 
 ## 1.0.0 — April 30, 2026
 
