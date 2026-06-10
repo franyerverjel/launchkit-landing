@@ -7,8 +7,8 @@
 # accept a built directory:
 #
 #   1. **Cloudflare Pages** — connect the repo in the Cloudflare dashboard
-#      and skip CI entirely. Cloudflare runs `pnpm build` for you. Best DX,
-#      no GitHub Action needed.
+#      and skip CI entirely. Cloudflare runs `npm run build` for you. Best
+#      DX, no GitHub Action needed.
 #
 #   2. **Netlify** — same story, GitHub integration runs the build.
 #
@@ -35,6 +35,10 @@ on:
   # push:
   #   branches: [main]
 
+# Least privilege — deploy only reads the repo (it rsyncs over SSH).
+permissions:
+  contents: read
+
 jobs:
   deploy:
     name: Build & rsync to VPS
@@ -42,20 +46,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: pnpm/action-setup@v4
-        with:
-          version: 10
-
       - uses: actions/setup-node@v4
         with:
           node-version: "22"
-          cache: "pnpm"
+          cache: "npm"
 
       - name: Install dependencies
-        run: pnpm install --frozen-lockfile
+        run: npm ci
 
       - name: Build static site
-        run: pnpm run build
+        run: npm run build
 
       - name: Setup SSH
         uses: webfactory/ssh-agent@v0.9.0
