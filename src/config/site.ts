@@ -18,9 +18,10 @@ export const site = {
    *     support, or lifetime updates + priority support.
    *   - Anchor with strikethrough launch-week prices to lift conversions.
    *
-   * Replace `href` with your Polar product checkout URL when you go live.
-   * See `docs/POLAR_SETUP.md` for the full buyer-onboarding flow
-   * (Polar webhook → invite buyer to GitHub org + send welcome email).
+   * Replace `href` with your Stripe Payment Link when you go live.
+   * See `docs/STRIPE_SETUP.md` for the full buyer-onboarding flow
+   * (Stripe webhook → launchkit-delivery invites the buyer to the private
+   * GitHub org and sends the welcome email).
    */
   pricing: {
     currency: "USD",
@@ -52,11 +53,11 @@ export const site = {
         cadence: "one-time",
         seat: "Unlimited projects · Use commercially",
         cta: "Buy Standard",
-        // Polar checkout URL. Replace with your real product URL — see
-        // docs/POLAR_SETUP.md for the buyer onboarding flow.
-        href: "https://buy.polar.sh/polar_cl_yyPsfq10dybuuJ1he2sxCz6tawiy3IGZV53Ja2EbzBV",
+        // Stripe Payment Link. Replace with your real link — see
+        // docs/STRIPE_SETUP.md for the buyer onboarding flow.
+        href: "https://buy.stripe.com/REPLACE_ME_STANDARD",
         bullets: [
-          "Django + Next.js · 100 tests · 22 audit findings closed",
+          "Django + Next.js · 319 backend tests · multi-pass audited",
           "Multi-tenant, Stripe billing, RBAC, i18n (EN+ES) — wired",
           "AI agent skills (CLAUDE.md ready)",
           "Unlimited commercial projects · Use for client work",
@@ -72,7 +73,8 @@ export const site = {
         cadence: "one-time",
         seat: "Unlimited projects · Use commercially",
         cta: "Buy Lifetime",
-        href: "https://buy.polar.sh/polar_cl_r5XdeTEWRaPbi4z0HYYM2NmWXuL69k2jm7bnS0a452T",
+        // Stripe Payment Link — see docs/STRIPE_SETUP.md.
+        href: "https://buy.stripe.com/REPLACE_ME_LIFETIME",
         featured: true,
         badge: "Best value",
         bullets: [

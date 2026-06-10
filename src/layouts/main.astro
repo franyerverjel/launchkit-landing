@@ -50,12 +50,10 @@ const productSchema = {
   description,
   applicationCategory: "DeveloperApplication",
   operatingSystem: "Web · macOS · Linux · Windows",
-  offers,
-  aggregateRating: {
-    "@type": "AggregateRating",
-    ratingValue: "5.0",
-    reviewCount: "12"
-  }
+  offers
+  // NOTE: add an `aggregateRating` here only once you have REAL, verifiable
+  // reviews. Fake/unverifiable review markup violates Google's structured-data
+  // policy and can get the whole site's rich results demoted.
 }
 
 const faqs = [
@@ -91,7 +89,6 @@ const faqSchema = {
     {/* Favicons & app icons. The user-supplied set lives in /public — see
         public/manifest.json. Apple touch icons need to be linked
         explicitly so iOS picks the highest-resolution available. */}
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
@@ -131,9 +128,14 @@ const faqSchema = {
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageUrl} />
     <meta name="twitter:image:alt" content={`${site.brand} dashboard preview`} />
-    {/* Replace REPLACE_ME with the brand's X handle (e.g. @launchasaas) */}
-    <meta name="twitter:site" content="@REPLACE_ME" />
-    <meta name="twitter:creator" content="@REPLACE_ME" />
+    {/* Rendered only once you set your X handle in src/config/site.ts
+        (social.twitter, e.g. "@launchasaas"). */}
+    {site.social.twitter && (
+      <>
+        <meta name="twitter:site" content={site.social.twitter} />
+        <meta name="twitter:creator" content={site.social.twitter} />
+      </>
+    )}
 
     {/* Structured data (JSON-LD) — drives Google rich results. */}
     <script type="application/ld+json" set:html={JSON.stringify(orgSchema)} />

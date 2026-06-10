@@ -28,11 +28,11 @@ const contactEmail = site.social.email
   <h2>1. Data we collect</h2>
   <p>
     When you buy the boilerplate we receive the order data forwarded by
-    our merchant of record (your name, email and the GitHub username
-    you provide at checkout). Card details and tax information are
-    handled by Polar — they never touch our servers. We also collect
-    standard server logs (IP address, user agent, pages visited) for
-    security and product improvement.
+    our payment processor (your name, email and the GitHub username
+    you provide at checkout). Card details are handled by Stripe —
+    they never touch our servers. We also collect standard server logs
+    (IP address, user agent, pages visited) for security and product
+    improvement.
   </p>
 
   <h2>2. How we use your data</h2>
@@ -45,8 +45,8 @@ const contactEmail = site.social.email
   <h2>3. Who we share with</h2>
   <p>
     We share data with the subprocessors required to deliver your
-    purchase: <strong>Polar</strong> (merchant of record — handles
-    payment, VAT and invoicing), <strong>GitHub</strong> (we add your
+    purchase: <strong>Stripe</strong> (payment processor — handles
+    checkout, card data and invoicing), <strong>GitHub</strong> (we add your
     username to our buyers organization so you can clone the repos),
     <strong>Resend</strong> (transactional email — your welcome email
     and any update notifications), and our hosting provider for the

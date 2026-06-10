@@ -76,12 +76,12 @@ const features: Feature[] = [
     kicker: 'Auth + 2FA',
     title: 'Auth that\'s been audited, not assembled.',
     body:
-      'JWT with rotation and blacklist. 2FA via email codes or TOTP. Google OAuth. Per-user lockouts after N failures. We closed 22 security findings before launch — the regressions are pinned by tests.',
+      'JWT with rotation and blacklist. 2FA via email codes or TOTP. Google OAuth. Per-user lockouts after N failures. Hardened across multiple security + quality audits — every finding pinned by a regression test.',
     bullets: [
       'cryptographically secure 6-digit codes (secrets.randbelow)',
       'Login lockout: 5 attempts / 15 min (configurable)',
       'Invitation tokens use a separate signing key',
-      '16 regression tests — one per closed security finding'
+      'Regression tests pin every closed security finding'
     ],
     code: {
       lang: 'python',
