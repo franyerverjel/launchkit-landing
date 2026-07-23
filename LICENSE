@@ -1,0 +1,95 @@
+LaunchKit Commercial License Agreement
+
+Copyright (c) 2026 LaunchKit. All rights reserved.
+
+This software and the accompanying documentation (the "Software") are
+licensed, not sold. By installing, copying, or otherwise using the Software,
+you agree to the terms below. If you do not agree, do not use the Software.
+
+1. GRANT OF LICENSE
+
+Subject to the terms of this Agreement and payment of any applicable fees,
+LaunchKit grants you a non-exclusive, non-transferable, worldwide license to:
+
+  a) use the Software to develop, build, deploy and operate one or more
+     applications (the "Licensed Applications") for which you hold a valid
+     LaunchKit license;
+  b) modify the Software for the sole purpose of integrating it into your
+     Licensed Applications;
+  c) deploy compiled and source forms of the Software as part of your
+     Licensed Applications.
+
+The license tier you have purchased (Single Project, Team, or Unlimited)
+defines the scope of permitted Licensed Applications. See the order
+confirmation associated with your purchase for the specific scope.
+
+2. RESTRICTIONS
+
+You may NOT:
+
+  a) redistribute, publish, sublicense, sell, rent, lease, or lend the
+     Software, in whole or in part, in source or compiled form, to any third
+     party, except as bundled inside a Licensed Application;
+  b) use the Software to create a competing boilerplate, starter kit,
+     template, code generator, or similar derivative product offered to
+     third parties;
+  c) remove or obscure any proprietary notices, copyright notices, or
+     trademarks contained in the Software;
+  d) use the Software in any application whose primary purpose is to expose
+     the source code of the Software to end users;
+  e) share or transfer your license credentials to any third party.
+
+3. OWNERSHIP
+
+The Software is the intellectual property of LaunchKit. This Agreement does
+not transfer ownership of the Software. All rights not expressly granted
+are reserved.
+
+4. THIRD-PARTY DEPENDENCIES
+
+The Software is distributed with third-party open source software, each
+governed by its own license. You are responsible for complying with the
+license terms of any such third-party components.
+
+5. SUPPORT AND UPDATES
+
+Unless explicitly included in your purchase, LaunchKit is provided AS-IS,
+without any obligation by LaunchKit to provide support, updates, bug fixes,
+or new features.
+
+6. WARRANTY DISCLAIMER
+
+THE SOFTWARE IS PROVIDED "AS IS" AND WITHOUT WARRANTY OF ANY KIND, EITHER
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE IMPLIED WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NON-INFRINGEMENT.
+
+7. LIMITATION OF LIABILITY
+
+IN NO EVENT SHALL LAUNCHKIT BE LIABLE FOR ANY INDIRECT, INCIDENTAL,
+SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES ARISING OUT OF OR IN
+CONNECTION WITH YOUR USE OF THE SOFTWARE, EVEN IF ADVISED OF THE
+POSSIBILITY OF SUCH DAMAGES. LAUNCHKIT'S TOTAL LIABILITY UNDER THIS
+AGREEMENT SHALL NOT EXCEED THE FEES PAID BY YOU FOR THE LICENSE.
+
+8. TERMINATION
+
+This Agreement is effective until terminated. It will terminate
+automatically without notice if you fail to comply with any of its terms.
+Upon termination, you must cease all use of the Software and destroy all
+copies in your possession.
+
+9. GOVERNING LAW
+
+This Agreement shall be governed by and construed in accordance with the
+laws of the jurisdiction in which the licensor is registered, without
+regard to its conflict of law provisions.
+
+10. CONTACT
+
+For licensing inquiries, please contact: legal@launchkit.example.com
+
+----------------------------------------------------------------------
+
+NOTE TO BUYERS: replace this template with your firm's executed EULA before
+distribution. The text above is a starting point and is NOT legal advice;
+have it reviewed by qualified counsel for your jurisdiction.

@@ -12,9 +12,10 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 
-# environment variables
-.env
-.env.production
+# environment variables — catch-all so a stray `.env.local` with a live
+# key can never be committed by accident; only the example survives.
+.env*
+!.env.example
 
 # macOS-specific files
 .DS_Store
