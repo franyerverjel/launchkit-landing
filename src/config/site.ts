@@ -57,7 +57,7 @@ export const site = {
         // docs/STRIPE_SETUP.md for the buyer onboarding flow.
         href: "https://buy.stripe.com/REPLACE_ME_STANDARD",
         bullets: [
-          "Django + Next.js · 319 backend tests · multi-pass audited",
+          "Django + Next.js · 340 backend tests · multi-pass audited",
           "Multi-tenant, Stripe billing, RBAC, i18n (EN+ES) — wired",
           "AI agent skills (CLAUDE.md ready)",
           "Unlimited commercial projects · Use for client work",
