@@ -1,24 +1,24 @@
 ---
-// Real product screenshots. Drop into /public/screenshots/ — see
-// /public/screenshots/README.md for the capture spec.
+// Real product screenshots (1920×1200 WebP) in /public/screenshots/.
+// The dashboard shot is also composited into the OG card by scripts/og-image.mjs.
 const screens = [
-  { file: 'login.webp',    caption: 'Auth · Sign in' },
-  { file: 'members.webp',  caption: 'Settings · Members' },
-  { file: 'billing.webp',  caption: 'Settings · Subscription' }
+  { file: "login.webp", caption: "Auth · Sign in" },
+  { file: "members.webp", caption: "Settings · Members" },
+  { file: "billing.webp", caption: "Settings · Subscription" },
 ]
 
 const heroShot = {
-  file: 'dashboard.webp',
-  caption: 'app.launchasaas.dev/dashboard',
-  alt: 'LaunchKit dashboard — multi-tenant SaaS workspace with sidebar, metrics and activity feed'
+  file: "dashboard.webp",
+  caption: "app.launchasaas.dev/dashboard",
+  alt: "LaunchKit dashboard — multi-tenant SaaS workspace with sidebar, metrics and activity feed",
 }
 ---
 
-<section class="border-b border-border/60 bg-background">
-  <div class="mx-auto max-w-6xl px-4 sm:px-6 py-16 md:py-24">
-    <div class="max-w-3xl mb-10">
+<section id="showcase" class="border-b border-border/60 bg-background">
+  <div class="mx-auto max-w-6xl px-4 py-16 sm:px-6 md:py-24">
+    <div class="mb-10 max-w-3xl">
       <span class="lk-section-num">01 / Inside</span>
-      <h2 class="lk-display mt-3 text-3xl md:text-4xl lg:text-5xl">
+      <h2 class="mt-3 lk-display text-3xl md:text-4xl lg:text-5xl">
         24 screens. <em class="text-muted-foreground">Audited end-to-end.</em>
       </h2>
     </div>
@@ -36,27 +36,36 @@ const heroShot = {
         class="lk-shot-trigger"
         data-shot-src={`/screenshots/${heroShot.file}`}
         data-shot-caption={heroShot.caption}
+        data-umami-event="screenshot-open"
+        data-umami-event-shot={heroShot.file.replace(".webp", "")}
         aria-label={`Enlarge — ${heroShot.alt}`}
       >
         <img
           src={`/screenshots/${heroShot.file}`}
           alt={heroShot.alt}
           loading="eager"
+          fetchpriority="high"
           width="1920"
           height="1200"
         />
         <span class="lk-shot-zoom" aria-hidden="true">
-          <svg viewBox="0 0 16 16" class="size-4" fill="none" stroke="currentColor" stroke-width="1.5">
-            <circle cx="7" cy="7" r="4.5" />
-            <path d="m10.5 10.5 3.2 3.2" stroke-linecap="round" />
-            <path d="M5 7h4M7 5v4" stroke-linecap="round" />
+          <svg
+            viewBox="0 0 16 16"
+            class="size-4"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+          >
+            <circle cx="7" cy="7" r="4.5"></circle>
+            <path d="m10.5 10.5 3.2 3.2" stroke-linecap="round"></path>
+            <path d="M5 7h4M7 5v4" stroke-linecap="round"></path>
           </svg>
         </span>
       </button>
     </figure>
 
     <!-- Three-up grid of secondary screens -->
-    <div class="mt-5 grid grid-cols-1 md:grid-cols-3 gap-5">
+    <div class="mt-5 grid grid-cols-1 gap-5 md:grid-cols-3">
       {
         screens.map((s) => (
           <figure class="lk-shot">
@@ -71,6 +80,8 @@ const heroShot = {
               class="lk-shot-trigger"
               data-shot-src={`/screenshots/${s.file}`}
               data-shot-caption={s.caption}
+              data-umami-event="screenshot-open"
+              data-umami-event-shot={s.file.replace(".webp", "")}
               aria-label={`Enlarge — ${s.caption}`}
             >
               <img
@@ -81,7 +92,13 @@ const heroShot = {
                 height="600"
               />
               <span class="lk-shot-zoom" aria-hidden="true">
-                <svg viewBox="0 0 16 16" class="size-4" fill="none" stroke="currentColor" stroke-width="1.5">
+                <svg
+                  viewBox="0 0 16 16"
+                  class="size-4"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.5"
+                >
                   <circle cx="7" cy="7" r="4.5" />
                   <path d="m10.5 10.5 3.2 3.2" stroke-linecap="round" />
                   <path d="M5 7h4M7 5v4" stroke-linecap="round" />
@@ -102,7 +119,9 @@ const heroShot = {
            - Settings pages: 10 → account, members, roles, security,
              subscription, plans, credits, tenant, assets-gallery, overview
            - Billing flows: 3 → subscription, plans, credits -->
-    <ul class="mt-12 grid grid-cols-2 md:grid-cols-4 gap-px overflow-hidden rounded-xl border border-border/60 bg-border/60">
+    <ul
+      class="mt-12 grid grid-cols-2 gap-px overflow-hidden rounded-xl border border-border/60 bg-border/60 md:grid-cols-4"
+    >
       <li class="lk-pill-feature">
         <span class="lk-pill-num">08</span>
         <span class="lk-pill-text">Auth screens</span>
@@ -136,19 +155,47 @@ const heroShot = {
   aria-hidden="true"
 >
   <button type="button" class="lk-lightbox-close" aria-label="Close">
-    <svg viewBox="0 0 16 16" class="size-4" fill="none" stroke="currentColor" stroke-width="1.5">
-      <path d="M3 3l10 10M13 3 3 13" stroke-linecap="round" />
+    <svg
+      viewBox="0 0 16 16"
+      class="size-4"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.5"
+    >
+      <path d="M3 3l10 10M13 3 3 13" stroke-linecap="round"></path>
     </svg>
   </button>
 
-  <button type="button" class="lk-lightbox-nav lk-lightbox-nav--prev" aria-label="Previous screenshot">
-    <svg viewBox="0 0 16 16" class="size-5" fill="none" stroke="currentColor" stroke-width="1.5">
-      <path d="M10 3 5 8l5 5" stroke-linecap="round" stroke-linejoin="round" />
+  <button
+    type="button"
+    class="lk-lightbox-nav lk-lightbox-nav--prev"
+    aria-label="Previous screenshot"
+  >
+    <svg
+      viewBox="0 0 16 16"
+      class="size-5"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.5"
+    >
+      <path d="M10 3 5 8l5 5" stroke-linecap="round" stroke-linejoin="round"
+      ></path>
     </svg>
   </button>
-  <button type="button" class="lk-lightbox-nav lk-lightbox-nav--next" aria-label="Next screenshot">
-    <svg viewBox="0 0 16 16" class="size-5" fill="none" stroke="currentColor" stroke-width="1.5">
-      <path d="M6 3l5 5-5 5" stroke-linecap="round" stroke-linejoin="round" />
+  <button
+    type="button"
+    class="lk-lightbox-nav lk-lightbox-nav--next"
+    aria-label="Next screenshot"
+  >
+    <svg
+      viewBox="0 0 16 16"
+      class="size-5"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.5"
+    >
+      <path d="M6 3l5 5-5 5" stroke-linecap="round" stroke-linejoin="round"
+      ></path>
     </svg>
   </button>
 
@@ -156,7 +203,10 @@ const heroShot = {
     <img id="lk-lightbox-image" alt="" />
     <figcaption class="lk-lightbox-caption">
       <span id="lk-lightbox-caption" class="lk-lightbox-caption-text"></span>
-      <span id="lk-lightbox-counter" class="lk-lightbox-counter" aria-live="polite"></span>
+      <span
+        id="lk-lightbox-counter"
+        class="lk-lightbox-counter"
+        aria-live="polite"></span>
     </figcaption>
   </figure>
 </div>
@@ -168,10 +218,12 @@ const heroShot = {
     border: 1px solid var(--border);
     background: var(--card);
     overflow: hidden;
-    box-shadow: 0 8px 28px -12px color-mix(in oklch, var(--ink) 18%, transparent);
+    box-shadow: 0 8px 28px -12px
+      color-mix(in oklch, var(--ink) 18%, transparent);
   }
   .lk-shot--hero {
-    box-shadow: 0 22px 60px -20px color-mix(in oklch, var(--ink) 28%, transparent);
+    box-shadow: 0 22px 60px -20px
+      color-mix(in oklch, var(--ink) 28%, transparent);
   }
   .lk-shot-chrome {
     display: flex;
@@ -181,10 +233,20 @@ const heroShot = {
     border-bottom: 1px solid var(--border);
     background: color-mix(in oklch, var(--muted) 50%, var(--card));
   }
-  .lk-shot-dot { width: 0.55rem; height: 0.55rem; border-radius: 9999px; }
-  .lk-shot-dot--r { background: oklch(0.78 0.16 25); }
-  .lk-shot-dot--y { background: oklch(0.86 0.16 80); }
-  .lk-shot-dot--g { background: oklch(0.83 0.16 145); }
+  .lk-shot-dot {
+    width: 0.55rem;
+    height: 0.55rem;
+    border-radius: 9999px;
+  }
+  .lk-shot-dot--r {
+    background: oklch(0.78 0.16 25);
+  }
+  .lk-shot-dot--y {
+    background: oklch(0.86 0.16 80);
+  }
+  .lk-shot-dot--g {
+    background: oklch(0.83 0.16 145);
+  }
   .lk-shot-url {
     margin-left: auto;
     margin-right: auto;
@@ -249,7 +311,9 @@ const heroShot = {
     color: var(--background);
     opacity: 0;
     transform: translateY(4px);
-    transition: opacity 0.2s ease, transform 0.2s ease;
+    transition:
+      opacity 0.2s ease,
+      transform 0.2s ease;
     box-shadow: 0 4px 14px -4px color-mix(in oklch, var(--ink) 35%, transparent);
   }
   .lk-shot-trigger:hover .lk-shot-zoom,
@@ -296,14 +360,19 @@ const heroShot = {
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
     cursor: zoom-out;
+    overscroll-behavior: contain;
   }
   .lk-lightbox.is-open {
     display: flex;
     animation: lk-lightbox-in 0.18s cubic-bezier(0.2, 0.7, 0.2, 1);
   }
   @keyframes lk-lightbox-in {
-    from { opacity: 0 }
-    to   { opacity: 1 }
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
   }
   .lk-lightbox-figure {
     position: relative;
@@ -365,7 +434,9 @@ const heroShot = {
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    transition: background-color 0.15s ease, transform 0.15s ease;
+    transition:
+      background-color 0.15s ease,
+      transform 0.15s ease;
   }
   .lk-lightbox-close {
     top: clamp(0.75rem, 2vw, 1.5rem);
@@ -384,8 +455,12 @@ const heroShot = {
   .lk-lightbox-nav:hover {
     transform: translateY(-50%) scale(1.05);
   }
-  .lk-lightbox-nav--prev { left: clamp(0.75rem, 2.5vw, 1.75rem); }
-  .lk-lightbox-nav--next { right: clamp(0.75rem, 2.5vw, 1.75rem); }
+  .lk-lightbox-nav--prev {
+    left: clamp(0.75rem, 2.5vw, 1.75rem);
+  }
+  .lk-lightbox-nav--next {
+    right: clamp(0.75rem, 2.5vw, 1.75rem);
+  }
   /* Hide the nav buttons when only a single screenshot is in the
      gallery — no point cycling through nothing. The script toggles this
      class based on the trigger count. */
@@ -409,26 +484,38 @@ const heroShot = {
   // and ArrowLeft/ArrowRight keys cycle through the full set with
   // wrap-around. ESC, the close button, and backdrop clicks dismiss.
   // Touch swipe (left / right) also navigates on mobile.
-  const lightbox = document.getElementById('lk-lightbox') as HTMLElement | null
-  const lbImage = document.getElementById('lk-lightbox-image') as HTMLImageElement | null
-  const lbCaption = document.getElementById('lk-lightbox-caption') as HTMLElement | null
-  const lbCounter = document.getElementById('lk-lightbox-counter') as HTMLElement | null
+  const lightbox = document.getElementById("lk-lightbox") as HTMLElement | null
+  const lbImage = document.getElementById(
+    "lk-lightbox-image"
+  ) as HTMLImageElement | null
+  const lbCaption = document.getElementById(
+    "lk-lightbox-caption"
+  ) as HTMLElement | null
+  const lbCounter = document.getElementById(
+    "lk-lightbox-counter"
+  ) as HTMLElement | null
 
   if (lightbox && lbImage && lbCaption && lbCounter) {
-    const closeBtn = lightbox.querySelector('.lk-lightbox-close') as HTMLButtonElement
-    const prevBtn = lightbox.querySelector('.lk-lightbox-nav--prev') as HTMLButtonElement
-    const nextBtn = lightbox.querySelector('.lk-lightbox-nav--next') as HTMLButtonElement
-    const figure = lightbox.querySelector('.lk-lightbox-figure') as HTMLElement
+    const closeBtn = lightbox.querySelector(
+      ".lk-lightbox-close"
+    ) as HTMLButtonElement
+    const prevBtn = lightbox.querySelector(
+      ".lk-lightbox-nav--prev"
+    ) as HTMLButtonElement
+    const nextBtn = lightbox.querySelector(
+      ".lk-lightbox-nav--next"
+    ) as HTMLButtonElement
+    const figure = lightbox.querySelector(".lk-lightbox-figure") as HTMLElement
 
     // Snapshot every trigger on the page in DOM order. The order is
     // what the user sees (hero first, then the three-up grid), so the
     // gallery flow matches the visual flow.
     const triggers = Array.from(
-      document.querySelectorAll<HTMLButtonElement>('.lk-shot-trigger')
+      document.querySelectorAll<HTMLButtonElement>(".lk-shot-trigger")
     )
 
     if (triggers.length <= 1) {
-      lightbox.classList.add('is-single')
+      lightbox.classList.add("is-single")
     }
 
     let currentIndex = 0
@@ -440,49 +527,49 @@ const heroShot = {
       // Wrap around in both directions so the gallery feels infinite.
       currentIndex = ((index % total) + total) % total
       const btn = triggers[currentIndex]
-      const src = btn.dataset.shotSrc ?? ''
-      const caption = btn.dataset.shotCaption ?? ''
-      const img = btn.querySelector('img')
+      const src = btn.dataset.shotSrc ?? ""
+      const caption = btn.dataset.shotCaption ?? ""
+      const img = btn.querySelector("img")
       const alt = img?.alt ?? caption
       if (!src) return
       lbImage.src = src
       lbImage.alt = alt
       lbCaption.textContent = caption
-      lbCounter.textContent = total > 1 ? `${currentIndex + 1} / ${total}` : ''
+      lbCounter.textContent = total > 1 ? `${currentIndex + 1} / ${total}` : ""
     }
 
     const open = (index: number) => {
       lastFocused = (document.activeElement as HTMLElement) ?? null
       renderAt(index)
-      lightbox.classList.add('is-open')
-      lightbox.setAttribute('aria-hidden', 'false')
-      document.body.style.overflow = 'hidden'
+      lightbox.classList.add("is-open")
+      lightbox.setAttribute("aria-hidden", "false")
+      document.body.style.overflow = "hidden"
       // Defer focus until after the dialog paints to avoid a flicker.
       requestAnimationFrame(() => closeBtn?.focus())
     }
 
     const close = () => {
-      lightbox.classList.remove('is-open')
-      lightbox.setAttribute('aria-hidden', 'true')
-      document.body.style.overflow = ''
+      lightbox.classList.remove("is-open")
+      lightbox.setAttribute("aria-hidden", "true")
+      document.body.style.overflow = ""
       lastFocused?.focus()
       // Drop the source so the next open repaints cleanly from cache
       // — and so a logged screenshot URL doesn't linger in the DOM.
-      lbImage.removeAttribute('src')
+      lbImage.removeAttribute("src")
     }
 
     const advance = (direction: 1 | -1) => renderAt(currentIndex + direction)
 
     triggers.forEach((btn, index) => {
-      btn.addEventListener('click', () => open(index))
+      btn.addEventListener("click", () => open(index))
     })
 
-    closeBtn?.addEventListener('click', close)
-    prevBtn?.addEventListener('click', (event) => {
+    closeBtn?.addEventListener("click", close)
+    prevBtn?.addEventListener("click", (event) => {
       event.stopPropagation() // don't bubble to the backdrop click handler
       advance(-1)
     })
-    nextBtn?.addEventListener('click', (event) => {
+    nextBtn?.addEventListener("click", (event) => {
       event.stopPropagation()
       advance(1)
     })
@@ -490,19 +577,19 @@ const heroShot = {
     // Backdrop click closes; clicks on the figure / nav buttons don't
     // bubble here thanks to stopPropagation above and the figure's own
     // contains() check.
-    lightbox.addEventListener('click', (event) => {
+    lightbox.addEventListener("click", (event) => {
       if (!figure.contains(event.target as Node)) close()
     })
 
     // Keyboard: ESC dismisses, arrow keys navigate.
-    document.addEventListener('keydown', (event) => {
-      if (!lightbox.classList.contains('is-open')) return
-      if (event.key === 'Escape') {
+    document.addEventListener("keydown", (event) => {
+      if (!lightbox.classList.contains("is-open")) return
+      if (event.key === "Escape") {
         close()
-      } else if (event.key === 'ArrowRight') {
+      } else if (event.key === "ArrowRight") {
         event.preventDefault()
         advance(1)
-      } else if (event.key === 'ArrowLeft') {
+      } else if (event.key === "ArrowLeft") {
         event.preventDefault()
         advance(-1)
       }
@@ -513,12 +600,16 @@ const heroShot = {
     // overlay if the image is tall.
     let touchStartX = 0
     let touchStartY = 0
-    figure.addEventListener('touchstart', (event) => {
-      const touch = event.touches[0]
-      touchStartX = touch.clientX
-      touchStartY = touch.clientY
-    }, { passive: true })
-    figure.addEventListener('touchend', (event) => {
+    figure.addEventListener(
+      "touchstart",
+      (event) => {
+        const touch = event.touches[0]
+        touchStartX = touch.clientX
+        touchStartY = touch.clientY
+      },
+      { passive: true }
+    )
+    figure.addEventListener("touchend", (event) => {
       const touch = event.changedTouches[0]
       const deltaX = touch.clientX - touchStartX
       const deltaY = touch.clientY - touchStartY

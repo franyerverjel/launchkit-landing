@@ -25,7 +25,7 @@ Stripe has two products you can plug together:
 
 ### Steps
 
-1. **Stripe Dashboard → Products → + Add product** for each tier (Founder, Agency).
+1. **Stripe Dashboard → Products → + Add product** for each tier (Solo, Unlimited).
 2. Set price as **One-time** (not subscription).
 3. **Stripe Dashboard → Payment links → New** for each product.
 4. Under **Confirmation page**:
@@ -56,127 +56,40 @@ That's it. No backend needed for the basic case.
 
 ---
 
-## Path B — Custom backend (Webhook + GitHub auto-invite)
+## Path B — launchkit-delivery (Webhook → claim link → GitHub auto-invite)
 
-**Effort**: A weekend. **Polish**: Full white-glove.
+**Effort**: An afternoon. **Polish**: Full white-glove. This is what the landing's copy describes ("repo access in minutes").
 
-You handle checkout success yourself, send a customized email, and **automatically invite the buyer to a private GitHub repo** so they get updates forever.
+The sibling repo **`launchkit-delivery`** is a small FastAPI service that does the whole fulfilment loop, so you don't wire anything into `launchkit-api`:
+
+```
+Stripe checkout.session.completed
+      → POST /webhooks/stripe   (signature-verified, idempotent by event id)
+      → Order row + confirmation email (Resend) with a signed claim link
+      → buyer opens GET /claim/{token}, confirms their GitHub username
+      → POST /claim/{token} validates the username against GitHub and
+        invites it to the buyers org team for that tier
+      → welcome email (the copy in ../emails/welcome-*.md)
+```
 
 ### What you need
 
-- `STRIPE_SECRET_KEY` (from Stripe Dashboard → Developers → API keys)
-- `STRIPE_WEBHOOK_SECRET` (from Stripe Dashboard → Developers → Webhooks → your endpoint)
-- A GitHub Personal Access Token with `repo` + `admin:org` scope (so you can invite collaborators)
-- A transactional email provider (Resend, Postmark, or SES — Resend is easiest)
-- The **launchkit-api** already has a Celery + StripeEvent + idempotent webhook handler you can reuse — don't roll your own.
+- The two Payment Links from Path A (one per tier) — `launchkit-delivery` maps the Stripe **product id** of each to a GitHub team slug, so changing prices later doesn't break fulfilment.
+- `STRIPE_WEBHOOK_SECRET` for the delivery endpoint (Stripe Dashboard → Developers → Webhooks → add `https://<delivery-host>/webhooks/stripe`, event `checkout.session.completed`).
+- A GitHub org with one team per tier and a PAT scoped to `admin:org` (it only invites, it never touches repo contents).
+- A Resend API key and a verified sending domain — replies must land in a real inbox, not `noreply@`.
 
-### The flow
+### Stripe checkout custom field (pre-fills the claim form)
 
-1. **Stripe Checkout Session** created from your landing's "Buy" button (call your API, which calls `stripe.checkout.Session.create`).
-2. Buyer pays.
-3. Stripe sends `checkout.session.completed` to your webhook endpoint.
-4. Your webhook handler (Celery task, idempotent) does **all four** of:
-   - Create a `Purchase` row (email, tier, stripe_session_id) for your records.
-   - Upload the `.zip` to a signed URL (S3 or R2 with 7-day expiry).
-   - Send a templated email via Resend with: invoice, download link, "what's next".
-   - Hit the GitHub API to invite the buyer's GitHub username (asked at checkout via a Stripe **custom field**) as a collaborator on `launchkit-buyers/<repo>`.
+On each Payment Link, add a custom field: type **text**, key **`github_username`**, optional. The webhook reads it from `session.custom_fields` so the buyer only has to confirm it on the claim page. If you skip this, the claim form simply starts empty — validation still happens server-side either way, so a typo becomes a clear error instead of a silent "charged but no access".
 
-### Stripe checkout custom field (so you get the GitHub username)
+### Tax, invoices, promotion codes
 
-When you create the Checkout Session, pass:
+- Turn on **Stripe Tax** so VAT/GST is collected where required.
+- Turn on **invoice creation** on the Payment Links so companies get a PDF.
+- Turn on **Allow promotion codes** — the Solo → Unlimited upgrade email (`../emails/solo-upgrade.md`) relies on a promotion code pre-filled through `?prefilled_promo_code=`.
 
-```python
-stripe.checkout.Session.create(
-    line_items=[{"price": "price_xxxxx", "quantity": 1}],
-    mode="payment",
-    success_url=f"{settings.FRONTEND_URL}/thanks?session_id={{CHECKOUT_SESSION_ID}}",
-    cancel_url=f"{settings.FRONTEND_URL}/pricing",
-    custom_fields=[
-        {
-            "key": "github_username",
-            "label": {"type": "custom", "custom": "Your GitHub username"},
-            "type": "text",
-            "text": {"minimum_length": 1, "maximum_length": 39},
-        }
-    ],
-    customer_creation="always",
-    invoice_creation={"enabled": True},
-    automatic_tax={"enabled": True},
-    allow_promotion_codes=True,
-)
-```
-
-The buyer sees a single text field on Stripe's checkout. The username arrives in `session.custom_fields` in the webhook event.
-
-### The webhook (Celery task — idempotent)
-
-```python
-# apps/sales/tasks.py  (in your launchkit-api fork)
-@shared_task(bind=True, max_retries=5)
-def handle_purchase_completed(self, stripe_event_id, session):
-    if Purchase.objects.filter(stripe_session_id=session["id"]).exists():
-        return  # already processed — Celery retried, we're fine
-
-    with transaction.atomic():
-        purchase = Purchase.objects.create(
-            email=session["customer_details"]["email"],
-            tier=session["metadata"]["tier"],
-            github_username=_get_custom_field(session, "github_username"),
-            stripe_session_id=session["id"],
-        )
-
-    transaction.on_commit(lambda: _post_commit_actions(purchase.id))
-
-
-def _post_commit_actions(purchase_id):
-    purchase = Purchase.objects.get(id=purchase_id)
-    download_url = generate_signed_download_url(purchase)
-    invite_to_github_repo(purchase.github_username, REPO_FOR_TIER[purchase.tier])
-    send_purchase_email(purchase, download_url)
-```
-
-### GitHub invite
-
-```python
-# apps/sales/services/github.py
-import requests
-
-def invite_to_github_repo(username, repo):
-    response = requests.put(
-        f"https://api.github.com/repos/your-org/{repo}/collaborators/{username}",
-        headers={
-            "Authorization": f"Bearer {settings.GITHUB_TOKEN}",
-            "Accept": "application/vnd.github+json",
-        },
-        json={"permission": "pull"},  # read-only — they can pull but not push
-        timeout=10,
-    )
-    response.raise_for_status()
-```
-
-The buyer gets an email from GitHub instantly. Accepting the invite gives them `git clone` + `git pull` access for life.
-
-### Email template (Resend example)
-
-```
-Subject: Welcome to LaunchKit — your code is ready
-
-Hi {{first_name}},
-
-Thanks for buying the {{tier}} license. Two things:
-
-1. Download the code right now: {{download_url}}
-   (Link expires in 7 days. Re-download from your account anytime.)
-
-2. We've sent a GitHub invite to @{{github_username}} for the
-   buyers-only repo. Accept it, then `git clone` to get future updates.
-
-Need help? Just reply to this email — we read everything.
-
-— The LaunchKit team
-```
-
-Don't use `noreply@`. Replies go to a real inbox.
+Setup, environment variables and the rate limits on the claim endpoint are documented in `launchkit-delivery/README.md`.
 
 ---
 

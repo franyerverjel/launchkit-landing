@@ -1,41 +1,88 @@
 ---
+import { site } from "@/config/site"
+const { stats } = site
+
+// One entry per shipped skill (.claude/skills/ in each repo). Keep in sync
+// with the folders; `stats.agentSkills` in site.ts is the count quoted
+// elsewhere on the page.
 const skills = [
   {
-    file: 'launchkit-permissions',
-    desc: 'How to add a new permission, register it in the catalog, and run update_default_roles.'
+    file: "launchkit-api-patterns",
+    repo: "api",
+    desc: "Models, serializers, ViewSets, services and Celery tasks — the house style.",
   },
   {
-    file: 'launchkit-stripe-webhook',
-    desc: 'Idempotency rules, dedup on payment_intent_id, transaction.atomic + select_for_update patterns.'
+    file: "launchkit-add-app",
+    repo: "api",
+    desc: "Scaffold a tenant-scoped Django app: mixins, permission catalog, default roles, i18n.",
   },
   {
-    file: 'launchkit-add-app',
-    desc: 'The full template for adding a new Django app with tenant scoping, ViewSet mixins and i18n.'
+    file: "launchkit-permissions",
+    repo: "api",
+    desc: "Add a permission, catalog it, back-fill roles — and debug a 403 in minutes.",
   },
   {
-    file: 'launchkit-i18n',
-    desc: 'Backend gettext + frontend next-intl, with the auditor scripts that catch missing keys.'
+    file: "launchkit-stripe-webhook",
+    repo: "api",
+    desc: "Idempotency, dedup on payment_intent_id, transaction.atomic + select_for_update.",
   },
   {
-    file: 'launchkit-add-feature',
-    desc: 'Frontend recipe: Server Component page → client component → API client → query keys → routes.'
-  }
+    file: "launchkit-tests",
+    repo: "api",
+    desc: "Fixtures, real-JWT clients, idempotency and one-regression-test-per-finding.",
+  },
+  {
+    file: "launchkit-app-patterns",
+    repo: "web",
+    desc: "Server Component page → client component → API client → query keys → routes.",
+  },
+  {
+    file: "launchkit-add-feature",
+    repo: "web",
+    desc: "End-to-end recipe for a new page or module, sidebar and breadcrumbs included.",
+  },
+  {
+    file: "launchkit-forms",
+    repo: "web",
+    desc: "react-hook-form + Zod + shadcn, with the React 19 / Compiler traps called out.",
+  },
+  {
+    file: "launchkit-i18n",
+    repo: "web",
+    desc: "next-intl on the client, gettext on the API, and the audit scripts that catch drift.",
+  },
+]
+
+const agents = [
+  "Claude Code",
+  "Cursor",
+  "Codex",
+  "Copilot",
+  "Gemini CLI",
+  "Zed",
 ]
 ---
 
-<section class="relative overflow-hidden border-b border-border/60 bg-foreground text-background">
-  <div class="lk-halftone absolute inset-0 opacity-[0.04]" aria-hidden="true"></div>
+<section
+  id="ai-ready"
+  class="relative overflow-hidden border-b border-border/60 bg-foreground text-background"
+>
+  <div class="absolute inset-0 lk-halftone opacity-[0.04]" aria-hidden="true">
+  </div>
   <div
-    class="absolute -bottom-32 -right-32 h-[28rem] w-[28rem] rounded-full bg-coral/40 blur-[120px]"
+    class="absolute -right-32 -bottom-32 h-[28rem] w-[28rem] rounded-full bg-coral/40 blur-[120px]"
     aria-hidden="true"
-  ></div>
+  >
+  </div>
 
-  <div class="relative mx-auto max-w-6xl px-4 sm:px-6 py-20 md:py-28">
+  <div class="relative mx-auto max-w-6xl px-4 py-20 sm:px-6 md:py-28">
     <div class="grid gap-14 lg:grid-cols-12 lg:gap-16">
       <div class="lg:col-span-6">
-        <div class="flex items-center gap-3">
+        <div class="flex flex-wrap items-center gap-3">
           <span class="lk-section-num text-background/50">07 / AI-ready</span>
-          <span class="inline-flex items-center gap-1.5 rounded-full border border-coral/40 bg-coral/10 px-2.5 py-0.5 font-mono text-[10px] uppercase tracking-widest text-coral">
+          <span
+            class="inline-flex items-center gap-1.5 rounded-full border border-coral/40 bg-coral/10 px-2.5 py-0.5 font-mono text-[10px] tracking-widest text-coral uppercase"
+          >
             <span class="relative size-1.5">
               <span class="absolute inset-0 rounded-full bg-coral"></span>
             </span>
@@ -43,24 +90,40 @@ const skills = [
           </span>
         </div>
 
-        <h2 class="lk-display lk-balance mt-5 text-3xl md:text-4xl">
+        <h2 class="lk-balance mt-5 lk-display text-3xl md:text-4xl">
           Built so your <em class="text-coral">AI agent</em> can ship the next feature.
         </h2>
 
-        <p class="mt-5 text-base text-background/70 leading-relaxed">
-          <code class="font-mono text-coral text-sm">CLAUDE.md</code> maps every
-          load-bearing pattern. Five skill recipes cover the domains agents
-          (and humans) most often break. Works with any LLM-backed assistant.
+        <p class="mt-5 text-base leading-relaxed text-background/70">
+          <code class="font-mono text-sm text-coral" translate="no"
+            >AGENTS.md</code
+          > — the open standard read natively by {
+            agents.slice(0, -1).join(", ")
+          } and {agents.at(-1)} — maps every load-bearing pattern in both repos: the
+          request pipeline, the permission engine, the billing invariants, the traps.
+          {stats.agentSkills} skill recipes cover the jobs agents (and humans) most
+          often get wrong. Thin
+          <code class="font-mono text-sm text-coral" translate="no"
+            >CLAUDE.md</code
+          >, Cursor and Copilot pointers keep every tool on the same page.
         </p>
 
-        <ul class="mt-8 flex flex-col gap-3">
+        <ul class="mt-8 grid gap-x-6 gap-y-2.5 sm:grid-cols-1">
           {
             skills.map((s) => (
-              <li class="flex items-start gap-4 border-t border-background/10 pt-3 first:border-t-0 first:pt-0">
-                <code class="font-mono text-xs whitespace-nowrap rounded-md border border-background/10 bg-background/5 px-2 py-1 text-coral">
+              <li class="flex items-start gap-3 border-t border-background/10 pt-2.5 first:border-t-0 first:pt-0">
+                <code
+                  class="rounded-md border border-background/10 bg-background/5 px-2 py-1 font-mono text-[11px] whitespace-nowrap text-coral"
+                  translate="no"
+                >
                   /{s.file}
                 </code>
-                <span class="text-sm text-background/70 leading-relaxed">{s.desc}</span>
+                <span class="text-sm leading-relaxed text-background/70">
+                  {s.desc}
+                  <span class="ml-1.5 font-mono text-[10px] tracking-widest text-background/35 uppercase">
+                    {s.repo}
+                  </span>
+                </span>
               </li>
             ))
           }
@@ -68,55 +131,91 @@ const skills = [
       </div>
 
       <div class="lg:col-span-6">
-        <div class="overflow-hidden rounded-xl border border-background/10 bg-background/[0.04] backdrop-blur shadow-2xl">
-          <div class="flex items-center justify-between gap-2 border-b border-background/10 px-4 py-2.5">
-            <div class="flex items-center gap-2 font-mono text-[11px] text-background/60">
-              <svg viewBox="0 0 16 16" class="size-3.5" fill="currentColor" aria-hidden="true">
-                <path d="M3 1.5h6.5l3.5 3.5v9.5a.5.5 0 0 1-.5.5h-9.5a.5.5 0 0 1-.5-.5v-13z" opacity=".4"/>
-                <path d="M9.5 1.5v3.5h3.5L9.5 1.5z" opacity=".7"/>
+        <div
+          class="overflow-hidden rounded-xl border border-background/10 bg-background/[0.04] shadow-2xl backdrop-blur"
+        >
+          <div
+            class="flex items-center justify-between gap-2 border-b border-background/10 px-4 py-2.5"
+          >
+            <div
+              class="flex items-center gap-2 font-mono text-[11px] text-background/60"
+            >
+              <svg
+                viewBox="0 0 16 16"
+                class="size-3.5"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  d="M3 1.5h6.5l3.5 3.5v9.5a.5.5 0 0 1-.5.5h-9.5a.5.5 0 0 1-.5-.5v-13z"
+                  opacity=".4"></path>
+                <path d="M9.5 1.5v3.5h3.5L9.5 1.5z" opacity=".7"></path>
               </svg>
-              CLAUDE.md
+              <span translate="no">AGENTS.md</span>
             </div>
-            <span class="font-mono text-[10px] uppercase tracking-widest text-background/40">
+            <span
+              class="font-mono text-[10px] tracking-widest text-background/40 uppercase"
+            >
               read by your agent on every prompt
             </span>
           </div>
-          <pre class="p-5 sm:p-6 font-mono text-[12px] sm:text-[13px] leading-relaxed overflow-x-auto"><code><span class="text-background/40"># LaunchKit API — request pipeline</span>
+          <pre
+            class="overflow-x-auto p-5 font-mono text-[12px] leading-relaxed sm:p-6 sm:text-[13px]"><code><span class="text-background/40"># LaunchKit API — request pipeline</span>
 
-Every request flows through:
+Every request passes through this stack:
 
   <span class="text-background">1.</span> JWTAuthenticationMiddleware → <span class="text-coral">request.user</span>
   <span class="text-background">2.</span> TenantMiddleware            → <span class="text-coral">request.tenant</span>
-  <span class="text-background">3.</span> SubscriptionMiddleware      → 403 if expired
-  <span class="text-background">4.</span> TenantPermissionMixin       → app.resource.action
-  <span class="text-background">5.</span> ModuleAccessMixin           → entitlements
-  <span class="text-background">6.</span> SubscriptionLimitMixin      → quota check
+  <span class="text-background">3.</span> PresenceMiddleware          → last_activity_at
+  <span class="text-background">4.</span> SubscriptionMiddleware      → 403 if expired
+  <span class="text-background">5.</span> TenantPermissionMixin       → app.resource.action
+  <span class="text-background">6.</span> ModuleAccessMixin           → entitlements
 
-<span class="text-background/40">## Things to verify before editing</span>
+<span class="text-background/40">## Things that are easy to get wrong</span>
 
-<span class="text-background">— New URL prefix that bypasses tenant?</span>
-<span class="text-background/60">  Update both</span> <span class="text-coral">TENANT_MIDDLEWARE_EXCLUDED_PATHS</span>
-<span class="text-background/60">  and</span> <span class="text-coral">SUBSCRIPTION_EXEMPT_PATHS</span><span class="text-background/60">.</span>
+<span class="text-background">— Middleware raises 500s, not 4xx.</span>
+<span class="text-background/60">  Catch your own errors and degrade.</span>
 
-<span class="text-background">— New Celery webhook handler?</span>
-<span class="text-background/60">  Must be idempotent. Mark</span> <span class="text-coral">StripeEvent.processed</span><span class="text-background/60">=True.</span>
-<span class="text-background/60">  Must catch + retry. Capture to Sentry.</span>
+<span class="text-background">— Two exempt-path lists must stay in sync:</span>
+<span class="text-background/60">  </span><span class="text-coral">TENANT_MIDDLEWARE_EXCLUDED_PATHS</span><span class="text-background/60"> and</span>
+<span class="text-background/60">  </span><span class="text-coral">SUBSCRIPTION_MIDDLEWARE_EXEMPT_PATHS</span><span class="text-background/60">.</span>
+
+<span class="text-background">— New webhook handler?</span>
+<span class="text-background/60">  Idempotent. Mark </span><span class="text-coral">StripeEvent.processed</span><span class="text-background/60">. Retry.</span>
 …</code></pre>
         </div>
 
-        <div class="mt-4 flex items-center justify-between gap-3 rounded-xl border border-background/10 bg-background/5 px-4 py-3">
+        <div
+          class="mt-4 flex items-center justify-between gap-3 rounded-xl border border-background/10 bg-background/5 px-4 py-3"
+        >
           <div class="flex items-center gap-3">
-            <span class="inline-grid size-9 place-items-center rounded-lg bg-coral text-coral-foreground">
-              <svg viewBox="0 0 16 16" class="size-4" fill="currentColor" aria-hidden="true">
-                <path d="M8 1l1.8 4.2L14 7l-4.2 1.8L8 13l-1.8-4.2L2 7l4.2-1.8L8 1z"/>
+            <span
+              class="inline-grid size-9 place-items-center rounded-lg bg-coral text-coral-foreground"
+            >
+              <svg
+                viewBox="0 0 16 16"
+                class="size-4"
+                fill="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  d="M8 1l1.8 4.2L14 7l-4.2 1.8L8 13l-1.8-4.2L2 7l4.2-1.8L8 1z"
+                ></path>
               </svg>
             </span>
             <div>
-              <div class="font-mono text-[10px] uppercase tracking-widest text-background/50">Works with</div>
-              <div class="text-sm font-medium">Any LLM coding agent</div>
+              <div
+                class="font-mono text-[10px] tracking-widest text-background/50 uppercase"
+              >
+                Works with
+              </div>
+              <div class="text-sm font-medium">{agents.join(" · ")}</div>
             </div>
           </div>
-          <code class="hidden font-mono text-[11px] text-background/40 md:inline">CLAUDE.md ready</code>
+          <code
+            class="hidden font-mono text-[11px] text-background/40 md:inline"
+            translate="no">AGENTS.md + CLAUDE.md pointers</code
+          >
         </div>
       </div>
     </div>

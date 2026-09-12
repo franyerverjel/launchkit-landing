@@ -1,0 +1,170 @@
+---
+/**
+ * Umami tracking — the script tag plus the handful of events that can't be
+ * expressed declaratively.
+ *
+ * # How events are declared
+ *
+ * Umami tracks any click on an element carrying `data-umami-event`, and turns
+ * every `data-umami-event-<prop>` sibling attribute into a property on that
+ * event. No JavaScript needed:
+ *
+ *   <a href="#pricing"
+ *      data-umami-event="cta-click"
+ *      data-umami-event-location="hero">Buy LaunchKit</a>
+ *
+ * For links the tracker delays the navigation until the beacon is away, so an
+ * outbound click to Stripe is recorded rather than lost to the unload.
+ *
+ * Use the script below only for things a click attribute can't express — a
+ * <details> that must count opens but not closes, scroll depth, a section
+ * entering the viewport.
+ *
+ * # Event vocabulary
+ *
+ * Keep names kebab-case and stable; renaming one splits its history in the
+ * dashboard.
+ *
+ *   cta-click       location: nav | hero | hero-secondary | final
+ *   checkout-start  tier: solo | unlimited · price
+ *   nav-click       target: section or page · location: nav | footer
+ *   email-click     location: faq | footer
+ *   outbound-click  target · location
+ *   screenshot-open shot: the caption of the screenshot opened
+ *   faq-open        question · position
+ *   scroll-depth    percent: 25 | 50 | 75 | 100
+ *   section-view    section: whatever `data-umami-section` names
+ */
+import { analytics } from "@/config/analytics"
+
+const domains = analytics.domains.join(",")
+---
+
+{
+  analytics.enabled && (
+    <script
+      is:inline
+      defer
+      src={analytics.src}
+      data-website-id={analytics.websiteId}
+      data-domains={domains || undefined}
+      data-do-not-track={analytics.respectDoNotTrack ? "true" : undefined}
+      data-performance={analytics.webVitals ? "true" : undefined}
+    />
+  )
+}
+
+<script>
+  // Events that a `data-umami-event` attribute can't express. Every call goes
+  // through `track()`, which is a no-op when the tracker is absent — blocked
+  // by an extension, disabled in config, or simply not loaded yet — so an ad
+  // blocker can never take the page down with it.
+  type EventData = Record<string, string | number>
+
+  const track = (name: string, data?: EventData) => {
+    const umami = (
+      window as Window & {
+        umami?: { track: (name: string, data?: EventData) => void }
+      }
+    ).umami
+    try {
+      umami?.track(name, data)
+    } catch {
+      // Analytics must never break the page.
+    }
+  }
+
+  // --- Checkout ---------------------------------------------------------
+  // The buy buttons deliberately carry `data-checkout-*` rather than
+  // `data-umami-event`: the declarative handler preventDefaults a link and
+  // waits for the beacon before navigating, which would put a slow metrics
+  // host between a buyer and Stripe. Tracking here instead lets the browser
+  // navigate immediately — the tracker sends with `keepalive`, so the beacon
+  // outlives the unload.
+  document
+    .querySelectorAll<HTMLAnchorElement>("a[data-checkout-tier]")
+    .forEach((link) => {
+      link.addEventListener("click", () => {
+        track("checkout-start", {
+          tier: link.dataset.checkoutTier ?? "",
+          price: Number(link.dataset.checkoutPrice ?? 0),
+        })
+      })
+    })
+
+  // --- FAQ --------------------------------------------------------------
+  // `toggle` fires on open and on close; only an open means "this objection
+  // is the one they care about", so closes are dropped.
+  document
+    .querySelectorAll<HTMLDetailsElement>("details[data-faq-question]")
+    .forEach((details, index) => {
+      details.addEventListener("toggle", () => {
+        if (!details.open) return
+        track("faq-open", {
+          question: details.dataset.faqQuestion ?? "",
+          position: index + 1,
+        })
+      })
+    })
+
+  // --- Section visibility -----------------------------------------------
+  // Exact answer to "how many visitors ever reach the pricing table", which
+  // scroll depth only approximates and which shifts every time a section is
+  // added above it.
+  const sections = document.querySelectorAll<HTMLElement>(
+    "[data-umami-section]"
+  )
+
+  if (sections.length && "IntersectionObserver" in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return
+          // Fire once per page view, then stop watching.
+          observer.unobserve(entry.target)
+          track("section-view", {
+            section: (entry.target as HTMLElement).dataset.umamiSection ?? "",
+          })
+        })
+      },
+      // A quarter of the section on screen counts as reached; a one-pixel
+      // sliver as the user flies past to the footer does not.
+      { threshold: 0.25 }
+    )
+    sections.forEach((section) => observer.observe(section))
+  }
+
+  // --- Scroll depth ------------------------------------------------------
+  const DEPTHS = [25, 50, 75, 100]
+  let nextDepth = 0
+  let queued = false
+
+  const measure = () => {
+    queued = false
+    const doc = document.documentElement
+    const pageHeight = doc.scrollHeight
+    // A page barely taller than the viewport would report 100% on the first
+    // flick of a trackpad. Only pages with real reading depth are measured.
+    if (pageHeight < window.innerHeight * 1.5) return
+
+    const seen = ((window.scrollY + window.innerHeight) / pageHeight) * 100
+
+    while (nextDepth < DEPTHS.length && seen >= DEPTHS[nextDepth]) {
+      track("scroll-depth", { percent: DEPTHS[nextDepth] })
+      nextDepth += 1
+    }
+    if (nextDepth >= DEPTHS.length) {
+      window.removeEventListener("scroll", onScroll)
+    }
+  }
+
+  // Coalesce to one measurement per frame — a scroll listener that does work
+  // on every event is the classic way to make a page feel janky.
+  const onScroll = () => {
+    if (queued) return
+    queued = true
+    requestAnimationFrame(measure)
+  }
+
+  window.addEventListener("scroll", onScroll, { passive: true })
+</script>

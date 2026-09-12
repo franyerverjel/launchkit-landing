@@ -17,69 +17,123 @@ heading: Changelog
 
 ## Unreleased
 
-Polish pass on top of `1.0.0`. The next tagged release will roll all of
-this into `1.1.0`.
+A sale-readiness pass on top of `1.1.4`. Ships as `1.1.5`.
 
 #### Added
 
-- **In-app `/terms` and `/privacy` pages** — production-ready legal
-  scaffolding, copy lives in `messages/{en,es}/legal.json` with `{email}`
-  and `{jurisdiction}` placeholders pulled from `src/config/brand.js`.
-- **`<AppLogo>` shared component** with `size`, `layout`, `iconOnly` and
-  `wordmarkOnly` props. Replaces inline brand markup across auth, sidebar,
-  legal pages and the public landing header.
-- **Dashboard widgets** — `<WelcomeHeader>`, `<StatsGrid>`, `<QuickActions>`,
-  built on the shadcn `<Card>` primitives without padding overrides.
-- **`src/config/brand.js`** — single source for brand name, icon path,
-  legal contact email and jurisdiction. Wired into layout metadata, the
-  AppLogo and the Legal page.
-- **Atmosphere on the `(auth)` layout** — warm radial gradient + grid
-  pattern so login/register match the rest of the brand.
+- **The frontend is now TypeScript, end to end.** All 318 files, under
+  `strict`, with type-checking gated in CI. The conversion turned up a set of
+  quiet defects no test could catch, because each was a value that simply
+  arrived as `undefined`: member avatars that never loaded, a "disabled" flag
+  on the delete-role dialog that did nothing, retry buttons that never
+  rendered, subscription totals that always used the dollar sign whatever the
+  tenant's currency. All fixed.
+- **API types generated from the Django schema.** `npm run types:api` turns
+  the API's own OpenAPI document into typed request and response shapes, with
+  Django's `help_text` carried through as inline documentation. Rename a
+  serializer field and the frontend build fails instead of shipping
+  `undefined`.
+- **Demo mode.** Off by default and shipped in the box: a middleware that
+  blocks the destructive and money-moving routes, a seeded tenant with a role
+  picker on the login screen, and an hourly reset. It's what runs the public
+  demo, and you can point it at your own domain.
 
-#### Changed
+#### Security
 
-- **Member invitation simplified to email + role.** The invitee fills in
-  their own name when they accept and create their password — same UX as
-  Slack, Linear, Notion, GitHub. Backend stays backward-compatible:
-  clients still sending `first_name`/`last_name` continue to work.
-- **Members list** now shows a combined `Member` column — full name as
-  the primary line with email fallback, and "Pending profile" subtitle
-  when an invitee hasn't accepted yet.
-- **Member edit form** — identity fields (email, first/last name) moved
-  to a read-only "Member info" block. The backend's
-  `TenantMemberSerializer.update` is intentionally read-only on those
-  fields (preventing account-takeover via password reset), but the form
-  was silently dropping changes. Now the UX matches reality.
-- **Google sign-in moved above** the email/password form on `/login` and
-  `/register` — matches the pattern Linear, Vercel and Resend converge on.
-- **Coral primary palette** across the demo web app (login, dashboard,
-  sidebar, charts, NextTopLoader). Easier rebrand for buyers — change
-  one CSS variable.
+- **Dependency advisories cleared on both stacks.** `pip-audit` went from 24
+  findings to 0 (Pillow 12.3.0, requests 2.33.0, Django 5.2.17, DRF 3.17.2)
+  and `npm audit` from 25 to 0 — including a critical next-auth issue where a
+  malformed `Authorization` header crashed the request proxy. Next.js 16.3.4.
+- `X_FRAME_OPTIONS` is `DENY` on the API.
 
 #### Fixed
 
-- **Landing header showing the wrong CTA when signed in.** The public
-  `(public)` layout is now force-dynamic so the SSR-fetched session is
-  never stale, and the CTA reads "Go to dashboard" instead of repeating
-  the anonymous "Start free" label. The mobile sheet variant got the
-  same treatment.
-- **Login showing a silent refresh on wrong password.** The axios
-  interceptor's 401 retry + `signOut()` path no longer fires for public
-  auth endpoints (`/auth/login/`, `/auth/register/`,
-  `/auth/password/reset/`, `/auth/code/`, `/auth/social/`,
-  `/auth/token/refresh/`). Error toasts surface as expected.
-- **`/icon.png` 404 on `/login`** for anonymous visitors — `proxy.js`
-  now skips static assets via a negative-lookahead matcher.
-- **`POST /auth/token/refresh/` returning 500** when the refresh token's
-  user has been deleted — `SafeTokenRefreshView` returns a clean 401
-  with `code: user_not_found`. Regression test pinned in
-  `test_security_regressions.py::TestRefreshDeletedUser`.
-- **Forgot-password dialog** loading a stale email — now pre-fills from
-  the login form via `useWatch` + `useEffect` instead of `getValues`,
-  which doesn't trigger re-renders.
-- **Password length mismatch** between client and server — backend was
-  10 chars, UI was 8. Both stacks now agree on 8 (`min_length=8` on
-  `RegisterSerializer.password` and `PasswordChangeSerializer.new_password`).
+- **`python manage.py` crashed on a fresh clone.** The default settings module
+  needed a logging package that was never listed in `requirements/`. CI runs
+  under a different settings module, so nothing caught it — the first person
+  to hit it would have been you, on your first command. Pinned, and every
+  settings module is now loaded by a test.
+- **A third of the API was missing from the OpenAPI schema.** The generator
+  inspects each view without a request, so any view filtering by the current
+  user or tenant failed and was quietly emitted without its response shape.
+  Assets, notifications, roles, members, tenants, support tickets and the
+  credit balance were all affected — which is exactly what the frontend's
+  generated types are built from. Fixed, and pinned by tests that fail if any
+  view regresses or any endpoint ships an untyped response.
+- `DJANGO_ADMIN_URL` now actually moves the Django admin off `/admin/`.
+- Support: customers are emailed when staff resolves, closes or picks up
+  their ticket — the template existed, nothing sent it.
+- `npm install` works without `--legacy-peer-deps`: the abandoned
+  `react-currency-format` dependency is gone, replaced by a tested formatter
+  with identical output.
+- Three environment variables the API never read are no longer required to
+  boot; `.env.example` documents the real invitation-lifetime setting.
+
+#### Changed
+
+- One cached membership lookup (`TenantMember.get_active_cached`) instead of
+  three copies with different query shapes.
+- The `referrals` permission block, which nothing enforced, is gone from the
+  role editor.
+- Support email and Node/`license` metadata are configurable in
+  `src/config/brand.ts` and `package.json`.
+
+## 1.1.4 — August 11, 2026
+
+Rolls up `1.1.0` (June 10) through `1.1.4`. The headline: four audit passes
+over auth, billing, tenancy and general correctness, each finding pinned by a
+test. Test suites grew from 100 → 427 backend and 14 → 39 frontend.
+
+#### Security
+
+- **Token-refresh lock keyed per refresh token.** A module-level promise
+  could hand one user another user's tokens when their refreshes overlapped.
+  Fixed, tested, and documented so it can't be reintroduced.
+- Dead accounts get a clean 401 on both the access and refresh paths instead
+  of a 500; a malformed `x-tenant-id` header can no longer crash the tenant
+  middleware.
+- Mass assignment closed on the tenant and member serializers — `owner`,
+  `slug`, `metadata` and per-member permission overrides are read-only
+  through normal updates.
+- Member lists no longer embed teammates' full profiles.
+- Upload hardening: extension + MIME allow-list, SSRF guard on image
+  downloads, redirect and size limits.
+- Quick actions on the dashboard gate on permissions that exist in the
+  catalog (they were invisible to every role except Owner).
+
+#### Billing
+
+- Invoice emails resolve the subscription across Stripe API versions
+  (`invoice.parent.subscription_details`).
+- Grace period applies only to `past_due` / `unpaid`; cancelled subscriptions
+  and ended trials expire immediately.
+- Webhooks branch on persisted state, so a delayed "active" event can't
+  resurrect a cancellation.
+- Credits are granted only when `payment_status == "paid"`; referral
+  commissions are deduplicated by a database constraint.
+
+#### AI-ready
+
+- **`AGENTS.md` is the agent guide** in both repos — the open standard read
+  by Claude Code, Cursor, Codex, Copilot, Gemini CLI and Zed — with thin
+  `CLAUDE.md`, Cursor and Copilot pointers. Nine skills in the open Agent
+  Skills format.
+- Pre-commit hooks actually run (the old config matched no files).
+- Every command, path, setting and fixture in the docs was verified against
+  the code and corrected.
+
+#### Product
+
+- In-app `/terms` and `/privacy` pages, a shared `<AppLogo>`, dashboard
+  widgets, coral brand palette, `src/config/brand.js` as the single rebrand
+  point.
+- Member invitations are email + role; the invitee completes their own
+  profile. Members list shows a combined identity column.
+- Google sign-in moved above the email form on login and register.
+- `updated_at` is written on partial saves; `update_default_roles --tenant`
+  reports correctly; failed email sends are retried instead of dropped.
+- Eleven list screens no longer remount their add-button on every render
+  (the invite form and CSV import dialog were losing state).
 
 ## 1.0.0 — April 30, 2026
 

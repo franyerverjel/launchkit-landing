@@ -1,11 +1,17 @@
 # Email · Welcome — buyer just purchased (EN)
 
-The first email a new buyer gets from us, sent immediately after Polar
-fires the `order.completed` webhook. By the time it lands they should
-already have the GitHub invite (Polar handles the org membership
-automatically — see `docs/POLAR_SETUP.md`), so this email confirms
-what just happened, points them at the README, and sets expectations
-for how to reach us.
+The email a buyer gets right after they claim their GitHub invite.
+The flow (see `docs/STRIPE_SETUP.md` and the `launchkit-delivery`
+service): Stripe fires `checkout.session.completed` → launchkit-delivery
+emails a signed **claim link** → the buyer confirms their GitHub username
+→ we invite them to the private org → this welcome email goes out. So by
+the time it lands, the GitHub invite is already in their inbox; this
+email confirms what just happened, points them at the README, and sets
+expectations for how to reach us.
+
+> The templates launchkit-delivery actually sends live in
+> `launchkit-delivery/app/templates/`. Treat this file as the copy source
+> — edit here, then port the wording there.
 
 This file is the source of truth for the EN copy. Plain-text and
 HTML versions are below — pick whichever your sending tool prefers.
@@ -17,22 +23,22 @@ The Spanish version lives in [`welcome-es.md`](./welcome-es.md).
 
 | Variable | Example | Notes |
 |---|---|---|
-| `{{first_name}}` | `Franyer` | From the Polar customer record |
-| `{{tier_name}}` | `Lifetime` | `Standard` or `Lifetime` |
-| `{{order_id}}` | `polar_o_abc123` | For their records / our support lookup |
+| `{{first_name}}` | `Franyer` | From the Stripe customer record |
+| `{{tier_name}}` | `Unlimited` | `Solo` or `Unlimited` |
+| `{{order_id}}` | `cs_live_a1b2c3…` | Stripe Checkout Session id — for their records / our support lookup |
 | `{{github_username}}` | `franyerv` | Captured at checkout — confirms invite target |
 | `{{github_org_url}}` | `https://github.com/launchasaas` | The buyers org |
 | `{{api_repo_url}}` | `https://github.com/launchasaas/launchkit-api` | |
 | `{{web_repo_url}}` | `https://github.com/launchasaas/launchkit-web` | |
-| `{{discord_invite_url}}` | `https://discord.gg/...` | **Lifetime only** — omit the Discord block for Standard |
+| `{{discord_invite_url}}` | `https://discord.gg/...` | **Unlimited only** — omit the Discord block for Solo |
 | `{{founder_name}}` | `Franyer` | Sign-off |
 | `{{contact_email}}` | `hello@launchasaas.dev` | Reply-to |
 
 > **Conditional Discord block.** The plain-text and HTML versions both
-> contain a section labelled `{{#if tier=Lifetime}}` ... `{{/if}}`. If
+> contain a section labelled `{{#if tier=Unlimited}}` ... `{{/if}}`. If
 > your sending tool supports conditional logic (Resend with
 > liquid-style templates, ConvertKit segments, Customer.io filters),
-> drop that block when `tier_name == "Standard"`. Otherwise maintain
+> drop that block when `tier_name == "Solo"`. Otherwise maintain
 > two separate templates per tier.
 
 ---
@@ -60,10 +66,10 @@ let's get you cloning.
 What just happened
 ──────────────────
 
-  1. Polar charged your card and sent you an invoice.
-  2. We added "{{github_username}}" to the LaunchKit buyers
-     organization on GitHub. You should see an invite email from
-     GitHub within a few minutes — accept it and you're in.
+  1. Stripe charged your card and emailed your receipt.
+  2. You claimed access as "{{github_username}}" and we invited that
+     account to the LaunchKit buyers organization on GitHub. The invite
+     email from GitHub is already on its way — accept it and you're in.
   3. Your order ID is {{order_id}}, save it for your records.
 
 The two repos you'll want to clone
@@ -81,25 +87,27 @@ The 5-minute path to a running app
   1. cd into either repo and read the README.md.
   2. cp .env.example .env, fill the bits you need (or leave the
      defaults — the demo seed will spin up fake data).
-  3. docker compose up -d  (postgres + redis + api + worker).
-  4. python manage.py seed_demo  (creates a demo tenant with users,
-     plans, and a few invoices).
+  3. docker compose up -d --build  (postgres, redis, mailhog, api,
+     celery, beat) in launchkit-api, then
+     docker compose exec api python manage.py migrate
+     docker compose exec api python manage.py update_default_roles
+     docker compose exec api python manage.py seed_demo
+  4. npm install && npm run dev in launchkit-web.
   5. open http://localhost:3000 → log in with the demo creds in the
      README.
 
-Read the CLAUDE.md files at the root of each repo before you start
-editing — they map every load-bearing pattern in the codebase. Your
-AI agent (Claude, Cursor, Codex, whatever you use) reads them on
+Read AGENTS.md at the root of each repo before you start editing —
+it maps every load-bearing pattern in the codebase. Your AI agent
+(Claude Code, Cursor, Codex, Copilot, whatever you use) reads it on
 every prompt and writes much better code as a result.
 
-{{#if tier=Lifetime}}
-Your Lifetime perks
-───────────────────
+{{#if tier=Unlimited}}
+Your Unlimited perks
+────────────────────
 
-  • Discord channel (Lifetime-only): {{discord_invite_url}}
+  • Discord channel (Unlimited-only): {{discord_invite_url}}
     I drop early builds, RFC threads, and the roadmap vote here.
-  • Updates forever — every major version, no expiry.
-  • Early access to new features before they ship to Standard.
+  • Early access to new features before everyone else.
   • A vote on what gets built next.
 
 {{/if}}
@@ -121,7 +129,7 @@ Need help?
 
 Reply to this email. I read every reply and answer within 24 hours
 on weekdays. For longer architecture questions, paste the question
-into Discord (Lifetime) or shoot me a Loom — I'll send one back.
+into Discord (Unlimited) or shoot me a Loom — I'll send one back.
 
 If you have any quick wins shipping with LaunchKit, I'd love to
 hear about them — reply with what you're building.
@@ -210,36 +218,36 @@ Welcome aboard. Now go ship.
         <ol style="margin:0 0 8px 0;padding-left:22px;font-size:14px;color:#3a342d;">
           <li style="margin-bottom:6px;">Read the <code style="font-family:'SFMono-Regular',Menlo,monospace;background:#f4efe5;padding:1px 5px;border-radius:4px;color:#d96b4a;">README.md</code> at the root of either repo.</li>
           <li style="margin-bottom:6px;"><code style="font-family:'SFMono-Regular',Menlo,monospace;background:#f4efe5;padding:1px 5px;border-radius:4px;color:#d96b4a;">cp .env.example .env</code> — defaults work for the demo.</li>
-          <li style="margin-bottom:6px;"><code style="font-family:'SFMono-Regular',Menlo,monospace;background:#f4efe5;padding:1px 5px;border-radius:4px;color:#d96b4a;">docker compose up -d</code></li>
-          <li style="margin-bottom:6px;"><code style="font-family:'SFMono-Regular',Menlo,monospace;background:#f4efe5;padding:1px 5px;border-radius:4px;color:#d96b4a;">python manage.py seed_demo</code></li>
+          <li style="margin-bottom:6px;"><code style="font-family:'SFMono-Regular',Menlo,monospace;background:#f4efe5;padding:1px 5px;border-radius:4px;color:#d96b4a;">docker compose up -d --build</code> in launchkit-api, then <code style="font-family:'SFMono-Regular',Menlo,monospace;background:#f4efe5;padding:1px 5px;border-radius:4px;color:#d96b4a;">docker compose exec api python manage.py migrate &amp;&amp; docker compose exec api python manage.py update_default_roles &amp;&amp; docker compose exec api python manage.py seed_demo</code></li>
+          <li style="margin-bottom:6px;"><code style="font-family:'SFMono-Regular',Menlo,monospace;background:#f4efe5;padding:1px 5px;border-radius:4px;color:#d96b4a;">npm install &amp;&amp; npm run dev</code> in launchkit-web</li>
           <li>Open <strong>http://localhost:3000</strong> — log in with the demo creds in the README.</li>
         </ol>
         <p style="margin:14px 0 0 0;font-size:14px;color:#3a342d;">
-          Read the <code style="font-family:'SFMono-Regular',Menlo,monospace;background:#f4efe5;padding:1px 5px;border-radius:4px;color:#d96b4a;">CLAUDE.md</code>
-          files at the root of each repo before you start editing — they
-          map every load-bearing pattern in the codebase. Any AI agent
-          (Claude, Cursor, Codex) reads them on every prompt and writes
-          much better code as a result.
+          Read <code style="font-family:'SFMono-Regular',Menlo,monospace;background:#f4efe5;padding:1px 5px;border-radius:4px;color:#d96b4a;">AGENTS.md</code>
+          at the root of each repo before you start editing — it maps
+          every load-bearing pattern in the codebase. Any AI agent (Claude
+          Code, Cursor, Codex, Copilot) reads it on every prompt and
+          writes much better code as a result.
         </p>
       </td>
     </tr>
 
-    {{#if tier=Lifetime}}
+    {{#if tier=Unlimited}}
     <tr>
       <td style="padding:24px 32px 0 32px;">
         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #d96b4a;border-radius:12px;background:#fdf3ee;">
           <tr>
             <td style="padding:18px 20px;">
               <p style="margin:0 0 8px 0;font-family:'SFMono-Regular',Menlo,monospace;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:#d96b4a;">
-                Lifetime perks
+                Unlimited perks
               </p>
               <p style="margin:0 0 10px 0;font-size:14px;color:#3a342d;">
-                You unlocked the private Discord. I drop early builds,
+                Unlimited unlocked the private Discord. I drop early builds,
                 RFC threads, and the roadmap vote there.
               </p>
               <p style="margin:0;">
                 <a href="{{discord_invite_url}}" style="display:inline-block;background:#d96b4a;color:#ffffff;text-decoration:none;font-size:14px;font-weight:600;padding:10px 18px;border-radius:9999px;">
-                  Join the Lifetime Discord →
+                  Join the Unlimited Discord →
                 </a>
               </p>
             </td>

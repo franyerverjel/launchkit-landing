@@ -4,27 +4,35 @@ import { cn } from "@/lib/utils"
 const { tiers, discount } = site.pricing
 ---
 
-<section id="pricing" class="border-b border-border/60 bg-secondary/30">
-  <div class="mx-auto max-w-6xl px-4 sm:px-6 py-20 md:py-28">
-    <div class="max-w-3xl mb-12">
+<section
+  id="pricing"
+  class="border-b border-border/60 bg-secondary/30"
+  data-umami-section="pricing"
+>
+  <div class="mx-auto max-w-6xl px-4 py-20 sm:px-6 md:py-28">
+    <div class="mb-12 max-w-3xl">
       <span class="lk-section-num">09 / Pricing</span>
       <div class="mt-4 flex flex-wrap items-baseline gap-x-5 gap-y-2">
-        <h2 class="lk-display lk-balance text-3xl md:text-4xl">
-          One payment. <em class="text-muted-foreground">Lifetime</em> license.
+        <h2 class="lk-balance lk-display text-3xl md:text-4xl">
+          Pay once. <em class="text-muted-foreground">Own it</em> forever.
         </h2>
-        {discount.enabled && (
-          <span class="inline-flex items-center gap-2 rounded-full bg-coral/15 px-3 py-1 font-mono text-[11px] font-semibold uppercase tracking-widest text-coral-deep">
-            <span class="size-1.5 rounded-full bg-coral animate-pulse" />
-            {discount.label}
-          </span>
-        )}
+        {
+          discount.enabled && (
+            <span class="inline-flex items-center gap-2 rounded-full bg-coral/15 px-3 py-1 font-mono text-[11px] font-semibold tracking-widest text-coral-deep uppercase">
+              <span class="size-1.5 animate-pulse rounded-full bg-coral" />
+              {discount.label}
+            </span>
+          )
+        }
       </div>
-      <p class="mt-5 text-base text-muted-foreground leading-relaxed">
-        No subscriptions. No per-seat creep. Pay once, own the source, ship as many SaaS projects as you can dream up.
+      <p class="mt-5 text-base leading-relaxed text-muted-foreground">
+        No subscriptions, no per-seat creep, no renewal. Pay once, own the
+        source, and keep every update for as long as LaunchKit is maintained.
+        Pick the tier by how many products you plan to ship.
       </p>
     </div>
 
-    <div class="grid gap-5 md:grid-cols-2 max-w-4xl mx-auto">
+    <div class="mx-auto grid max-w-4xl gap-5 md:grid-cols-2">
       {
         tiers.map((tier) => (
           <article
@@ -37,8 +45,13 @@ const { tiers, discount } = site.pricing
           >
             {tier.featured && tier.badge && (
               <div class="absolute -top-3 left-1/2 -translate-x-1/2">
-                <span class="inline-flex items-center gap-1.5 rounded-full bg-coral px-3 py-1 font-mono text-[10px] uppercase tracking-widest text-coral-foreground shadow-sm">
-                  <svg viewBox="0 0 16 16" class="size-3" fill="currentColor" aria-hidden="true">
+                <span class="inline-flex items-center gap-1.5 rounded-full bg-coral px-3 py-1 font-mono text-[10px] tracking-widest text-coral-foreground uppercase shadow-sm">
+                  <svg
+                    viewBox="0 0 16 16"
+                    class="size-3"
+                    fill="currentColor"
+                    aria-hidden="true"
+                  >
                     <path d="M8 1l1.8 4.2L14 7l-4.2 1.8L8 13l-1.8-4.2L2 7l4.2-1.8L8 1z" />
                   </svg>
                   {tier.badge}
@@ -47,26 +60,42 @@ const { tiers, discount } = site.pricing
             )}
 
             <header class="flex flex-col gap-3">
-              <span class={cn("lk-mono-label", tier.featured && "text-background/55")}>
+              <span
+                class={cn(
+                  "lk-mono-label",
+                  tier.featured && "text-background/55"
+                )}
+              >
                 {tier.name}
               </span>
               <div class="flex items-baseline gap-3">
                 <span class="lk-display text-6xl">{tier.priceLabel}</span>
                 {tier.originalPriceLabel && (
-                  <span class={cn(
-                    "font-mono text-xl line-through",
-                    tier.featured ? "text-background/40" : "text-muted-foreground/70"
-                  )}>
+                  <span
+                    class={cn(
+                      "font-mono text-xl line-through",
+                      tier.featured
+                        ? "text-background/40"
+                        : "text-muted-foreground/70"
+                    )}
+                  >
                     {tier.originalPriceLabel}
                   </span>
                 )}
               </div>
-              <p class={cn("text-sm", tier.featured ? "text-background/70" : "text-muted-foreground")}>
+              <p
+                class={cn(
+                  "text-sm",
+                  tier.featured ? "text-background/70" : "text-muted-foreground"
+                )}
+              >
                 {tier.cadence} · {tier.seat}
               </p>
             </header>
 
-            <hr class={cn("lk-rule", tier.featured && "border-background/15")} />
+            <hr
+              class={cn("lk-rule", tier.featured && "border-background/15")}
+            />
 
             <ul class="flex flex-col gap-3 text-sm">
               {tier.bullets.map((bullet) => (
@@ -79,8 +108,18 @@ const { tiers, discount } = site.pricing
                         : "bg-foreground text-background"
                     )}
                   >
-                    <svg viewBox="0 0 16 16" class="size-2.5" fill="none" stroke="currentColor" stroke-width="3">
-                      <path d="M3 8l3 3 7-7" stroke-linecap="round" stroke-linejoin="round" />
+                    <svg
+                      viewBox="0 0 16 16"
+                      class="size-2.5"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="3"
+                    >
+                      <path
+                        d="M3 8l3 3 7-7"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
                     </svg>
                   </span>
                   <span class="leading-relaxed">{bullet}</span>
@@ -88,22 +127,49 @@ const { tiers, discount } = site.pricing
               ))}
             </ul>
 
+            {/*
+              This is the one link on the site that must never wait on
+              analytics. Umami's declarative `data-umami-event` handler
+              preventDefaults a link click and only navigates once the beacon
+              resolves — so a slow or unreachable metrics host would stall the
+              buyer on the way to Stripe. The listener in
+              `src/components/analytics.astro` reads these attributes instead
+              and fires a `keepalive` beacon that survives the unload, leaving
+              the navigation untouched.
+            */}
             <a
               href={tier.href}
+              data-checkout-tier={tier.id}
+              data-checkout-price={tier.price}
               class={cn(
-                "lk-pill mt-auto inline-flex h-12 items-center justify-center gap-2 text-sm font-medium transition-all shadow-sm",
+                "lk-pill mt-auto inline-flex h-12 items-center justify-center gap-2 text-sm font-medium shadow-sm transition-[background-color,box-shadow,transform]",
                 tier.featured
-                  ? "bg-coral text-coral-foreground hover:bg-coral-deep shadow-lg shadow-coral/30 hover:shadow-xl"
+                  ? "bg-coral text-coral-foreground shadow-lg shadow-coral/30 hover:bg-coral-deep hover:shadow-xl"
                   : "bg-foreground text-background hover:bg-foreground/85"
               )}
             >
               {tier.cta}
-              <svg viewBox="0 0 16 16" class="size-4" fill="none" stroke="currentColor" stroke-width="1.6">
-                <path d="M3 8h10M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round" />
+              <svg
+                viewBox="0 0 16 16"
+                class="size-4"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.6"
+              >
+                <path
+                  d="M3 8h10M9 4l4 4-4 4"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                />
               </svg>
             </a>
 
-            <p class={cn("text-xs text-center", tier.featured ? "text-background/50" : "text-muted-foreground")}>
+            <p
+              class={cn(
+                "text-center text-xs",
+                tier.featured ? "text-background/50" : "text-muted-foreground"
+              )}
+            >
               Secure checkout · Repo access in 5 min
             </p>
           </article>
@@ -111,29 +177,58 @@ const { tiers, discount } = site.pricing
       }
     </div>
 
-    {/* Reassurance row — kept honest. We can't offer no-questions
+    {
+      /* Reassurance row — kept honest. We can't offer no-questions
         refunds on a digital product where buyers get the source on
         delivery, so we frame the guarantees around what we can
         actually back: secure checkout, instant access, and 1-on-1
-        support if something doesn't work. */}
-    <div class="mt-12 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm text-muted-foreground">
+        support if something doesn't work. */
+    }
+    <div
+      class="mt-12 flex flex-wrap items-center justify-center gap-x-8 gap-y-3 text-sm text-muted-foreground"
+    >
       <div class="flex items-center gap-2">
-        <svg viewBox="0 0 16 16" class="size-4 text-foreground" fill="none" stroke="currentColor" stroke-width="1.5">
-          <rect x="2" y="6" width="12" height="8" rx="1" />
-          <path d="M5 6V4a3 3 0 0 1 6 0v2" />
+        <svg
+          viewBox="0 0 16 16"
+          class="size-4 text-foreground"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+        >
+          <rect x="2" y="6" width="12" height="8" rx="1"></rect>
+          <path d="M5 6V4a3 3 0 0 1 6 0v2"></path>
         </svg>
         Secure checkout · Powered by Stripe
       </div>
       <div class="flex items-center gap-2">
-        <svg viewBox="0 0 16 16" class="size-4 text-foreground" fill="none" stroke="currentColor" stroke-width="1.5">
-          <path d="M3 4l5-2 5 2v5c0 3-2 5-5 6-3-1-5-3-5-6V4z" stroke-linejoin="round" />
-          <path d="M6 8l1.5 1.5L10 7" stroke-linecap="round" stroke-linejoin="round" />
+        <svg
+          viewBox="0 0 16 16"
+          class="size-4 text-foreground"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+        >
+          <path
+            d="M3 4l5-2 5 2v5c0 3-2 5-5 6-3-1-5-3-5-6V4z"
+            stroke-linejoin="round"></path>
+          <path
+            d="M6 8l1.5 1.5L10 7"
+            stroke-linecap="round"
+            stroke-linejoin="round"></path>
         </svg>
         Instant repo access · clone & ship
       </div>
       <div class="flex items-center gap-2">
-        <svg viewBox="0 0 16 16" class="size-4 text-foreground" fill="none" stroke="currentColor" stroke-width="1.5">
-          <path d="M8 1l2 4 4 .5-3 3 1 4-4-2-4 2 1-4-3-3 4-.5z" stroke-linejoin="round" />
+        <svg
+          viewBox="0 0 16 16"
+          class="size-4 text-foreground"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+        >
+          <path
+            d="M8 1l2 4 4 .5-3 3 1 4-4-2-4 2 1-4-3-3 4-.5z"
+            stroke-linejoin="round"></path>
         </svg>
         Email me first · I read every reply
       </div>

@@ -1,10 +1,16 @@
 # Email · Bienvenida — comprador acaba de pagar (ES)
 
-El primer email que recibe un comprador nuevo, enviado en cuanto Polar
-dispara el webhook `order.completed`. Para cuando llega ya debería tener
-el invite de GitHub (Polar gestiona el alta en la org automáticamente —
-ver `docs/POLAR_SETUP.md`), así que este email confirma lo que pasó,
-los apunta al README y deja claro cómo contactarnos.
+El email que recibe un comprador justo después de reclamar su invite de
+GitHub. El flujo (ver `docs/STRIPE_SETUP.md` y el servicio
+`launchkit-delivery`): Stripe dispara `checkout.session.completed` →
+launchkit-delivery envía un **claim link** firmado → el comprador confirma
+su usuario de GitHub → lo invitamos a la org privada → sale este email.
+Para cuando llega, el invite de GitHub ya está en su bandeja; este email
+confirma lo que pasó, lo apunta al README y deja claro cómo contactarnos.
+
+> Las plantillas que launchkit-delivery envía de verdad viven en
+> `launchkit-delivery/app/templates/`. Este archivo es la fuente de la
+> copy — edita aquí y luego traslada el texto allí.
 
 Este archivo es la fuente de la copy en español. Hay dos versiones
 debajo (texto plano y HTML) — usa la que mejor le venga a tu herramienta
@@ -17,22 +23,22 @@ de envío. La versión en inglés vive en
 
 | Variable | Ejemplo | Notas |
 |---|---|---|
-| `{{first_name}}` | `Franyer` | Del registro de cliente en Polar |
-| `{{tier_name}}` | `Lifetime` | `Standard` o `Lifetime` |
-| `{{order_id}}` | `polar_o_abc123` | Para sus registros y nuestra búsqueda de soporte |
+| `{{first_name}}` | `Franyer` | Del registro de cliente en Stripe |
+| `{{tier_name}}` | `Unlimited` | `Solo` o `Unlimited` |
+| `{{order_id}}` | `cs_live_a1b2c3…` | Id de la Checkout Session de Stripe — para sus registros y nuestra búsqueda de soporte |
 | `{{github_username}}` | `franyerv` | Capturado en el checkout — confirma a quién se invitó |
 | `{{github_org_url}}` | `https://github.com/launchasaas` | La org de buyers |
 | `{{api_repo_url}}` | `https://github.com/launchasaas/launchkit-api` | |
 | `{{web_repo_url}}` | `https://github.com/launchasaas/launchkit-web` | |
-| `{{discord_invite_url}}` | `https://discord.gg/...` | **Solo Lifetime** — omitir el bloque de Discord para Standard |
+| `{{discord_invite_url}}` | `https://discord.gg/...` | **Solo para Unlimited** — omitir el bloque de Discord para Solo |
 | `{{founder_name}}` | `Franyer` | Despedida |
 | `{{contact_email}}` | `hello@launchasaas.dev` | Reply-to |
 
 > **Bloque condicional de Discord.** Tanto la versión en texto plano
-> como la HTML llevan una sección marcada como `{{#if tier=Lifetime}}`
+> como la HTML llevan una sección marcada como `{{#if tier=Unlimited}}`
 > ... `{{/if}}`. Si tu herramienta de envío soporta condicionales
 > (Resend con templates tipo Liquid, segmentos de ConvertKit, filtros
-> de Customer.io), suprímela cuando `tier_name == "Standard"`. Si no,
+> de Customer.io), suprímela cuando `tier_name == "Solo"`. Si no,
 > mantén dos plantillas separadas por tier.
 
 ---
@@ -60,10 +66,10 @@ anillo al dedo — vamos a clonar.
 Lo que acaba de pasar
 ─────────────────────
 
-  1. Polar cobró tu tarjeta y te envió la factura.
-  2. Agregamos a "{{github_username}}" a la organización de
-     buyers en GitHub. Deberías ver un invite de GitHub en tu
-     bandeja en unos minutos — acéptalo y estás dentro.
+  1. Stripe cobró tu tarjeta y te envió el recibo.
+  2. Reclamaste el acceso como "{{github_username}}" e invitamos a esa
+     cuenta a la organización de buyers en GitHub. El invite de GitHub
+     ya va en camino — acéptalo y estás dentro.
   3. Tu order ID es {{order_id}}, guárdalo para tus registros.
 
 Los dos repos que vas a querer clonar
@@ -81,26 +87,27 @@ Los dos repos que vas a querer clonar
   1. Entra a cualquiera de los dos repos y lee el README.md.
   2. cp .env.example .env, llena lo que necesites (o deja los
      defaults — el demo seed levanta data de prueba).
-  3. docker compose up -d  (postgres + redis + api + worker).
-  4. python manage.py seed_demo  (crea un tenant de demo con
-     usuarios, planes y algunas facturas).
+  3. docker compose up -d --build  (postgres, redis, mailhog, api,
+     celery, beat) en launchkit-api, y luego
+     docker compose exec api python manage.py migrate
+     docker compose exec api python manage.py update_default_roles
+     docker compose exec api python manage.py seed_demo
+  4. npm install && npm run dev en launchkit-web.
   5. open http://localhost:3000 → entra con las credenciales
      de demo que vienen en el README.
 
-Lee los archivos CLAUDE.md en la raíz de cada repo antes de
-ponerte a editar — mapean todos los patrones críticos del
-código. Tu agente de IA (Claude, Cursor, Codex, lo que uses)
-los lee en cada prompt y escribe mucho mejor código gracias a
-ellos.
+Lee el AGENTS.md en la raíz de cada repo antes de ponerte a
+editar — mapea todos los patrones críticos del código. Tu agente
+de IA (Claude Code, Cursor, Codex, Copilot, lo que uses) lo lee
+en cada prompt y escribe mucho mejor código gracias a él.
 
-{{#if tier=Lifetime}}
-Tus perks de Lifetime
-─────────────────────
+{{#if tier=Unlimited}}
+Tus perks de Unlimited
+──────────────────────
 
-  • Canal de Discord (exclusivo Lifetime): {{discord_invite_url}}
+  • Canal de Discord (exclusivo Unlimited): {{discord_invite_url}}
     Subo builds tempranos, hilos de RFC y el voto del roadmap acá.
-  • Updates para siempre — cada major version, sin caducidad.
-  • Acceso temprano a features antes de que lleguen a Standard.
+  • Acceso temprano a features antes que nadie.
   • Voto sobre qué se construye después.
 
 {{/if}}
@@ -213,36 +220,36 @@ Bienvenido a bordo. Ahora a shippear.
         <ol style="margin:0 0 8px 0;padding-left:22px;font-size:14px;color:#3a342d;">
           <li style="margin-bottom:6px;">Lee el <code style="font-family:'SFMono-Regular',Menlo,monospace;background:#f4efe5;padding:1px 5px;border-radius:4px;color:#d96b4a;">README.md</code> en la raíz de cualquier repo.</li>
           <li style="margin-bottom:6px;"><code style="font-family:'SFMono-Regular',Menlo,monospace;background:#f4efe5;padding:1px 5px;border-radius:4px;color:#d96b4a;">cp .env.example .env</code> — los defaults funcionan para el demo.</li>
-          <li style="margin-bottom:6px;"><code style="font-family:'SFMono-Regular',Menlo,monospace;background:#f4efe5;padding:1px 5px;border-radius:4px;color:#d96b4a;">docker compose up -d</code></li>
-          <li style="margin-bottom:6px;"><code style="font-family:'SFMono-Regular',Menlo,monospace;background:#f4efe5;padding:1px 5px;border-radius:4px;color:#d96b4a;">python manage.py seed_demo</code></li>
+          <li style="margin-bottom:6px;"><code style="font-family:'SFMono-Regular',Menlo,monospace;background:#f4efe5;padding:1px 5px;border-radius:4px;color:#d96b4a;">docker compose up -d --build</code> en launchkit-api, y luego <code style="font-family:'SFMono-Regular',Menlo,monospace;background:#f4efe5;padding:1px 5px;border-radius:4px;color:#d96b4a;">docker compose exec api python manage.py migrate &amp;&amp; docker compose exec api python manage.py update_default_roles &amp;&amp; docker compose exec api python manage.py seed_demo</code></li>
+          <li style="margin-bottom:6px;"><code style="font-family:'SFMono-Regular',Menlo,monospace;background:#f4efe5;padding:1px 5px;border-radius:4px;color:#d96b4a;">npm install &amp;&amp; npm run dev</code> en launchkit-web</li>
           <li>Abre <strong>http://localhost:3000</strong> — entra con las credenciales de demo del README.</li>
         </ol>
         <p style="margin:14px 0 0 0;font-size:14px;color:#3a342d;">
-          Lee los archivos <code style="font-family:'SFMono-Regular',Menlo,monospace;background:#f4efe5;padding:1px 5px;border-radius:4px;color:#d96b4a;">CLAUDE.md</code>
-          en la raíz de cada repo antes de empezar a editar — mapean todos
-          los patrones críticos del código. Cualquier agente de IA (Claude,
-          Cursor, Codex) los lee en cada prompt y escribe mucho mejor
-          código gracias a ellos.
+          Lee el <code style="font-family:'SFMono-Regular',Menlo,monospace;background:#f4efe5;padding:1px 5px;border-radius:4px;color:#d96b4a;">AGENTS.md</code>
+          en la raíz de cada repo antes de empezar a editar — mapea todos
+          los patrones críticos del código. Cualquier agente de IA (Claude
+          Code, Cursor, Codex, Copilot) lo lee en cada prompt y escribe
+          mucho mejor código gracias a él.
         </p>
       </td>
     </tr>
 
-    {{#if tier=Lifetime}}
+    {{#if tier=Unlimited}}
     <tr>
       <td style="padding:24px 32px 0 32px;">
         <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border:1px solid #d96b4a;border-radius:12px;background:#fdf3ee;">
           <tr>
             <td style="padding:18px 20px;">
               <p style="margin:0 0 8px 0;font-family:'SFMono-Regular',Menlo,monospace;font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:#d96b4a;">
-                Perks de Lifetime
+                Perks de Unlimited
               </p>
               <p style="margin:0 0 10px 0;font-size:14px;color:#3a342d;">
-                Desbloqueaste el Discord privado. Subo builds tempranos,
+                Unlimited desbloquea el Discord privado. Subo builds tempranos,
                 hilos de RFC y el voto del roadmap ahí.
               </p>
               <p style="margin:0;">
                 <a href="{{discord_invite_url}}" style="display:inline-block;background:#d96b4a;color:#ffffff;text-decoration:none;font-size:14px;font-weight:600;padding:10px 18px;border-radius:9999px;">
-                  Únete al Discord de Lifetime →
+                  Únete al Discord de Unlimited →
                 </a>
               </p>
             </td>

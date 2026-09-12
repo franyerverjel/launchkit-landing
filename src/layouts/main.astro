@@ -1,6 +1,8 @@
 ---
 import "@/styles/global.css"
 import { site } from "@/config/site"
+import { faqs } from "@/config/faq"
+import Analytics from "@/components/analytics.astro"
 
 interface Props {
   title?: string
@@ -9,16 +11,25 @@ interface Props {
   ogImage?: string
 }
 
+// <title> stays under ~60 characters and the description under ~160 so
+// neither gets truncated in search results. Sub-pages pass a short
+// `title` and get the brand appended.
+const DEFAULT_TITLE = `${site.brand} — Django + Next.js SaaS boilerplate`
+const DEFAULT_DESCRIPTION =
+  "Multi-tenant SaaS boilerplate: Django + DRF backend, Next.js 16 frontend. Auth, Stripe billing, roles, 2FA and i18n — wired and tested. Buy once, ship forever."
+
 const {
-  title = `${site.brand} — Production-grade SaaS boilerplate. Multi-tenant, Stripe-ready, AI-friendly.`,
-  description = "Skip three weeks of plumbing. Django + DRF backend, Next.js 16 + React 19 frontend. Auth, multi-tenant, Stripe billing, roles, audit logs, i18n — all wired and tested. Buy once, ship forever.",
-  ogImage = "/og-image.png"
+  title: pageTitle,
+  description = DEFAULT_DESCRIPTION,
+  ogImage = "/og-image.png",
 } = Astro.props
+const title = pageTitle ? `${pageTitle} · ${site.brand}` : DEFAULT_TITLE
 
 // Build absolute URLs so OG/Twitter cards and canonicals work correctly
 // when the page is fetched by a crawler (LinkedIn / Slack / Twitter need
 // fully-qualified URLs).
-const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin).href
+const canonicalUrl = new URL(Astro.url.pathname, Astro.site ?? Astro.url.origin)
+  .href
 const ogImageUrl = new URL(ogImage, Astro.site ?? Astro.url.origin).href
 
 // JSON-LD structured data — three schemas that fit a paid dev tool:
@@ -30,7 +41,7 @@ const orgSchema = {
   "@type": "Organization",
   name: site.brand,
   url: canonicalUrl,
-  logo: new URL("/icon.png", Astro.site ?? Astro.url.origin).href
+  logo: new URL("/icon-512.png", Astro.site ?? Astro.url.origin).href,
 }
 
 const offers = site.pricing.tiers.map((tier) => ({
@@ -40,7 +51,7 @@ const offers = site.pricing.tiers.map((tier) => ({
   priceCurrency: site.pricing.currency,
   url: tier.href,
   category: tier.cadence,
-  description: tier.bullets.slice(0, 3).join(" · ")
+  description: tier.bullets.slice(0, 3).join(" · "),
 }))
 
 const productSchema = {
@@ -50,28 +61,20 @@ const productSchema = {
   description,
   applicationCategory: "DeveloperApplication",
   operatingSystem: "Web · macOS · Linux · Windows",
-  offers
+  offers,
   // NOTE: add an `aggregateRating` here only once you have REAL, verifiable
   // reviews. Fake/unverifiable review markup violates Google's structured-data
   // policy and can get the whole site's rich results demoted.
 }
 
-const faqs = [
-  ["What exactly do I get when I buy?", "Two git repositories: launchkit-api (Django + DRF) and launchkit-web (Next.js 16 + React 19). Plus the AI-agent skills, the CLAUDE.md files, the CI configuration, the test suites, and a CHANGELOG."],
-  ["Can I use it for commercial projects? Multiple projects?", "Yes — both licenses include unlimited commercial projects, including client work. The only thing you can't do is resell the boilerplate itself."],
-  ["What's the difference between Standard and Lifetime?", "Both ship the same source code, both let you build unlimited projects. Standard gets 1 year of updates and email support. Lifetime gets updates forever, a private Discord channel reserved for Lifetime buyers, early access to new features, and a vote on the roadmap."],
-  ["Do I have to credit LaunchKit anywhere?", "No. Strip every reference to LaunchKit from the codebase. Use it however you want."],
-  ["What's the refund policy?", "Once you've been added to the private GitHub organization, the source code is in your hands — so we don't offer refunds after repo access. If you change your mind before accessing the repo, email us within 7 days for a full refund. We'd rather walk you through any concerns before you check out than have you regret the purchase."]
-]
-
 const faqSchema = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  mainEntity: faqs.map(([q, a]) => ({
+  mainEntity: faqs.map(({ q, a }) => ({
     "@type": "Question",
     name: q,
-    acceptedAnswer: { "@type": "Answer", text: a }
-  }))
+    acceptedAnswer: { "@type": "Answer", text: a },
+  })),
 }
 ---
 
@@ -86,17 +89,39 @@ const faqSchema = {
     <meta name="description" content={description} />
     <link rel="canonical" href={canonicalUrl} />
 
-    {/* Favicons & app icons. The user-supplied set lives in /public — see
+    {
+      /* Favicons & app icons. The user-supplied set lives in /public — see
         public/manifest.json. Apple touch icons need to be linked
-        explicitly so iOS picks the highest-resolution available. */}
+        explicitly so iOS picks the highest-resolution available. */
+    }
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png" />
-    <link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png" />
-    <link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png" />
-    <link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png" />
-    <link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png" />
+    <link
+      rel="apple-touch-icon"
+      sizes="180x180"
+      href="/apple-icon-180x180.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="152x152"
+      href="/apple-icon-152x152.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="144x144"
+      href="/apple-icon-144x144.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="120x120"
+      href="/apple-icon-120x120.png"
+    />
+    <link
+      rel="apple-touch-icon"
+      sizes="114x114"
+      href="/apple-icon-114x114.png"
+    />
     <link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png" />
     <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png" />
     <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png" />
@@ -105,10 +130,12 @@ const faqSchema = {
     <meta name="msapplication-config" content="/browserconfig.xml" />
     <meta name="msapplication-TileColor" content="#FAF8F2" />
 
-    {/* Theme color — matches the warm cream + ink palette declared in
-        src/styles/global.css. Update both values when rebranding. */}
-    <meta name="theme-color" content="#FAF8F2" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#16100D" media="(prefers-color-scheme: dark)" />
+    {
+      /* Theme color — matches the cream page background declared in
+        src/styles/global.css. The site renders light-only (no .dark toggle),
+        so a dark variant here would mismatch the page chrome. */
+    }
+    <meta name="theme-color" content="#FAF8F2" />
 
     {/* Open Graph */}
     <meta property="og:type" content="website" />
@@ -120,29 +147,51 @@ const faqSchema = {
     <meta property="og:image" content={ogImageUrl} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta property="og:image:alt" content={`${site.brand} — ${description.slice(0, 100)}`} />
+    <meta
+      property="og:image:alt"
+      content={`${site.brand} — ${description.slice(0, 100)}`}
+    />
 
     {/* Twitter / X */}
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImageUrl} />
-    <meta name="twitter:image:alt" content={`${site.brand} dashboard preview`} />
-    {/* Rendered only once you set your X handle in src/config/site.ts
-        (social.twitter, e.g. "@launchasaas"). */}
-    {site.social.twitter && (
-      <>
-        <meta name="twitter:site" content={site.social.twitter} />
-        <meta name="twitter:creator" content={site.social.twitter} />
-      </>
-    )}
+    <meta
+      name="twitter:image:alt"
+      content={`${site.brand} dashboard preview`}
+    />
+    {
+      /* Rendered only once you set your X handle in src/config/site.ts
+        (social.twitter, e.g. "@launchasaas"). */
+    }
+    {
+      site.social.twitter && (
+        <>
+          <meta name="twitter:site" content={site.social.twitter} />
+          <meta name="twitter:creator" content={site.social.twitter} />
+        </>
+      )
+    }
 
     {/* Structured data (JSON-LD) — drives Google rich results. */}
     <script type="application/ld+json" set:html={JSON.stringify(orgSchema)} />
-    <script type="application/ld+json" set:html={JSON.stringify(productSchema)} />
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify(productSchema)}
+    />
     <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
+
+    {/* Umami — cookieless analytics. See src/components/analytics.astro. */}
+    <Analytics />
   </head>
   <body class="font-sans antialiased">
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-50 focus:rounded-md focus:bg-foreground focus:px-4 focus:py-2 focus:text-sm focus:text-background"
+    >
+      Skip to content
+    </a>
     <slot />
   </body>
 </html>

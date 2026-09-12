@@ -1,0 +1,30 @@
+---
+/**
+ * Branded 404. Static hosts (Cloudflare Pages, Netlify, Vercel) pick up
+ * dist/404.html automatically; for the rsync/VPS path point your server's
+ * `error_page 404` at it.
+ */
+import Legal from "@/layouts/legal.astro"
+import { site } from "@/config/site"
+---
+
+<Legal
+  title="Page not found"
+  description="That link doesn't point anywhere anymore — but everything you'd want is one click away."
+  eyebrow="404"
+>
+  <p>
+    Nothing lives at this address. If you followed a link from the changelog or
+    an email, it may have moved.
+  </p>
+  <ul>
+    <li><a href="/">Back to the landing</a></li>
+    <li><a href="/#pricing">Pricing and what's inside</a></li>
+    <li><a href="/changelog">Changelog</a></li>
+    <li>
+      Looking for your purchase? Email{" "}
+      <a href={`mailto:${site.social.email}`}>{site.social.email}</a> and we'll resend
+      your claim link.
+    </li>
+  </ul>
+</Legal>

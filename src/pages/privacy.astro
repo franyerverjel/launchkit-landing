@@ -10,7 +10,7 @@
 import Legal from "@/layouts/legal.astro"
 import { site } from "@/config/site"
 
-const lastUpdated = "2026-05-01"
+const lastUpdated = "2026-09-12"
 const contactEmail = site.social.email
 ---
 
@@ -20,90 +20,113 @@ const contactEmail = site.social.email
   eyebrow={`Last updated · ${lastUpdated}`}
 >
   <p>
-    Your privacy matters. This policy explains what data we collect,
-    why we collect it, how we use it, and the rights you have over
-    your information.
+    Your privacy matters. This policy explains what data we collect, why we
+    collect it, how we use it, and the rights you have over your information.
   </p>
 
   <h2>1. Data we collect</h2>
   <p>
-    When you buy the boilerplate we receive the order data forwarded by
-    our payment processor (your name, email and the GitHub username
-    you provide at checkout). Card details are handled by Stripe —
-    they never touch our servers. We also collect standard server logs
-    (IP address, user agent, pages visited) for security and product
-    improvement.
+    When you buy the boilerplate we receive the order data forwarded by our
+    payment processor (your name, email and the GitHub username you provide at
+    checkout). Card details are handled by Stripe — they never touch our
+    servers. We also collect standard server logs (IP address, user agent, pages
+    visited) for security and product improvement, and cookie-less usage
+    analytics described in section 6.
   </p>
 
   <h2>2. How we use your data</h2>
   <p>
-    To provide and operate the service (auth, billing, notifications),
-    to detect and prevent fraud, to comply with legal obligations, and
-    to improve the product. We never sell your data.
+    To deliver your purchase — the payment confirmation, the claim link, the
+    GitHub invite and the welcome email — to send release notices for your
+    license tier, to answer support requests, to prevent fraud, and to comply
+    with tax and legal obligations. We never sell your data and we don't send
+    marketing you didn't ask for.
   </p>
 
   <h2>3. Who we share with</h2>
   <p>
-    We share data with the subprocessors required to deliver your
-    purchase: <strong>Stripe</strong> (payment processor — handles
-    checkout, card data and invoicing), <strong>GitHub</strong> (we add your
-    username to our buyers organization so you can clone the repos),
-    <strong>Resend</strong> (transactional email — your welcome email
-    and any update notifications), and our hosting provider for the
-    landing itself. We do not sell or rent your data, and we only
-    share with other parties when required by law.
+    We share data with the subprocessors required to deliver your purchase: <strong
+      >Stripe</strong
+    > (payment processor — handles checkout, card data and invoicing), <strong
+      >GitHub</strong
+    > (we add your username to our buyers organization so you can clone the repos),
+    <strong>Resend</strong> (transactional email — your welcome email and any update
+    notifications), and our hosting provider for the landing itself. Our analytics
+    are self-hosted, so no analytics vendor receives your visit. We do not sell or
+    rent your data, and we only share with other parties when required by law.
   </p>
 
   <h2>4. How long we keep it</h2>
   <p>
-    Account data is retained while your account is active. Audit logs
-    and invoices are kept for the period required by tax and accounting
-    regulations (typically 7 years). When you delete your account, we
-    anonymize personal information and remove your content within 30
-    days, unless legally required to retain it.
+    Order records (name, email, GitHub username, tier and the Stripe identifiers
+    for the payment) are kept for as long as your license is active, and
+    invoices for the period tax and accounting regulations require after that
+    (typically 7 years). You can ask us to remove your GitHub username from the
+    buyers organization at any time; the license you bought stays yours.
   </p>
 
   <h2>5. Your rights</h2>
   <p>
-    You may access, correct, export, or delete your personal data at
-    any time from your account settings, or by emailing us at{" "}
-    <a href={`mailto:${contactEmail}`}>{contactEmail}</a>. Residents
-    of the EU/UK have additional rights under GDPR — including the
-    right to object to processing and to lodge a complaint with a
-    supervisory authority.
+    You may access, correct, export, or delete your personal data at any time by
+    emailing us at{" "}
+    <a href={`mailto:${contactEmail}`}>{contactEmail}</a>. Residents of the
+    EU/UK have additional rights under GDPR — including the right to object to
+    processing and to lodge a complaint with a supervisory authority.
   </p>
 
-  <h2>6. Cookies and tracking</h2>
+  <h2>6. Cookies and analytics</h2>
   <p>
-    We use a minimal set of essential cookies required for
-    authentication (session and CSRF tokens). We do not use third-party
-    advertising cookies. Optional analytics cookies, if any, are
-    clearly labeled and require explicit consent before being set.
+    This site sets no cookies of its own and stores nothing in your browser to
+    recognise you. Stripe Checkout sets the cookies it needs to process your
+    payment and prevent fraud, on its own domain. We run no advertising cookies,
+    no ad pixels, and no cross-site trackers.
+  </p>
+  <p>
+    We do measure how the site is used, with{" "}
+    <a href="https://umami.is" target="_blank" rel="noopener noreferrer"
+      >Umami</a
+    > — an open-source, cookie-less analytics tool we host ourselves at metrics.franyer.dev.
+    No third-party analytics company receives your visit.
+  </p>
+  <p>
+    Each page view records the page address and title, the referring site, your
+    screen size, browser language, and the browser, operating system, device
+    type and country your request came from. We also record which elements you
+    interact with — which buttons are clicked, which FAQ entries are opened, how
+    far down the page you read — and anonymous page-speed measurements. No name,
+    email, IP address or account is attached to any of it: your IP is used in
+    memory to derive a country and a daily, salted hash that groups one visit
+    together, then discarded. The hash rotates every day, so you cannot be
+    followed from one day to the next, and nothing here identifies you or
+    follows you to other websites. We do not sell or share this data.
+  </p>
+  <p>
+    You can opt out at any time. Any tracker blocker stops the script, and the
+    site works exactly the same without it.
   </p>
 
   <h2>7. Security</h2>
   <p>
-    We protect your data with TLS in transit, encryption at rest for
-    sensitive fields, two-factor authentication options, audit logging,
-    and a principle of least privilege for internal access. No system
-    is impenetrable, but we treat security as a first-class concern
-    and disclose breaches as required by law.
+    Payment data never touches our servers — Stripe handles it. Order records
+    travel over TLS, live with providers that encrypt at rest, and are
+    accessible only to the people who fulfil purchases. No system is
+    impenetrable, but we treat security as a first-class concern and disclose
+    breaches as required by law.
   </p>
 
   <h2>8. Children</h2>
   <p>
-    The service is not intended for children under 13 (or 16 in the
-    EU). We do not knowingly collect personal information from
-    children. If you believe a child has provided us data, contact us
-    at <a href={`mailto:${contactEmail}`}>{contactEmail}</a> and we
-    will delete it.
+    The service is not intended for children under 13 (or 16 in the EU). We do
+    not knowingly collect personal information from children. If you believe a
+    child has provided us data, contact us at <a href={`mailto:${contactEmail}`}
+      >{contactEmail}</a
+    > and we will delete it.
   </p>
 
   <h2>9. Changes to this policy</h2>
   <p>
-    We may update this policy as the product evolves. Material changes
-    will be communicated by email or in-app notice at least 14 days
-    before they take effect.
+    We may update this policy as the product evolves. Material changes will be
+    communicated to buyers by email at least 14 days before they take effect.
   </p>
 
   <h2>10. Contact</h2>

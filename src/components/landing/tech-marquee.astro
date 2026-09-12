@@ -6,33 +6,34 @@
 // To add a logo: drop the SVG into /public/tech/, add an entry below
 // with the matching brand color.
 const logos = [
-  { name: 'Django', file: 'django.svg', color: '#0C4B33' },
-  { name: 'PostgreSQL', file: 'postgresql.svg', color: '#4169E1' },
-  { name: 'Redis', file: 'redis.svg', color: '#FF4438' },
-  { name: 'Stripe', file: 'stripe.svg', color: '#635BFF' },
-  { name: 'Cloudflare', file: 'cloudflare.svg', color: '#F38020' },
-  { name: 'Next.js', file: 'nextdotjs.svg', color: '#0F0F0F' },
-  { name: 'TypeScript', file: 'typescript.svg', color: '#3178C6' },
-  { name: 'JavaScript', file: 'javascript.svg', color: '#F7DF1E' },
-  { name: 'Tailwind CSS', file: 'tailwindcss.svg', color: '#06B6D4' },
-  { name: 'shadcn/ui', file: 'shadcnui.svg', color: '#0F0F0F' },
-  { name: 'Sentry', file: 'sentry.svg', color: '#7553FF' },
-  { name: 'GitHub Actions', file: 'githubactions.svg', color: '#2088FF' }
+  { name: "Django", file: "django.svg", color: "#0C4B33" },
+  { name: "PostgreSQL", file: "postgresql.svg", color: "#4169E1" },
+  { name: "Redis", file: "redis.svg", color: "#FF4438" },
+  { name: "Stripe", file: "stripe.svg", color: "#635BFF" },
+  { name: "Cloudflare", file: "cloudflare.svg", color: "#F38020" },
+  { name: "Next.js", file: "nextdotjs.svg", color: "#0F0F0F" },
+  { name: "TypeScript", file: "typescript.svg", color: "#3178C6" },
+  { name: "Tailwind CSS", file: "tailwindcss.svg", color: "#06B6D4" },
+  { name: "shadcn/ui", file: "shadcnui.svg", color: "#0F0F0F" },
+  { name: "Sentry", file: "sentry.svg", color: "#7553FF" },
+  { name: "GitHub Actions", file: "githubactions.svg", color: "#2088FF" },
 ]
 ---
 
 <section class="border-y border-border/60 bg-secondary/40 py-12 md:py-14">
   <div class="mx-auto max-w-6xl px-4 sm:px-6">
-    <p class="text-center font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground mb-8">
+    <p
+      class="mb-8 text-center font-mono text-[11px] tracking-[0.18em] text-muted-foreground uppercase"
+    >
       Production-grade stack — already wired
     </p>
 
     <div class="lk-marquee">
-      <div class="lk-marquee-track gap-12 md:gap-16 items-center">
+      <div class="lk-marquee-track items-center gap-12 md:gap-16">
         {
           [...logos, ...logos].map((logo) => (
             <div
-              class="lk-tech shrink-0 flex items-center gap-2.5 px-2"
+              class="lk-tech flex shrink-0 items-center gap-2.5 px-2"
               title={logo.name}
             >
               <span

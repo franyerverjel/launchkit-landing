@@ -1,45 +1,60 @@
 ---
 import { site } from "@/config/site"
-const founder = site.pricing.tiers[0]
+const entry = site.pricing.tiers[0]
 ---
 
-<section class="relative overflow-hidden bg-foreground text-background">
-  <div
-    class="absolute inset-0 lk-halftone opacity-[0.05]"
-    aria-hidden="true"
-  ></div>
+<section
+  id="cta"
+  class="relative overflow-hidden bg-foreground text-background"
+>
+  <div class="absolute inset-0 lk-halftone opacity-[0.05]" aria-hidden="true">
+  </div>
   <div
     class="absolute -top-20 left-1/2 h-80 w-[120%] -translate-x-1/2 rounded-full bg-coral/30 blur-[120px]"
     aria-hidden="true"
-  ></div>
+  >
+  </div>
 
-  <div class="relative mx-auto max-w-6xl px-4 sm:px-6 py-24 md:py-32">
+  <div class="relative mx-auto max-w-6xl px-4 py-24 sm:px-6 md:py-32">
     <div class="grid items-end gap-12 lg:grid-cols-12">
       <div class="lg:col-span-8">
         <span class="lk-section-num text-background/50">11 / Ship</span>
-        <h2 class="lk-display lk-balance mt-4 text-4xl md:text-5xl lg:text-6xl">
+        <h2 class="lk-balance mt-4 lk-display text-4xl md:text-5xl lg:text-6xl">
           Stop writing auth.
           <br />
-          <em class="text-coral">Start writing</em>{' '}
+          <em class="text-coral">Start writing</em>{" "}
           features.
         </h2>
       </div>
 
-      <div class="lg:col-span-4 flex flex-col gap-5">
-        <p class="text-base text-background/70 leading-relaxed">
-          One payment. Lifetime license. Build the SaaS your customers see — not the one you'll never finish.
+      <div class="flex flex-col gap-5 lg:col-span-4">
+        <p class="text-base leading-relaxed text-background/70">
+          Pay once, own it forever. Build the SaaS your customers see — not the
+          plumbing they never will.
         </p>
         <a
           href="#pricing"
-          class="inline-flex h-14 items-center justify-center gap-2 rounded-md bg-coral px-7 text-base font-medium text-coral-foreground shadow-xl transition-all hover:bg-coral/90 hover:translate-x-0.5"
+          class="inline-flex h-14 items-center justify-center gap-2 rounded-md bg-coral px-7 text-base font-medium text-coral-foreground shadow-xl transition-[background-color,transform] hover:translate-x-0.5 hover:bg-coral/90"
+          data-umami-event="cta-click"
+          data-umami-event-location="final"
         >
-          Buy {site.brand} — from {founder.priceLabel}
-          <svg viewBox="0 0 16 16" class="size-5" fill="none" stroke="currentColor" stroke-width="1.6">
-            <path d="M3 8h10M9 4l4 4-4 4" stroke-linecap="round" stroke-linejoin="round" />
+          Buy {site.brand} — from {entry.priceLabel}
+          <svg
+            viewBox="0 0 16 16"
+            class="size-5"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.6"
+          >
+            <path
+              d="M3 8h10M9 4l4 4-4 4"
+              stroke-linecap="round"
+              stroke-linejoin="round"></path>
           </svg>
         </a>
         <p class="text-xs text-background/50">
-          Secure checkout · Repo access in your inbox · Read the FAQ before buying
+          Secure checkout · Repo access in your inbox · Read the FAQ before
+          buying
         </p>
       </div>
     </div>

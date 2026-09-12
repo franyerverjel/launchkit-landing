@@ -4,12 +4,15 @@ const year = new Date().getFullYear()
 ---
 
 <footer class="border-t border-border/60 bg-background">
-  <div class="mx-auto max-w-6xl px-4 sm:px-6 py-12">
+  <div class="mx-auto max-w-6xl px-4 py-12 sm:px-6">
     <div class="grid gap-10 md:grid-cols-12">
       <div class="md:col-span-5">
-        <a href="/" class="flex items-center gap-2.5 font-mono text-sm font-medium tracking-tight">
+        <a
+          href="/"
+          class="flex items-center gap-2.5 font-mono text-sm font-medium tracking-tight"
+        >
           <img
-            src="/icon.png"
+            src="/icon-128.png"
             alt={`${site.brand} logo`}
             width="28"
             height="28"
@@ -17,53 +20,132 @@ const year = new Date().getFullYear()
           />
           <span>{site.brand}</span>
         </a>
-        <p class="mt-4 max-w-xs text-sm text-muted-foreground leading-relaxed">
+        <p class="mt-4 max-w-xs text-sm leading-relaxed text-muted-foreground">
           Production-grade SaaS boilerplate. Multi-tenant, secure,
           internationalized. Buy once, ship forever.
         </p>
       </div>
 
-      <nav class="md:col-span-7 grid grid-cols-3 gap-8 text-sm">
+      <nav class="grid grid-cols-3 gap-8 text-sm md:col-span-7">
         <div class="flex flex-col gap-3">
           <h3 class="lk-mono-label">Product</h3>
           <ul class="flex flex-col gap-2">
-            <li><a href="#whats-inside" class="lk-link text-muted-foreground hover:text-foreground transition-colors">What's inside</a></li>
-            <li><a href="#features" class="lk-link text-muted-foreground hover:text-foreground transition-colors">Features</a></li>
-            <li><a href="#pricing" class="lk-link text-muted-foreground hover:text-foreground transition-colors">Pricing</a></li>
+            <li>
+              <a
+                href="#whats-inside"
+                class="lk-link text-muted-foreground transition-colors hover:text-foreground"
+                data-umami-event="nav-click"
+                data-umami-event-target="whats-inside"
+                data-umami-event-location="footer">What's inside</a
+              >
+            </li>
+            <li>
+              <a
+                href="#features"
+                class="lk-link text-muted-foreground transition-colors hover:text-foreground"
+                data-umami-event="nav-click"
+                data-umami-event-target="features"
+                data-umami-event-location="footer">Features</a
+              >
+            </li>
+            <li>
+              <a
+                href="#pricing"
+                class="lk-link text-muted-foreground transition-colors hover:text-foreground"
+                data-umami-event="nav-click"
+                data-umami-event-target="pricing"
+                data-umami-event-location="footer">Pricing</a
+              >
+            </li>
           </ul>
         </div>
         <div class="flex flex-col gap-3">
           <h3 class="lk-mono-label">Resources</h3>
           <ul class="flex flex-col gap-2">
-            <li><a href="#faq" class="lk-link text-muted-foreground hover:text-foreground transition-colors">FAQ</a></li>
-            <li><a href="/changelog" class="lk-link text-muted-foreground hover:text-foreground transition-colors">Changelog</a></li>
-            <li><a href={`mailto:${site.social.email}`} class="lk-link text-muted-foreground hover:text-foreground transition-colors">Email us</a></li>
+            <li>
+              <a
+                href="#faq"
+                class="lk-link text-muted-foreground transition-colors hover:text-foreground"
+                data-umami-event="nav-click"
+                data-umami-event-target="faq"
+                data-umami-event-location="footer">FAQ</a
+              >
+            </li>
+            <li>
+              <a
+                href="/changelog"
+                class="lk-link text-muted-foreground transition-colors hover:text-foreground"
+                data-umami-event="nav-click"
+                data-umami-event-target="changelog"
+                data-umami-event-location="footer">Changelog</a
+              >
+            </li>
+            <li>
+              <a
+                href={`mailto:${site.social.email}`}
+                class="lk-link text-muted-foreground transition-colors hover:text-foreground"
+                data-umami-event="email-click"
+                data-umami-event-location="footer">Email us</a
+              >
+            </li>
           </ul>
         </div>
         <div class="flex flex-col gap-3">
           <h3 class="lk-mono-label">Legal</h3>
           <ul class="flex flex-col gap-2">
-            <li><a href="/license" class="lk-link text-muted-foreground hover:text-foreground transition-colors">License</a></li>
-            <li><a href="/privacy" class="lk-link text-muted-foreground hover:text-foreground transition-colors">Privacy</a></li>
-            <li><a href="/terms" class="lk-link text-muted-foreground hover:text-foreground transition-colors">Terms</a></li>
+            <li>
+              <a
+                href="/license"
+                class="lk-link text-muted-foreground transition-colors hover:text-foreground"
+                data-umami-event="nav-click"
+                data-umami-event-target="license"
+                data-umami-event-location="footer">License</a
+              >
+            </li>
+            <li>
+              <a
+                href="/privacy"
+                class="lk-link text-muted-foreground transition-colors hover:text-foreground"
+                data-umami-event="nav-click"
+                data-umami-event-target="privacy"
+                data-umami-event-location="footer">Privacy</a
+              >
+            </li>
+            <li>
+              <a
+                href="/terms"
+                class="lk-link text-muted-foreground transition-colors hover:text-foreground"
+                data-umami-event="nav-click"
+                data-umami-event-target="terms"
+                data-umami-event-location="footer">Terms</a
+              >
+            </li>
           </ul>
         </div>
       </nav>
     </div>
 
-    <div class="mt-12 flex flex-col-reverse items-start justify-between gap-3 border-t border-border/60 pt-6 text-xs text-muted-foreground md:flex-row md:items-center">
+    <div
+      class="mt-12 flex flex-col-reverse items-start justify-between gap-3 border-t border-border/60 pt-6 text-xs text-muted-foreground md:flex-row md:items-center"
+    >
       <p class="font-mono">
-        © {year} {site.brand}. Built by
-        {' '}
+        © {year}
+        {site.brand}. Built by
+        {" "}
         <a
           href="https://franyer.dev?utm_source=launchasaas&utm_medium=footer&utm_campaign=credits"
           target="_blank"
           rel="noopener noreferrer"
-          class="text-foreground hover:text-coral-deep transition-colors underline-offset-2 hover:underline"
-        >Franyer Verjel</a>
-        {' '}— crafted with too much coffee.
+          class="text-foreground underline-offset-2 transition-colors hover:text-coral-deep hover:underline"
+          data-umami-event="outbound-click"
+          data-umami-event-target="franyer.dev"
+          data-umami-event-location="footer">Franyer Verjel</a
+        >
+        {" "}— crafted with too much coffee.
       </p>
-      <p class="font-mono">Last shipped {new Date().toISOString().slice(0, 10)}</p>
+      <p class="font-mono">
+        Site updated {new Date().toISOString().slice(0, 10)}
+      </p>
     </div>
   </div>
 </footer>

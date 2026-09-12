@@ -32,46 +32,57 @@ interface Props {
   showHeading?: boolean
 }
 
+// Markdown pages (`layout:` in frontmatter) pass their frontmatter as
+// `Astro.props.frontmatter`; .astro pages pass props directly. Support both.
+const frontmatter = ((Astro.props as { frontmatter?: Partial<Props> })
+  .frontmatter ?? {}) as Partial<Props>
 const {
-  title,
-  description,
-  eyebrow,
-  heading,
-  showHeading = true
+  title = frontmatter.title ?? "",
+  description = frontmatter.description,
+  eyebrow = frontmatter.eyebrow,
+  heading = frontmatter.heading,
+  showHeading = frontmatter.showHeading ?? true,
 } = Astro.props as Props
 ---
 
 <Main title={title} description={description}>
   <Nav />
-  <main class="relative">
-    {/* Soft halo + halftone — same atmosphere as the hero so legal pages
-        don't feel detached from the rest of the brand. */}
+  <main id="main" class="relative">
+    {
+      /* Soft halo + halftone — same atmosphere as the hero so legal pages
+        don't feel detached from the rest of the brand. */
+    }
     <div
       aria-hidden="true"
       class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[36rem] overflow-hidden"
     >
-      <div class="lk-halftone absolute inset-0 opacity-[0.04]"></div>
+      <div class="absolute inset-0 lk-halftone opacity-[0.04]"></div>
       <div
         class="absolute -top-40 left-1/2 size-[36rem] -translate-x-1/2 rounded-full bg-coral/20 blur-[140px]"
-      ></div>
+      >
+      </div>
     </div>
 
-    <article class="mx-auto max-w-3xl px-4 sm:px-6 py-16 md:py-24">
+    <article class="mx-auto max-w-3xl px-4 py-16 sm:px-6 md:py-24">
       <header class="mb-12 space-y-5">
-        {eyebrow && (
-          <p class="lk-mono-label">{eyebrow}</p>
-        )}
-        {showHeading && (
-          <h1 class="lk-display lk-balance text-4xl md:text-5xl">{heading ?? title}</h1>
-        )}
-        {description && (
-          <p class="max-w-2xl text-base md:text-lg text-muted-foreground leading-relaxed">
-            {description}
-          </p>
-        )}
+        {eyebrow && <p class="lk-mono-label">{eyebrow}</p>}
+        {
+          showHeading && (
+            <h1 class="lk-balance lk-display text-4xl md:text-5xl">
+              {heading ?? title}
+            </h1>
+          )
+        }
+        {
+          description && (
+            <p class="max-w-2xl text-base leading-relaxed text-muted-foreground md:text-lg">
+              {description}
+            </p>
+          )
+        }
       </header>
 
-      <hr class="lk-rule mb-12" />
+      <hr class="mb-12 lk-rule" />
 
       <div class="lk-prose">
         <slot />

@@ -19,9 +19,20 @@ LaunchKit grants you a non-exclusive, non-transferable, worldwide license to:
   c) deploy compiled and source forms of the Software as part of your
      Licensed Applications.
 
-The license tier you have purchased (Single Project, Team, or Unlimited)
-defines the scope of permitted Licensed Applications. See the order
-confirmation associated with your purchase for the specific scope.
+The license tier you have purchased defines how many Licensed Applications
+you may operate:
+
+  Solo       — one (1) Licensed Application, operated by you or your company.
+  Unlimited  — any number of Licensed Applications, including applications
+               you develop and deliver to clients, where each delivered
+               application is itself a Licensed Application under this
+               Agreement and the client receives no rights to the Software
+               apart from its use within that application.
+
+Both tiers grant the same source code and the same repository access, and
+both include updates for as long as the Software is maintained. Neither
+expires and neither renews. Your order confirmation records the tier you
+purchased.
 
 2. RESTRICTIONS
 
@@ -53,9 +64,14 @@ license terms of any such third-party components.
 
 5. SUPPORT AND UPDATES
 
-Unless explicitly included in your purchase, LaunchKit is provided AS-IS,
-without any obligation by LaunchKit to provide support, updates, bug fixes,
-or new features.
+Both tiers include email support and access to updates for as long as the
+Software is maintained, at no additional charge and with no renewal. Security
+fixes are published to all license holders regardless of tier.
+
+"Maintained" is a statement of present intent, not a guarantee of perpetual
+development: LaunchKit does not commit to any release schedule, to shipping
+any particular feature, or to continuing development indefinitely. Except for
+the access described above, the Software is provided AS-IS under Section 6.
 
 6. WARRANTY DISCLAIMER
 

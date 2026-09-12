@@ -1,120 +1,142 @@
 ---
 /**
- * Terms of Service for the marketing landing.
+ * Terms of Sale for the marketing landing.
  *
- * IMPORTANT — buyers customize this file directly. Edit the copy below;
- * each section is a normal HTML/Astro block. The visual scaffolding
- * (typography, spacing, colors) lives in `src/layouts/legal.astro`.
+ * These terms cover the one-time purchase of the LaunchKit source code
+ * through this site. They are deliberately NOT the SaaS terms of service
+ * that ship inside launchkit-web (`/terms` in the app) — there are no
+ * accounts, uploads or subscriptions here, only a purchase, a delivery and
+ * a license.
  *
- * Update `lastUpdated` whenever you change the copy. Replace the
- * `{contactEmail}` and `{jurisdiction}` constants with your real
- * values before launch.
+ * Update `lastUpdated` whenever you change the copy. Replace `jurisdiction`
+ * with your real legal seat before launch, and have counsel read the
+ * executed LICENSE this page defers to.
  */
 import Legal from "@/layouts/legal.astro"
 import { site } from "@/config/site"
 
-const lastUpdated = "2026-05-01"
+const lastUpdated = "2026-09-03"
 const contactEmail = site.social.email
-const jurisdiction = "the jurisdiction where the company is registered"
+const jurisdiction = "the jurisdiction where the seller is registered"
 ---
 
 <Legal
-  title="Terms of Service"
-  description="The terms that govern your use of this service."
+  title="Terms of Sale"
+  description="The terms that govern buying LaunchKit through this site."
   eyebrow={`Last updated · ${lastUpdated}`}
 >
   <p>
-    Welcome. These terms govern your access to and use of our services.
-    By creating an account or using the platform, you agree to be bound
-    by these terms.
+    These terms apply to every purchase of {site.brand} made through
+    {site.domain}. By completing checkout you agree to them, and to the
+    commercial license that governs the code itself (summarised at{" "}
+    <a href="/license">/license</a>; the executed text ships as
+    <code>LICENSE</code> in each repository).
   </p>
 
-  <h2>1. Acceptance of terms</h2>
+  <h2>1. What you are buying</h2>
   <p>
-    By accessing or using the service, you acknowledge that you have
-    read, understood, and agree to be bound by these terms. If you do
-    not agree, do not use the service.
+    A one-time, non-transferable commercial license to the {site.brand} source code
+    — two repositories, <code>launchkit-api</code> and
+    <code>launchkit-web</code> — delivered as read access to a private GitHub organization.
+    This is not a subscription: there are no recurring charges and nothing to cancel.
+    The tier you choose (Solo or Unlimited) sets how many products you may build with
+    it and which support channels are included; the code itself, the repository access
+    and the update stream are the same on both.
   </p>
 
-  <h2>2. Your account</h2>
+  <h2>2. Payment</h2>
   <p>
-    You are responsible for maintaining the confidentiality of your
-    account credentials and for all activity that occurs under your
-    account. You must notify us immediately of any unauthorized use of
-    your account.
+    Payment is processed by Stripe, our payment processor. We never see or store
+    your card details. Prices are shown in US dollars and, where required by
+    law, Stripe adds and collects applicable VAT, GST or sales tax at checkout.
+    You will receive a receipt and, if enabled, an invoice by email.
   </p>
 
-  <h2>3. Acceptable use</h2>
+  <h2>3. Delivery and access</h2>
   <p>
-    You agree not to use the service for any unlawful purpose or in any
-    way that could damage, disable, overburden, or impair our
-    infrastructure. You will not attempt to gain unauthorized access to
-    any part of the service or to any other accounts.
+    Within minutes of a successful payment you receive an email with a claim
+    link. Enter your GitHub username there and we invite that account to the
+    private organization. Access is personal to you: keep your GitHub account
+    secure, and don't share organization access with third parties. If you need
+    to move your license to a different GitHub account, email us.
   </p>
 
-  <h2>4. Purchase and refunds</h2>
+  <h2>4. Refunds</h2>
   <p>
-    LaunchKit is sold as a one-time purchase, not a subscription. Each
-    tier (Standard, Lifetime) defines the support window — the
-    boilerplate itself is delivered in full at checkout. Payment is
-    processed securely by Stripe, our payment processor.
-  </p>
-  <p>
-    Because the product is delivered as source code via private GitHub
-    repository access, we cannot offer refunds once you have been
-    invited to the buyers organization. If you change your mind
-    <em>before</em> the invite is sent, email us within 7 days of
-    checkout for a full refund. After repo access has been granted,
-    all sales are final.
+    Because the product is source code, we cannot take it back once it has been
+    delivered. Refunds are therefore available only <em>before</em> you claim access:
+    if you change your mind, email us within 7 days of checkout and we refund in full.
+    Once you have been invited to the private organization, all sales are final. Read
+    the FAQ and email us with questions before buying — we answer every message.
   </p>
 
-  <h2>5. Intellectual property</h2>
+  <h2>5. Updates and support</h2>
   <p>
-    The service, including all related software, content, and
-    trademarks, remains our exclusive property. You retain ownership of
-    any content you upload, but you grant us a worldwide, non-exclusive
-    license to use, store, and display that content solely as needed to
-    operate the service.
+    Both tiers receive new releases for as long as {site.brand} is maintained, with
+    no renewal and no expiry, plus email support. Unlimited adds the private Discord,
+    early access to new features and a vote on the roadmap. Security fixes go to every
+    license holder regardless of tier. We don't promise a specific release cadence
+    or that any particular feature will be built.
   </p>
 
-  <h2>6. Termination</h2>
+  <h2>6. Intellectual property</h2>
   <p>
-    We may suspend or terminate your access at any time if you violate
-    these terms. You may cancel your account at any time from your
-    account settings. Upon termination, your right to use the service
-    immediately ceases.
+    {site.brand} and its source code remain our property; you receive a license, not
+    ownership. Everything you build on top of it is yours — you may sell, host and
+    modify your applications without restriction and without crediting us. The codebase
+    includes third-party open source components under their own licenses (MIT, BSD
+    and similar); those terms apply to those components.
   </p>
 
-  <h2>7. Disclaimer of warranties</h2>
+  <h2>7. What you may not do</h2>
   <p>
-    The service is provided <em>as is</em> without warranty of any
-    kind, either express or implied. We do not warrant that the service
-    will be uninterrupted, error-free, or completely secure.
+    You may not resell, sublicense or redistribute the boilerplate itself — as a
+    starter kit, template, code generator or competing product — or publish the
+    source code as-is. You may not share your organization access, and you may
+    not remove proprietary notices from any redistribution. The full list of
+    permissions and restrictions is in the license.
   </p>
 
-  <h2>8. Limitation of liability</h2>
+  <h2>8. Termination</h2>
   <p>
-    To the maximum extent permitted by law, we shall not be liable for
-    any indirect, incidental, special, consequential, or punitive
-    damages arising from your use of the service.
+    If you breach the license — for example by redistributing the code or
+    sharing access — we may remove you from the private organization and
+    terminate your right to receive updates and support. The license terms
+    continue to govern any copies of the code you already hold.
   </p>
 
-  <h2>9. Changes to these terms</h2>
+  <h2>9. Disclaimer of warranties</h2>
   <p>
-    We may update these terms from time to time. Material changes will
-    be communicated by email or in-app notice at least 14 days before
-    they take effect. Continued use of the service after changes
-    constitutes acceptance.
+    The software is provided <em>as is</em>, without warranty of any kind,
+    express or implied, including merchantability, fitness for a particular
+    purpose and non-infringement. We do not warrant that it is error-free, that
+    it meets any regulatory requirement, or that it will be maintained for any
+    particular period.
   </p>
 
-  <h2>10. Governing law</h2>
+  <h2>10. Limitation of liability</h2>
   <p>
-    These terms are governed by the laws of {jurisdiction}. Any dispute
-    arising from these terms or the service will be resolved in the
-    courts of {jurisdiction}.
+    To the maximum extent permitted by law, we are not liable for any indirect,
+    incidental, special, consequential or punitive damages, or for lost profits,
+    data or business, arising from your purchase or use of the software. Our
+    total liability under these terms and the license is limited to the amount
+    you paid for it.
   </p>
 
-  <h2>11. Contact</h2>
+  <h2>11. Changes to these terms</h2>
+  <p>
+    We may update these terms for future purchases. Changes that affect existing
+    license holders — for example to the support terms — will be communicated by
+    email at least 14 days before they take effect.
+  </p>
+
+  <h2>12. Governing law</h2>
+  <p>
+    These terms are governed by the laws of {jurisdiction}. Any dispute arising
+    from a purchase will be resolved in the courts of {jurisdiction}.
+  </p>
+
+  <h2>13. Contact</h2>
   <p>
     Questions about these terms? Reach us at{" "}
     <a href={`mailto:${contactEmail}`}>{contactEmail}</a>.
